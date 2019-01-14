@@ -140,6 +140,12 @@ public class RedirectionManager : MonoBehaviour {
             headTransform = simulatedHead;
         }
 
+
+        // For some reason, the toolkit does not do this already so I added it
+        if(MOVEMENT_CONTROLLER == MovementController.Keyboard)
+        {
+            keyboardController.GetComponent<Camera>().enabled = true;
+        }
     }
 
 	// Use this for initialization
