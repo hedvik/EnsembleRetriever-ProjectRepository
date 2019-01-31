@@ -94,8 +94,8 @@ public class TrailDrawer : MonoBehaviour {
     void Initialize(string trailName, Color trailColor, List<Vector3> vertices, out Transform trail, out Mesh trailMesh)
     {
         vertices.Clear();
-        //Material pathMaterial = new Material(Shader.Find("GUI/Text Shader"));
-        Material pathMaterial = new Material(Shader.Find("Standard"));
+        Material pathMaterial = new Material(Shader.Find("GUI/Text Shader"));
+        //Material pathMaterial = new Material(Shader.Find("Standard"));
         pathMaterial.color = trailColor;
         ClearTrail(trailName);
         trail = new GameObject(trailName).transform;
@@ -156,7 +156,6 @@ public class TrailDrawer : MonoBehaviour {
     /// <returns></returns>
     GameObject DrawPath(List<Vector3> points3D, Color pathColor, Transform parent, LayerMask pathLayer)
     {
-        //Material pathMaterial = new Material(Shader.Find("GUI/Text Shader"));
         Material pathMaterial = new Material(Shader.Find("GUI/Text Shader"));
         pathMaterial.color = pathColor;
         GameObject path = new GameObject("Path");

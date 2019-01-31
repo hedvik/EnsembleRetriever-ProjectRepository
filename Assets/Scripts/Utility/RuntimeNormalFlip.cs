@@ -5,7 +5,6 @@ using System.Collections;
 [RequireComponent(typeof(MeshFilter))]
 public class RuntimeNormalFlip : MonoBehaviour
 {
-
     void Start()
     {
         MeshFilter filter = GetComponent(typeof(MeshFilter)) as MeshFilter;

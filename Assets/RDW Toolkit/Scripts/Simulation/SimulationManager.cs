@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Redirection;
 
+#pragma warning disable CS0649
+#pragma warning disable CS0649
 public class SimulationManager : MonoBehaviour {
 
     [HideInInspector]
@@ -564,7 +566,7 @@ public class SimulationManager : MonoBehaviour {
         //}
 
         // Setting Random Seed
-        Random.seed = VirtualPathGenerator.RANDOM_SEED;
+        Random.InitState(VirtualPathGenerator.RANDOM_SEED);
 
         // Make sure VSync doesn't slow us down
         
