@@ -27,6 +27,8 @@ public class RedirectionManagerER : RedirectionManager
     public void FadeTrackingSpace(bool fadePhysicalSpaceIn)
     {
         StartCoroutine(FadeCoroutine(fadePhysicalSpaceIn));
+
+        // TODO: might somehow want to disable any objects intersecting with the floor
     }
 
     /// <summary>

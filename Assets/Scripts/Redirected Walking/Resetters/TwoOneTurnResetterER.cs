@@ -6,8 +6,8 @@ using System.Collections;
 /// The method is simply doubling the rotation amount. No smoothing is applied. No specific rotation is enforced this way.
 /// This is more or less just a modified version of TwoOneTurnResetter.cs to account for environment fading. 
 /// </summary>
-public class TwoOneTurnResetterER : Resetter {
-
+public class TwoOneTurnResetterER : Resetter
+{
     ///// <summary>
     ///// The user must return to her original orientation for the reset to let go. Up to this amount of error is allowed.
     ///// </summary>
@@ -40,7 +40,7 @@ public class TwoOneTurnResetterER : Resetter {
         if (Mathf.Abs(_overallInjectedRotation) < 180)
         {
             // The idea is that we will keep going in this direction until we reach the objective
-            float remainingRotation = redirectionManager.deltaDir > 0 ? 180 - _overallInjectedRotation : -180 - _overallInjectedRotation; 
+            float remainingRotation = redirectionManager.deltaDir > 0 ? 180 - _overallInjectedRotation : -180 - _overallInjectedRotation;
             if (Mathf.Abs(remainingRotation) < Mathf.Abs(redirectionManager.deltaDir))
             {
                 InjectRotation(remainingRotation);
@@ -64,7 +64,7 @@ public class TwoOneTurnResetterER : Resetter {
     public void SetHUD()
     {
         if (_prefabHUD == null)
-            _prefabHUD = Resources.Load<Transform>("TwoOneTurnResetterER HUD");
+            _prefabHUD = Resources.Load<Transform>("ResetText/TwoOneTurnResetterER HUD");
         _instanceHUD = Instantiate(_prefabHUD);
         _instanceHUD.parent = redirectionManager.headTransform;
         _instanceHUD.localPosition = _instanceHUD.position;

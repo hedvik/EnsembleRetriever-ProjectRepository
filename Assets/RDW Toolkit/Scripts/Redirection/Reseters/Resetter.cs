@@ -19,6 +19,11 @@ public abstract class Resetter : MonoBehaviour {
 
     public abstract void InitializeReset();
 
+    /// <summary>
+    /// Resetter callback that runs every frame.
+    /// Gets called in the LateUpdate() life cycle of a frame. 
+    /// RedirectionManager.OnResetEnd() should be called whenever resetting is finished.
+    /// </summary>
     public abstract void ApplyResetting();
 
     public abstract void FinalizeReset();

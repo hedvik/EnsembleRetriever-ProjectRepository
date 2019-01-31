@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Redirection;
 
 #pragma warning disable CS0649
-#pragma warning disable CS0649
 public class SimulationManager : MonoBehaviour {
 
     [HideInInspector]
