@@ -64,7 +64,7 @@ public class TwoOneTurnResetterER : Resetter {
     public void SetHUD()
     {
         if (_prefabHUD == null)
-            _prefabHUD = Resources.Load<Transform>("TwoOneTurnResetter HUD");
+            _prefabHUD = Resources.Load<Transform>("TwoOneTurnResetterER HUD");
         _instanceHUD = Instantiate(_prefabHUD);
         _instanceHUD.parent = redirectionManager.headTransform;
         _instanceHUD.localPosition = _instanceHUD.position;
