@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ResetTrigger : MonoBehaviour {
-
+public class ResetTrigger : MonoBehaviour
+{
     [HideInInspector]
     public RedirectionManager redirectionManager;
     [HideInInspector]
@@ -23,11 +23,6 @@ public class ResetTrigger : MonoBehaviour {
         zLength = this.transform.parent.localScale.z - trimAmountOnEachSide;
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-
-    }
-
     void OnTriggerExit(Collider other)
     {
         if (other == bodyCollider)
@@ -35,7 +30,4 @@ public class ResetTrigger : MonoBehaviour {
             redirectionManager.OnResetTrigger();
         }
     }
-
-    
-
 }

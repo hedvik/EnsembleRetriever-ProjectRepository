@@ -6,9 +6,7 @@ public abstract class Redirector : MonoBehaviour
 {
     [HideInInspector]
     public RedirectionManager redirectionManager;
-
-    
-      
+  
     /// <summary>
     /// Applies redirection based on the algorithm.
     /// </summary>
@@ -58,7 +56,4 @@ public abstract class Redirector : MonoBehaviour
                 print("wtf");
         }
     }
-
-
-    
 }

@@ -40,9 +40,6 @@ public class RedirectionManager : MonoBehaviour {
     [Tooltip("Target simulated framerate in auto-pilot mode")]
     public float targetFPS = 60;
     
-    
-
-    
     [HideInInspector]
     public Transform body;
     [HideInInspector]
@@ -82,14 +79,13 @@ public class RedirectionManager : MonoBehaviour {
     [HideInInspector]
     public Transform targetWaypoint;
 
-
     [HideInInspector]
     public bool inReset = false;
 
     [HideInInspector]
     public string startTimeOfProgram;
 
-    private float simulatedTime = 0;
+    protected float simulatedTime = 0;
 
     void Awake()
     {
@@ -159,7 +155,7 @@ public class RedirectionManager : MonoBehaviour {
 
 	}
 
-    void LateUpdate()
+    protected virtual void LateUpdate()
     {
         simulatedTime += 1.0f / targetFPS;
 
@@ -214,7 +210,7 @@ public class RedirectionManager : MonoBehaviour {
             return Time.time;
     }
 
-    void UpdateBodyPose()
+    protected void UpdateBodyPose()
     {
         body.position = Utilities.FlattenedPos3D(headTransform.position);
         body.rotation = Quaternion.LookRotation(Utilities.FlattenedDir3D(headTransform.forward), Vector3.up);
@@ -379,7 +375,7 @@ public class RedirectionManager : MonoBehaviour {
         targetWaypoint = transform.Find("Target Waypoint").gameObject.transform;
     }
 
-    void UpdateCurrentUserState()
+    protected void UpdateCurrentUserState()
     {
         currPos = Utilities.FlattenedPos3D(headTransform.position);
         currPosReal = Utilities.GetRelativePosition(currPos, this.transform);
@@ -387,7 +383,7 @@ public class RedirectionManager : MonoBehaviour {
         currDirReal = Utilities.FlattenedDir3D(Utilities.GetRelativeDirection(currDir, this.transform));
     }
 
-    void UpdatePreviousUserState()
+    protected void UpdatePreviousUserState()
     {
         prevPos = Utilities.FlattenedPos3D(headTransform.position);
         prevPosReal = Utilities.GetRelativePosition(prevPos, this.transform);
@@ -395,7 +391,7 @@ public class RedirectionManager : MonoBehaviour {
         prevDirReal = Utilities.FlattenedDir3D(Utilities.GetRelativeDirection(prevDir, this.transform));
     }
 
-    void CalculateStateChanges()
+    protected void CalculateStateChanges()
     {
         deltaPos = currPos - prevPos;
         deltaDir = Utilities.GetSignedAngle(prevDir, currDir);

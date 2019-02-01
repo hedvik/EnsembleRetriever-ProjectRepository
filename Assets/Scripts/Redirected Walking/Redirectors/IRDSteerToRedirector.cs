@@ -1,0 +1,128 @@
+﻿using UnityEngine;
+using System.Collections;
+using Redirection;
+
+/// <summary>
+/// Extended version of SteerToRedirector.cs which originates from Azmandian et al.
+/// TOTHINK: Not really much to extend at this level. Might delete this file and its child. Depends on where data needs to be collected in experiments
+/// </summary>
+public abstract class IRDSteerToRedirector : Redirector
+{
+    // Testing Parameters
+    private bool _useBearingThresholdBasedRotationDampeningTimofey = true;
+    private bool _dontUseDampening = false;
+
+    // User Experience Improvement Parameters
+    private const float _MOVEMENT_THRESHOLD = 0.2f; // meters per second
+    private const float _ROTATION_THRESHOLD = 1.5f; // degrees per second
+    private const float _CURVATURE_GAIN_CAP_DEGREES_PER_SECOND = 15;  // degrees per second
+    private const float _ROTATION_GAIN_CAP_DEGREES_PER_SECOND = 30;  // degrees per second
+    private const float _DISTANCE_THRESHOLD_FOR_DAMPENING = 1.25f; // Distance threshold to apply dampening (meters)
+    private const float _BEARING_THRESHOLD_FOR_DAMPENING = 45f; // TIMOFEY: 45.0f; // Bearing threshold to apply dampening (degrees) MAHDI: WHERE DID THIS VALUE COME FROM?
+    private const float _SMOOTHING_FACTOR = 0.125f; // Smoothing factor for redirection rotations
+
+    // Reference Parameters
+    protected Transform _currentTarget; // Where the participant  is currently directed?
+    protected GameObject _temporaryTarget;
+    protected RedirectionManagerER _redirectionManagerER;
+
+    // State Parameters
+    protected bool _noTemporaryTarget = true;
+
+    // Auxiliary Parameters
+    private float _rotationFromCurvatureGain; // Proposed curvature gain based on user speed
+    private float _rotationFromRotationGain; // Proposed rotation gain based on head's yaw
+    private float _lastRotationApplied = 0f;
+
+    public abstract void PickRedirectionTarget();
+
+    private void Start()
+    {
+        _redirectionManagerER = redirectionManager as RedirectionManagerER;
+    }
+
+    public override void ApplyRedirection()
+    {
+        PickRedirectionTarget();
+
+        // Get Required Data
+        Vector3 deltaPos = redirectionManager.deltaPos;
+        float deltaDir = redirectionManager.deltaDir;
+
+        _rotationFromCurvatureGain = 0;
+
+        // User is moving
+        if (deltaPos.magnitude / redirectionManager.GetDeltaTime() > _MOVEMENT_THRESHOLD) 
+        {
+            // Scaling curvature gain by walking speed
+            _rotationFromCurvatureGain = Mathf.Rad2Deg * (deltaPos.magnitude / redirectionManager.CURVATURE_RADIUS);
+            _rotationFromCurvatureGain = Mathf.Min(_rotationFromCurvatureGain, _CURVATURE_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
+        }
+
+        // Compute desired facing vector for redirection
+        Vector3 desiredFacingDirection = Utilities.FlattenedPos3D(_currentTarget.position) - redirectionManager.currPos;
+
+        // We have to steer to the opposite direction so when the user counters this steering, she steers in right direction
+        int desiredSteeringDirection = (-1) * (int)Mathf.Sign(Utilities.GetSignedAngle(redirectionManager.currDir, desiredFacingDirection)); 
+
+        // Compute proposed rotation gain
+        _rotationFromRotationGain = 0;
+
+        // if User is rotating
+        if (Mathf.Abs(deltaDir) / redirectionManager.GetDeltaTime() >= _ROTATION_THRESHOLD)  
+        {
+            // Determine if we need to rotate with or against the user
+            if (deltaDir * desiredSteeringDirection < 0)
+            {
+                // Rotating against the user
+                _rotationFromRotationGain = Mathf.Min(Mathf.Abs(deltaDir * redirectionManager.MIN_ROT_GAIN), _ROTATION_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
+            }
+            else
+            {
+                // Rotating with the user
+                _rotationFromRotationGain = Mathf.Min(Mathf.Abs(deltaDir * redirectionManager.MAX_ROT_GAIN), _ROTATION_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
+            }
+        }
+
+        // Note: This means that one of the gains is chosen to be used this frame. They are not combined (which is nice for keeping track of things)
+        float rotationProposed = desiredSteeringDirection * Mathf.Max(_rotationFromRotationGain, _rotationFromCurvatureGain);
+        bool curvatureGainUsed = _rotationFromCurvatureGain > _rotationFromRotationGain;
+
+        // Prevent having gains if user is stationary. To clarify: if the user has not translated and rotated
+        if (Mathf.Approximately(rotationProposed, 0))
+            return;
+
+        if (!_dontUseDampening)
+        {
+            // DAMPENING METHODS
+            // MAHDI: Sinusiodally scaling the rotation when the bearing is near zero
+            float bearingToTarget = Vector3.Angle(redirectionManager.currDir, desiredFacingDirection);
+            if (_useBearingThresholdBasedRotationDampeningTimofey)
+            {
+                // TIMOFEY
+                if (bearingToTarget <= _BEARING_THRESHOLD_FOR_DAMPENING)
+                    rotationProposed *= Mathf.Sin(Mathf.Deg2Rad * 90 * bearingToTarget / _BEARING_THRESHOLD_FOR_DAMPENING);
+            }
+            else
+            {
+                // MAHDI
+                // The algorithm first is explained to be similar to above but at the end it is explained like this. Also the BEARING_THRESHOLD_FOR_DAMPENING value was never mentioned which make me want to use the following even more.
+                rotationProposed *= Mathf.Sin(Mathf.Deg2Rad * bearingToTarget);
+            }
+
+            // MAHDI: Linearly scaling the rotation when the distance is near zero
+            if (desiredFacingDirection.magnitude <= _DISTANCE_THRESHOLD_FOR_DAMPENING)
+            {
+                rotationProposed *= desiredFacingDirection.magnitude / _DISTANCE_THRESHOLD_FOR_DAMPENING;
+            }
+        }
+
+        // Implement additional rotation with smoothing
+        float finalRotation = (1.0f - _SMOOTHING_FACTOR) * _lastRotationApplied + _SMOOTHING_FACTOR * rotationProposed;
+        _lastRotationApplied = finalRotation;
+        if (!curvatureGainUsed)
+            InjectRotation(finalRotation);
+        else
+            InjectCurvature(finalRotation);
+    }
+}
