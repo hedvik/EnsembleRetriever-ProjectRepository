@@ -9,14 +9,17 @@ public class RedirectionManagerER : RedirectionManager
 
     private MeshRenderer _environmentFadeVisuals;
     private MeshRenderer _trackingSpaceFloorVisuals;
+    private MeshRenderer _chaperoneVisuals;
 
     private void Start()
     {
         _environmentFadeVisuals = base.trackedSpace.Find("EnvironmentFadeCube").GetComponent<MeshRenderer>();
         _trackingSpaceFloorVisuals = base.trackedSpace.Find("Plane").GetComponent<MeshRenderer>();
+        _chaperoneVisuals = base.trackedSpace.Find("Chaperone").GetComponent<MeshRenderer>();
 
         // By setting _ZWrite to 1 we avoid some sorting issues between the floor and the box around it
         _trackingSpaceFloorVisuals.material.SetInt("_ZWrite", 1);
+        _chaperoneVisuals.material.SetInt("_ZWrite", 1);
     }
 
     /// <summary>
@@ -38,8 +41,10 @@ public class RedirectionManagerER : RedirectionManager
     /// <param name="floorAlphaTarget"></param>
     private IEnumerator FadeCoroutine(bool fadePhysicalSpaceIn)
     {
-        var cubeColor = _environmentFadeVisuals.material.color;
-        var floorColor = _trackingSpaceFloorVisuals.material.color;
+        var cubeColorTemp = _environmentFadeVisuals.material.color;
+        var floorColorTemp = _trackingSpaceFloorVisuals.material.color;
+        var chaperoneColorTemp = _chaperoneVisuals.material.color;
+
         var cubeAlphaStart = _environmentFadeVisuals.material.color.a;
         var floorAlphaStart = _trackingSpaceFloorVisuals.material.color.a;
 
@@ -48,10 +53,12 @@ public class RedirectionManagerER : RedirectionManager
         {
             lerpTimer += Time.deltaTime * _trackingSpaceFadeSpeed;
 
-            cubeColor.a = Mathf.Lerp(cubeAlphaStart, fadePhysicalSpaceIn ? 0.99f : 0, lerpTimer);
-            floorColor.a = Mathf.Lerp(floorAlphaStart, fadePhysicalSpaceIn ? 1 : 0, lerpTimer);
-            _environmentFadeVisuals.material.color = cubeColor;
-            _trackingSpaceFloorVisuals.material.color = floorColor;
+            cubeColorTemp.a = Mathf.Lerp(cubeAlphaStart, fadePhysicalSpaceIn ? 0.99f : 0, lerpTimer);
+            floorColorTemp.a = Mathf.Lerp(floorAlphaStart, fadePhysicalSpaceIn ? 1 : 0, lerpTimer);
+            chaperoneColorTemp.a = floorColorTemp.a;
+            _environmentFadeVisuals.material.color = cubeColorTemp;
+            _trackingSpaceFloorVisuals.material.color = floorColorTemp;
+            _chaperoneVisuals.material.color = chaperoneColorTemp;
 
             yield return null;
         }
