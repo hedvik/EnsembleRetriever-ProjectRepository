@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// TODO: Documentation
+/// </summary>
 public class RedirectionManagerER : RedirectionManager
 {
     [Header("Ensemble Retriever Related")]
@@ -12,13 +15,17 @@ public class RedirectionManagerER : RedirectionManager
     private MeshRenderer _chaperoneVisuals;
 
     [HideInInspector]
-    public bool _distractorActive = false;
+    public bool _distractorIsActive = false;
 
     [HideInInspector]
-    public Vector3 _futureWalkingDirection = Vector3.zero;
+    public Vector3 _futureRealWalkingDirection = Vector2.zero;
 
     private List<GameObject> _distractorPrefabPool = new List<GameObject>();
-    private GameObject _activeDistractor = null;
+    private GameObject _currentActiveDistractor = null;
+    private float _baseMinimumRotationGain = 0f;
+    private float _baseMaximumRotationGain = 0f;
+
+    private DistractorTrigger _distractorTrigger;
 
     private void Start()
     {
@@ -26,9 +33,17 @@ public class RedirectionManagerER : RedirectionManager
         _trackingSpaceFloorVisuals = base.trackedSpace.Find("Plane").GetComponent<MeshRenderer>();
         _chaperoneVisuals = base.trackedSpace.Find("Chaperone").GetComponent<MeshRenderer>();
 
+        _baseMaximumRotationGain = MAX_ROT_GAIN;
+        _baseMinimumRotationGain = MIN_ROT_GAIN;
+
         // By setting _ZWrite to 1 we avoid some sorting issues
         _trackingSpaceFloorVisuals.material.SetInt("_ZWrite", 1);
         _chaperoneVisuals.material.SetInt("_ZWrite", 1);
+
+        _distractorTrigger = trackedSpace.GetComponentInChildren<DistractorTrigger>();
+        _distractorTrigger._bodyCollider = body.GetComponentInChildren<CapsuleCollider>();
+        _distractorTrigger._redirectionManagerER = this;
+        _distractorTrigger.Initialize();
     }
 
     /// <summary>
@@ -36,51 +51,41 @@ public class RedirectionManagerER : RedirectionManager
     /// </summary>
     protected override void LateUpdate()
     {
-        simulatedTime += 1.0f / targetFPS;
+        base.LateUpdate();
 
-        UpdateCurrentUserState();
-        CalculateStateChanges();
-
-        if (inReset)
+        if(_distractorIsActive && FutureDirectionIsAlignedToCentre())
         {
-            if (resetter != null)
-            {
-                resetter.ApplyResetting();
-            }
+            // This approach should keep the smoothing which is nice. 
+            MAX_ROT_GAIN = 0f;
+            MIN_ROT_GAIN = 0f;
+            Debug.Log("Aligned!");
+
+            // For debug!
+            OnDistractorEnd();
         }
-        else
-        {
-            // TODO: Also check if distractor is active + whether future is aligned to centre
-            // Might not need to edit the redirectors that way
-            if (redirector != null)
-            {
-                redirector.ApplyRedirection();
-            }
-        }
-
-        statisticsLogger.UpdateStats();
-
-        UpdatePreviousUserState();
-
-        UpdateBodyPose();
     }
 
     public void OnDistractorTrigger()
     {
-        if (_distractorActive)
+        if (_distractorIsActive)
             return;
-        _distractorActive = true;
-        // TODO: This should be an average over the last second 
-        //_futureWalkingDirection = deltaPos;
+        _distractorIsActive = true;
+        // TODO: This should be an average over the last second.
+        //       Does it need to though? might be more accurate
+        _futureRealWalkingDirection = Redirection.Utilities.FlattenedDir3D(deltaPos);
+        _baseMaximumRotationGain = MAX_ROT_GAIN;
+        _baseMinimumRotationGain = MIN_ROT_GAIN;
         // Increase gains
         // Spawn distractor
+        Debug.Log("Distractor Triggered!");
     }
 
     public void OnDistractorEnd()
     {
-        _distractorActive = false;
-        _futureWalkingDirection = Vector3.zero;
-        // Decrease gains
+        _distractorIsActive = false;
+        _futureRealWalkingDirection = Vector3.zero;
+        MAX_ROT_GAIN = _baseMaximumRotationGain;
+        MIN_ROT_GAIN = _baseMinimumRotationGain;
         // Tell distractor to finish
     }
 
@@ -125,5 +130,16 @@ public class RedirectionManagerER : RedirectionManager
 
             yield return null;
         }
+    }
+
+    /// <summary>
+    /// Returns true whenever the future real walking direction is mostly aligned with the centre of the tracking space.
+    /// </summary>
+    /// <returns></returns>
+    private bool FutureDirectionIsAlignedToCentre()
+    {
+        var dotProduct = Vector3.Dot(_futureRealWalkingDirection, Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position));
+
+        return dotProduct <= -0.975;
     }
 }

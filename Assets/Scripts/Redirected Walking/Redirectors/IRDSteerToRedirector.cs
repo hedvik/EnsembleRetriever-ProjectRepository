@@ -4,7 +4,6 @@ using Redirection;
 
 /// <summary>
 /// Extended version of SteerToRedirector.cs which originates from Azmandian et al.
-/// TOTHINK: Not really much to extend at this level. Might delete this file and its child. Depends on where data needs to be collected in experiments
 /// </summary>
 public abstract class IRDSteerToRedirector : Redirector
 {
@@ -46,8 +45,8 @@ public abstract class IRDSteerToRedirector : Redirector
         PickRedirectionTarget();
 
         // Get Required Data
-        Vector3 deltaPos = redirectionManager.deltaPos;
-        float deltaDir = redirectionManager.deltaDir;
+        var deltaPos = redirectionManager.deltaPos;
+        var deltaDir = redirectionManager.deltaDir;
 
         _rotationFromCurvatureGain = 0;
 
@@ -60,10 +59,10 @@ public abstract class IRDSteerToRedirector : Redirector
         }
 
         // Compute desired facing vector for redirection
-        Vector3 desiredFacingDirection = Utilities.FlattenedPos3D(_currentTarget.position) - redirectionManager.currPos;
+        var desiredFacingDirection = Utilities.FlattenedPos3D(_currentTarget.position) - redirectionManager.currPos;
 
         // We have to steer to the opposite direction so when the user counters this steering, she steers in right direction
-        int desiredSteeringDirection = (-1) * (int)Mathf.Sign(Utilities.GetSignedAngle(redirectionManager.currDir, desiredFacingDirection)); 
+        var desiredSteeringDirection = (-1) * (int)Mathf.Sign(Utilities.GetSignedAngle(redirectionManager.currDir, desiredFacingDirection)); 
 
         // Compute proposed rotation gain
         _rotationFromRotationGain = 0;
