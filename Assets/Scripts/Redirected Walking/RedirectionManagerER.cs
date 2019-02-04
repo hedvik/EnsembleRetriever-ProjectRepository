@@ -20,6 +20,7 @@ public class RedirectionManagerER : RedirectionManager
     [HideInInspector]
     public Vector3 _futureVirtualWalkingDirection = Vector3.zero;
 
+    [HideInInspector]
     public Vector3 _centreToHead = Vector3.zero;
 
     private List<GameObject> _distractorPrefabPool = new List<GameObject>();

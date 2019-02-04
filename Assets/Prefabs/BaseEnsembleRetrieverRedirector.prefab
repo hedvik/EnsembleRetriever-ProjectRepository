@@ -410,9 +410,9 @@ GameObject:
   - component: {fileID: 3331080996610285995}
   - component: {fileID: 3331080996610279327}
   - component: {fileID: 3331080996610272441}
-  - component: {fileID: 8254257114502152343}
   - component: {fileID: 8538024248816768180}
   - component: {fileID: 4014780678795410177}
+  - component: {fileID: 9008662366157515829}
   m_Layer: 0
   m_Name: BaseEnsembleRetrieverRedirector
   m_TagString: Untagged
@@ -568,19 +568,6 @@ MonoBehaviour:
   realTrailColor: {r: 1, g: 1, b: 0, a: 0.5}
   virtualPathColor: {r: 0, g: 0, b: 1, a: 0.5}
   redirectionManager: {fileID: 0}
---- !u!114 &8254257114502152343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3331080996621523327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0e617223aed37c4488b412e8d7868bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  redirectionManager: {fileID: 0}
 --- !u!114 &8538024248816768180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,6 +596,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redirectionManager: {fileID: 0}
   _lastRotationApplied: 0
+--- !u!114 &9008662366157515829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3331080996621523327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 155b2aff9d7759146883290da060027e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redirectionManager: {fileID: 0}
+  _safetyMode: 1
 --- !u!1 &3331080996621526597
 GameObject:
   m_ObjectHideFlags: 0

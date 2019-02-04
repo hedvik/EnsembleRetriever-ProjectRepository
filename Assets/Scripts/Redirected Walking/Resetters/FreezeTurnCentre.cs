@@ -8,6 +8,9 @@ using UnityEngine;
 /// </summary>
 public class FreezeTurnCentre : Resetter
 {
+    [Tooltip("The reset does not finalise until the user has walked a few steps towards the centre of the room. This allows resetting to occur when walking backwards or sideways into a reset collider.")]
+    public bool _safetyMode = true;
+
     private GameObject _resetTextPrefab = null;
     private GameObject _resetVisualObjectPrefab = null;
     private GameObject _resetTextInstance;
@@ -23,7 +26,14 @@ public class FreezeTurnCentre : Resetter
 
     public override bool IsResetRequired()
     {
-        return !isUserFacingAwayFromWall() || IsUserOutOfBounds();
+        if (_safetyMode)
+        {
+            return IsUserOutOfBounds();
+        } 
+        else
+        {
+            return !isUserFacingAwayFromWall();
+        }
     }
 
     public override void InitializeReset()
@@ -34,7 +44,7 @@ public class FreezeTurnCentre : Resetter
 
     public override void ApplyResetting()
     {
-        // The scene is now synchronised with the y rotation of the head
+        // The view of the virtual environment will be frozen while the virtual representation of the tracking space still works normally.
         InjectRotation(-_redirectionManagerER.deltaDir);
         var dotProductFaceAndCentre = Vector2.Dot(Redirection.Utilities.FlattenedDir2D(_redirectionManagerER.headTransform.forward), 
                                                   Redirection.Utilities.FlattenedDir2D(_redirectionManagerER.headTransform.position - _redirectionManagerER.trackedSpace.position));
@@ -42,6 +52,10 @@ public class FreezeTurnCentre : Resetter
         // -1 would in this case mean pointing directly at the centre. Some error is acceptable
         if (dotProductFaceAndCentre <= -0.975)
         {
+            if (_safetyMode && IsUserOutOfBounds())
+            {
+                return;
+            }
             _redirectionManagerER.OnResetEnd();
         }
     }

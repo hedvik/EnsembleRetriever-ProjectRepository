@@ -97,7 +97,7 @@ public abstract class SteerToRedirectorER : Redirector
         {
             // DAMPENING METHODS
             // MAHDI: Sinusiodally scaling the rotation when the bearing is near zero
-            float bearingToTarget = Vector3.Angle(redirectionManager.currDir, desiredFacingDirection);
+            var bearingToTarget = Vector3.Angle(redirectionManager.currDir, desiredFacingDirection);
             if (_useBearingThresholdBasedRotationDampeningTimofey)
             {
                 // TIMOFEY

@@ -64,8 +64,6 @@ public class AC2FRedirector : Redirector
             return;
         }
 
-        // TODO: Can I make use of some dampening? Just to make the transition less jarring
-
         // Implement additional rotation with smoothing
         float finalRotation = (1.0f - _SMOOTHING_FACTOR) * _lastRotationApplied + _SMOOTHING_FACTOR * rotationProposed;
         _lastRotationApplied = finalRotation;
