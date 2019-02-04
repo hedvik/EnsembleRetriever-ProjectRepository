@@ -87,7 +87,7 @@ public class RedirectionManager : MonoBehaviour {
 
     protected float simulatedTime = 0;
 
-    void Awake()
+    protected virtual void Awake()
     {
         startTimeOfProgram = System.DateTime.Now.ToString("yyyy MM dd HH:mm:ss");
 
@@ -168,7 +168,7 @@ public class RedirectionManager : MonoBehaviour {
         // BACK UP IN CASE UNITY TRIGGERS FAILED TO COMMUNICATE RESET (Can happen in high speed simulations)
         if (resetter != null && !inReset && resetter.IsUserOutOfBounds())
         {
-            Debug.LogWarning("Reset Aid Helped!");
+            //Debug.LogWarning("Reset Aid Helped!");
             OnResetTrigger();
         }
 

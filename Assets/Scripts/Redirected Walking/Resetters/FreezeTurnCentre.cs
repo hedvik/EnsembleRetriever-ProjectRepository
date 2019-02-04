@@ -23,7 +23,7 @@ public class FreezeTurnCentre : Resetter
 
     public override bool IsResetRequired()
     {
-        return !isUserFacingAwayFromWall();
+        return !isUserFacingAwayFromWall() || IsUserOutOfBounds();
     }
 
     public override void InitializeReset()

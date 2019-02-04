@@ -2,7 +2,7 @@
 using System.Collections;
 using Redirection;
 
-public class IRDS2CRedirector : IRDSteerToRedirector
+public class S2CRedirectorER : SteerToRedirectorER
 {
     // Testing Parameters
     private bool _dontUseTempTargetInS2C = false;
@@ -41,5 +41,4 @@ public class IRDS2CRedirector : IRDSteerToRedirector
             }
         }
     }
-
 }

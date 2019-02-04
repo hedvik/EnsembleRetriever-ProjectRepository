@@ -18,23 +18,33 @@ public class RedirectionManagerER : RedirectionManager
     public bool _distractorIsActive = false;
 
     [HideInInspector]
-    public Vector3 _futureRealWalkingDirection = Vector2.zero;
+    public Vector3 _futureVirtualWalkingDirection = Vector3.zero;
+
+    public Vector3 _centreToHead = Vector3.zero;
 
     private List<GameObject> _distractorPrefabPool = new List<GameObject>();
     private GameObject _currentActiveDistractor = null;
     private float _baseMinimumRotationGain = 0f;
     private float _baseMaximumRotationGain = 0f;
+    private AC2FRedirector _AC2FRedirector;
+    private S2CRedirectorER _S2CRedirector;
 
     private DistractorTrigger _distractorTrigger;
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         _environmentFadeVisuals = base.trackedSpace.Find("EnvironmentFadeCube").GetComponent<MeshRenderer>();
         _trackingSpaceFloorVisuals = base.trackedSpace.Find("Plane").GetComponent<MeshRenderer>();
         _chaperoneVisuals = base.trackedSpace.Find("Chaperone").GetComponent<MeshRenderer>();
 
         _baseMaximumRotationGain = MAX_ROT_GAIN;
         _baseMinimumRotationGain = MIN_ROT_GAIN;
+
+        _AC2FRedirector = GetComponent<AC2FRedirector>();
+        _AC2FRedirector.redirectionManager = this;
+
+        _S2CRedirector = GetComponent<S2CRedirectorER>();
 
         // By setting _ZWrite to 1 we avoid some sorting issues
         _trackingSpaceFloorVisuals.material.SetInt("_ZWrite", 1);
@@ -55,12 +65,12 @@ public class RedirectionManagerER : RedirectionManager
 
         if(_distractorIsActive && FutureDirectionIsAlignedToCentre())
         {
-            // This approach should keep the smoothing which is nice. 
+            // This approach should keep the smoothing which is nice
             MAX_ROT_GAIN = 0f;
             MIN_ROT_GAIN = 0f;
             Debug.Log("Aligned!");
 
-            // For debug!
+            // DEBUG: This will be called by the distractor itself when finished. 
             OnDistractorEnd();
         }
     }
@@ -72,10 +82,11 @@ public class RedirectionManagerER : RedirectionManager
         _distractorIsActive = true;
         // TODO: This should be an average over the last second.
         //       Does it need to though? might be more accurate
-        _futureRealWalkingDirection = Redirection.Utilities.FlattenedDir3D(deltaPos);
+        _futureVirtualWalkingDirection = Redirection.Utilities.FlattenedDir3D(deltaPos);
         _baseMaximumRotationGain = MAX_ROT_GAIN;
         _baseMinimumRotationGain = MIN_ROT_GAIN;
-        // Increase gains
+        SwapRedirectionAlgorithm(true);
+        // TODO: Request gain increase
         // Spawn distractor
         Debug.Log("Distractor Triggered!");
     }
@@ -83,9 +94,11 @@ public class RedirectionManagerER : RedirectionManager
     public void OnDistractorEnd()
     {
         _distractorIsActive = false;
-        _futureRealWalkingDirection = Vector3.zero;
+        _futureVirtualWalkingDirection = Vector3.zero;
+        // TODO: Request gain decrease instead of setting them here. Might not want to change it until user has moved towards future
         MAX_ROT_GAIN = _baseMaximumRotationGain;
         MIN_ROT_GAIN = _baseMinimumRotationGain;
+        SwapRedirectionAlgorithm(false);
         // Tell distractor to finish
     }
 
@@ -138,8 +151,24 @@ public class RedirectionManagerER : RedirectionManager
     /// <returns></returns>
     private bool FutureDirectionIsAlignedToCentre()
     {
-        var dotProduct = Vector3.Dot(_futureRealWalkingDirection, Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position));
+        // TODO: Might refactor updating centreToHead away if necessary later as it wont change much. 
+        _centreToHead = Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position);
+        var dotProduct = Vector3.Dot(_futureVirtualWalkingDirection, _centreToHead);
 
         return dotProduct <= -0.975;
+    }
+
+    private void SwapRedirectionAlgorithm(bool toAC2F)
+    {
+        if(toAC2F)
+        {
+            redirector = _AC2FRedirector;
+            _AC2FRedirector._lastRotationApplied = _S2CRedirector._lastRotationApplied;
+        }
+        else
+        {
+            redirector = _S2CRedirector;
+            _S2CRedirector._lastRotationApplied = _AC2FRedirector._lastRotationApplied;
+        }
     }
 }

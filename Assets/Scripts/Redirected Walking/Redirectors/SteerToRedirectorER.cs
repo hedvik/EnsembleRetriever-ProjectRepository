@@ -5,7 +5,7 @@ using Redirection;
 /// <summary>
 /// Extended version of SteerToRedirector.cs which originates from Azmandian et al.
 /// </summary>
-public abstract class IRDSteerToRedirector : Redirector
+public abstract class SteerToRedirectorER : Redirector
 {
     // Testing Parameters
     private bool _useBearingThresholdBasedRotationDampeningTimofey = true;
@@ -31,7 +31,9 @@ public abstract class IRDSteerToRedirector : Redirector
     // Auxiliary Parameters
     private float _rotationFromCurvatureGain; // Proposed curvature gain based on user speed
     private float _rotationFromRotationGain; // Proposed rotation gain based on head's yaw
-    private float _lastRotationApplied = 0f;
+
+    [HideInInspector]
+    public float _lastRotationApplied = 0f;
 
     public abstract void PickRedirectionTarget();
 
@@ -67,7 +69,7 @@ public abstract class IRDSteerToRedirector : Redirector
         // Compute proposed rotation gain
         _rotationFromRotationGain = 0;
 
-        // if User is rotating
+        // If user is rotating
         if (Mathf.Abs(deltaDir) / redirectionManager.GetDeltaTime() >= _ROTATION_THRESHOLD)  
         {
             // Determine if we need to rotate with or against the user
@@ -84,8 +86,8 @@ public abstract class IRDSteerToRedirector : Redirector
         }
 
         // Note: This means that one of the gains is chosen to be used this frame. They are not combined (which is nice for keeping track of things)
-        float rotationProposed = desiredSteeringDirection * Mathf.Max(_rotationFromRotationGain, _rotationFromCurvatureGain);
-        bool curvatureGainUsed = _rotationFromCurvatureGain > _rotationFromRotationGain;
+        var rotationProposed = desiredSteeringDirection * Mathf.Max(_rotationFromRotationGain, _rotationFromCurvatureGain);
+        var curvatureGainUsed = _rotationFromCurvatureGain > _rotationFromRotationGain;
 
         // Prevent having gains if user is stationary. To clarify: if the user has not translated and rotated
         if (Mathf.Approximately(rotationProposed, 0))
