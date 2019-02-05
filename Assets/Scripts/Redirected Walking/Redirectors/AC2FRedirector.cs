@@ -64,8 +64,10 @@ public class AC2FRedirector : Redirector
             return;
         }
 
-        // Implement additional rotation with smoothing
-        float finalRotation = (1.0f - _SMOOTHING_FACTOR) * _lastRotationApplied + _SMOOTHING_FACTOR * rotationProposed;
+        // TODO: Some dampening would be nice so changes are less jarring 
+
+        // Azmandian et al.'s smoothing implementation
+        var finalRotation = (1.0f - _SMOOTHING_FACTOR) * _lastRotationApplied + _SMOOTHING_FACTOR * rotationProposed;
         _lastRotationApplied = finalRotation;
         InjectRotation(finalRotation);
     }

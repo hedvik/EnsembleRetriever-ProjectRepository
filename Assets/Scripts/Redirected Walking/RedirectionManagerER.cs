@@ -10,10 +10,6 @@ public class RedirectionManagerER : RedirectionManager
     [Header("Ensemble Retriever Related")]
     public float _trackingSpaceFadeSpeed = 5f;
 
-    private MeshRenderer _environmentFadeVisuals;
-    private MeshRenderer _trackingSpaceFloorVisuals;
-    private MeshRenderer _chaperoneVisuals;
-
     [HideInInspector]
     public bool _distractorIsActive = false;
 
@@ -23,14 +19,22 @@ public class RedirectionManagerER : RedirectionManager
     [HideInInspector]
     public Vector3 _centreToHead = Vector3.zero;
 
+    // TODO: The choice of distractor can probably be semi random by using a stack or queue. Pick one randomly, remove it from the container, pick next one randomly etc
+    //       This container is then reset once everything has been picked once. 
     private List<GameObject> _distractorPrefabPool = new List<GameObject>();
-    private GameObject _currentActiveDistractor = null;
+    private Distractor _currentActiveDistractor = null;
     private float _baseMinimumRotationGain = 0f;
     private float _baseMaximumRotationGain = 0f;
     private AC2FRedirector _AC2FRedirector;
     private S2CRedirectorER _S2CRedirector;
 
     private DistractorTrigger _distractorTrigger;
+    private List<Pausable> _pausables = new List<Pausable>();
+
+    private MeshRenderer _environmentFadeVisuals;
+    private MeshRenderer _trackingSpaceFloorVisuals;
+    private MeshRenderer _chaperoneVisuals;
+    private GameObject _virtualWorld;
 
     protected override void Awake()
     {
@@ -54,7 +58,12 @@ public class RedirectionManagerER : RedirectionManager
         _distractorTrigger = trackedSpace.GetComponentInChildren<DistractorTrigger>();
         _distractorTrigger._bodyCollider = body.GetComponentInChildren<CapsuleCollider>();
         _distractorTrigger._redirectionManagerER = this;
-        _distractorTrigger.Initialize();
+        _distractorTrigger.Initialise();
+
+        _distractorPrefabPool.AddRange(Resources.LoadAll<GameObject>("Distractors"));
+        _pausables.AddRange(FindObjectsOfType<Pausable>());
+
+        _virtualWorld = GameObject.Find("Virtual World");
     }
 
     /// <summary>
@@ -64,15 +73,12 @@ public class RedirectionManagerER : RedirectionManager
     {
         base.LateUpdate();
 
-        if(_distractorIsActive && FutureDirectionIsAlignedToCentre())
+        if(_distractorIsActive && FutureDirectionIsAlignedToCentre() && !inReset)
         {
             // This approach should keep the smoothing which is nice
+            // NOTE: This will run every frame once alignment is finished. 
             MAX_ROT_GAIN = 0f;
             MIN_ROT_GAIN = 0f;
-            Debug.Log("Aligned!");
-
-            // DEBUG: This will be called by the distractor itself when finished. 
-            OnDistractorEnd();
         }
     }
 
@@ -88,8 +94,9 @@ public class RedirectionManagerER : RedirectionManager
         _baseMinimumRotationGain = MIN_ROT_GAIN;
         SwapRedirectionAlgorithm(true);
         // TODO: Request gain increase
-        // Spawn distractor
-        Debug.Log("Distractor Triggered!");
+        _currentActiveDistractor = Instantiate(_distractorPrefabPool[Random.Range(0, _distractorPrefabPool.Count)], _virtualWorld.transform).GetComponent<Distractor>();
+        _currentActiveDistractor.InitialiseDistractor(this);
+        _pausables.Add(_currentActiveDistractor);
     }
 
     public void OnDistractorEnd()
@@ -100,7 +107,17 @@ public class RedirectionManagerER : RedirectionManager
         MAX_ROT_GAIN = _baseMaximumRotationGain;
         MIN_ROT_GAIN = _baseMinimumRotationGain;
         SwapRedirectionAlgorithm(false);
-        // Tell distractor to finish
+        _currentActiveDistractor.FinaliseDistractor();
+        _pausables.Remove(_currentActiveDistractor);
+        _currentActiveDistractor = null;
+    }
+
+    public void SetWorldPauseState(bool isPaused)
+    {
+        foreach(var pausable in _pausables)
+        {
+            pausable.SetPauseState(isPaused);
+        }
     }
 
     /// <summary>

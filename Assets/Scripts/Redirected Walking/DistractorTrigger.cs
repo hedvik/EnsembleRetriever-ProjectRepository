@@ -18,7 +18,7 @@ public class DistractorTrigger : MonoBehaviour
     [HideInInspector]
     public float _xLength, _zLength;
 
-    public void Initialize()
+    public void Initialise()
     {
         // Set Size of Collider
         float trimAmountOnEachSide = _bodyCollider.transform.localScale.x + 2 * _DISTRACTOR_TRIGGER_BUFFER;

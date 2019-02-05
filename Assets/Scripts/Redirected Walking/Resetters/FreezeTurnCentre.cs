@@ -40,6 +40,7 @@ public class FreezeTurnCentre : Resetter
     {
         SetResetVisuals();
         _redirectionManagerER.FadeTrackingSpace(true);
+        _redirectionManagerER.SetWorldPauseState(true);
     }
 
     public override void ApplyResetting()
@@ -66,6 +67,7 @@ public class FreezeTurnCentre : Resetter
         Destroy(_resetTextInstance.gameObject);
         Destroy(_resetVisualObjectInstance.gameObject);
         _redirectionManagerER.FadeTrackingSpace(false);
+        _redirectionManagerER.SetWorldPauseState(false);
     }
 
     public void SetResetVisuals()

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7596040136159491334}
   - component: {fileID: 651750269629895781}
   - component: {fileID: 2935103834575700784}
-  m_Layer: 31
+  m_Layer: 0
   m_Name: Distractor Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 2354685643462015492}
   - component: {fileID: 7052230455047516314}
   - component: {fileID: 3287526370829230123}
-  m_Layer: 31
+  m_Layer: 0
   m_Name: EnvironmentFadeCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -619,7 +619,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3331080996621382299}
-  m_Layer: 31
+  m_Layer: 0
   m_Name: Tracked Space
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -718,7 +718,7 @@ GameObject:
   - component: {fileID: 3331080996621298183}
   - component: {fileID: 3331080996620492707}
   - component: {fileID: 3331080996619491225}
-  m_Layer: 31
+  m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -887,7 +887,7 @@ GameObject:
   - component: {fileID: 3331080996621289405}
   - component: {fileID: 3331080996623283317}
   - component: {fileID: 3331080996610267479}
-  m_Layer: 31
+  m_Layer: 0
   m_Name: Reset Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1028,7 +1028,7 @@ GameObject:
   - component: {fileID: 5815391124484942363}
   - component: {fileID: 8285298657169976473}
   - component: {fileID: 5026015106631394818}
-  m_Layer: 31
+  m_Layer: 0
   m_Name: Chaperone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
