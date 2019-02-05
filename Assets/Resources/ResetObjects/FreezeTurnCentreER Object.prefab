@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3363996465945943796}
   - component: {fileID: 3363996465945943797}
   - component: {fileID: 3363996465945943794}
-  m_Layer: 0
-  m_Name: Sphere
+  m_Layer: 10
+  m_Name: FreezeTurnCentreER Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

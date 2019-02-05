@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 489318}
   - component: {fileID: 2377110}
   - component: {fileID: 10271440}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TwoOneTurnResetterER HUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
