@@ -35,6 +35,7 @@ public class RedirectionManagerER : RedirectionManager
     private MeshRenderer _trackingSpaceFloorVisuals;
     private MeshRenderer _chaperoneVisuals;
     private GameObject _virtualWorld;
+    private UIManager _uiManager;
 
     protected override void Awake()
     {
@@ -64,6 +65,9 @@ public class RedirectionManagerER : RedirectionManager
         _pausables.AddRange(FindObjectsOfType<Pausable>());
 
         _virtualWorld = GameObject.Find("Virtual World");
+        _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+
+        _uiManager._redirectorManager = this;
     }
 
     /// <summary>
