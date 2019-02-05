@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Reflection;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class UIManager : MonoBehaviour
     private Queue<DialogueSnippet> _currentDialogueList = new Queue<DialogueSnippet>();
     private GameObject _currentlyActiveTextBox;
     private Text _currentlyActiveText;
-    private TextTriggerReceiver _currentTriggerReceiver;
+    private object _currentTriggerReceiver;
+    private TypeInfo _currentTriggerReceiverType;
 
     [HideInInspector]
     public RedirectionManagerER _redirectorManager;
@@ -38,13 +40,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ActivateDialogue(TextTriggerReceiver triggerReceiver, GameObject dialogueBox, Queue<DialogueSnippet> textLines)
+    public void ActivateDialogue(object triggerReceiver, TypeInfo typeInfo, GameObject dialogueBox, Queue<DialogueSnippet> textLines)
     {
         _inDialogue = true;
         _currentlyActiveTextBox = dialogueBox;
         _currentDialogueList = textLines;
         _currentlyActiveText = _currentlyActiveTextBox.GetComponentInChildren<Text>();
         _currentTriggerReceiver = triggerReceiver;
+        _currentTriggerReceiverType = typeInfo;
         UpdateTextToNextSnippet();
 
         StartCoroutine(ChangeMenuVisibilityAnimation(true));
@@ -62,13 +65,16 @@ public class UIManager : MonoBehaviour
             var newDialogueSnippet = _currentDialogueList.Dequeue();
             _currentlyActiveText.text = newDialogueSnippet._text;
 
+            // Using reflection to allow for some amount of scripting when writing dialogue snippets.
             if(newDialogueSnippet._animationTrigger != "" && _currentTriggerReceiver != null)
             {
-                _currentTriggerReceiver.TriggerAnimation(newDialogueSnippet._animationTrigger);
+                var method = _currentTriggerReceiverType.GetMethod("TriggerAnimation");
+                method.Invoke(_currentTriggerReceiver, new object[] { newDialogueSnippet._animationTrigger });
             }
             if(newDialogueSnippet._functionTrigger != "" && _currentTriggerReceiver != null)
             {
-                _currentTriggerReceiver.TriggerFunction(newDialogueSnippet._functionTrigger);
+                var method = _currentTriggerReceiverType.GetMethod(newDialogueSnippet._functionTrigger);
+                method.Invoke(_currentTriggerReceiver, null);
             }
         }
         else
@@ -95,6 +101,6 @@ public class UIManager : MonoBehaviour
     private void DebugTextTest()
     {
         var testLines = new Queue<DialogueSnippet>(Resources.LoadAll<DialogueSnippet>("ScriptableObjects/Dialogue/Tutorial"));
-        ActivateDialogue(null, _debugTextBox, testLines);
+        ActivateDialogue(null, null, _debugTextBox, testLines);
     }
 }
