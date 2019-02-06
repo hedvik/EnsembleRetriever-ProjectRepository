@@ -10,6 +10,7 @@ public class RedirectionManagerER : RedirectionManager
     [Header("Ensemble Retriever Related")]
     public float _trackingSpaceFadeSpeed = 5f;
     public bool _alwaysDisplayTrackingFloor = false;
+    public int _positionSamplesPerSecond = 60;
 
     [HideInInspector]
     public bool _distractorIsActive = false;
@@ -37,6 +38,9 @@ public class RedirectionManagerER : RedirectionManager
     private MeshRenderer _chaperoneVisuals;
     private GameObject _virtualWorld;
     private UIManager _uiManager;
+
+    private CircularBuffer.CircularBuffer<Vector3> _positionSamples;
+    private float _sampleTimer = 0f;
 
     protected override void Awake()
     {
@@ -69,6 +73,8 @@ public class RedirectionManagerER : RedirectionManager
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 
         _uiManager._redirectorManager = this;
+
+        _positionSamples = new CircularBuffer.CircularBuffer<Vector3>(_positionSamplesPerSecond);
     }
 
     /// <summary>
@@ -85,6 +91,13 @@ public class RedirectionManagerER : RedirectionManager
             MAX_ROT_GAIN = 0f;
             MIN_ROT_GAIN = 0f;
         }
+
+        _sampleTimer += Time.deltaTime;
+        if(_sampleTimer >= 1/_positionSamplesPerSecond)
+        {
+            _sampleTimer -= 1 / _positionSamplesPerSecond;
+            _positionSamples.PushBack(deltaPos);
+        }
     }
 
     public void OnDistractorTrigger()
@@ -92,9 +105,14 @@ public class RedirectionManagerER : RedirectionManager
         if (_distractorIsActive)
             return;
         _distractorIsActive = true;
-        // TODO: This should be an average over the last second.
-        //       Does it need to though? might be more accurate
-        _futureVirtualWalkingDirection = Redirection.Utilities.FlattenedDir3D(deltaPos);
+
+        var _averageFuture = Vector3.zero;
+        for(int i = 0; i < _positionSamples.Size; i++)
+        {
+            _averageFuture += _positionSamples[i];
+        }
+        _futureVirtualWalkingDirection = _averageFuture / _positionSamples.Size;
+
         _baseMaximumRotationGain = MAX_ROT_GAIN;
         _baseMinimumRotationGain = MIN_ROT_GAIN;
         SwapRedirectionAlgorithm(true);
