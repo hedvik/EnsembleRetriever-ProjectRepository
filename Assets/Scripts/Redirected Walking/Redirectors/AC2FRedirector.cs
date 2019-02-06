@@ -10,19 +10,19 @@ using Redirection;
 /// </summary>
 public class AC2FRedirector : Redirector
 {
+    [HideInInspector]
+    public float _lastRotationApplied = 0f;
+
+    // Reference Parameters
+    protected RedirectionManagerER _redirectionManagerER;
+
     // User Experience Improvement Parameters
     private const float _ROTATION_THRESHOLD = 1.5f; // degrees per second
     private const float _ROTATION_GAIN_CAP_DEGREES_PER_SECOND = 30;  // degrees per second
     private const float _SMOOTHING_FACTOR = 0.125f; // Smoothing factor for redirection rotations
 
-    // Reference Parameters
-    protected RedirectionManagerER _redirectionManagerER;
-
     // Auxiliary Parameters
     private float _rotationFromRotationGain; // Proposed rotation gain based on head's yaw
-
-    [HideInInspector]
-    public float _lastRotationApplied = 0f;
 
     private void Start()
     {
@@ -32,10 +32,8 @@ public class AC2FRedirector : Redirector
     public override void ApplyRedirection()
     {
         // Get Required Data
-        var deltaPos = redirectionManager.deltaPos;
         var deltaDir = redirectionManager.deltaDir;
-
-        // Compute proposed rotation gain
+        
         _rotationFromRotationGain = 0;
 
         // The steering direction is used to determine whether rotations are clockwise or counter clockwise. 
@@ -44,16 +42,24 @@ public class AC2FRedirector : Redirector
         // If user is rotating
         if (Mathf.Abs(deltaDir) / redirectionManager.GetDeltaTime() >= _ROTATION_THRESHOLD)
         {
-            var againstGain = Mathf.Min(Mathf.Abs(deltaDir * redirectionManager.MIN_ROT_GAIN), _ROTATION_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
-            var withGain = Mathf.Min(Mathf.Abs(deltaDir * redirectionManager.MAX_ROT_GAIN), _ROTATION_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
-
+            // Calculate gains
+            var againstGain = deltaDir * redirectionManager.MIN_ROT_GAIN;
+            var withGain = deltaDir * redirectionManager.MAX_ROT_GAIN; 
+            
             // The resulting dot products from applying gains to the vector from the centre of the physical space to the user head
             var dotFromAgainst = Vector3.Dot(Quaternion.AngleAxis(againstGain, Vector3.up) * _redirectionManagerER._centreToHead, _redirectionManagerER._futureVirtualWalkingDirection);
             var dotFromWith = Vector3.Dot(Quaternion.AngleAxis(withGain, Vector3.up) * _redirectionManagerER._centreToHead, _redirectionManagerER._futureVirtualWalkingDirection);
 
             // The the gain that provides the closest dot product to the target is chosen. 
             // The target in this case is aligning the future virtual direction with (trackingSpaceCentre - headPosition)
-            _rotationFromRotationGain = (dotFromAgainst < dotFromWith) ? againstGain : withGain;
+            if (dotFromAgainst < dotFromWith)
+            {
+                _rotationFromRotationGain = Mathf.Min(Mathf.Abs(deltaDir * redirectionManager.MIN_ROT_GAIN), _ROTATION_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
+            }
+            else
+            {
+                _rotationFromRotationGain =  Mathf.Min(Mathf.Abs(deltaDir * redirectionManager.MAX_ROT_GAIN), _ROTATION_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
+            }
         }
 
         var rotationProposed = desiredSteeringDirection * _rotationFromRotationGain;
@@ -65,6 +71,8 @@ public class AC2FRedirector : Redirector
         }
 
         // TODO: Some dampening would be nice so changes are less jarring 
+        // If there has been some change in gain
+        //    Interpolate from one gain to the other
 
         // Azmandian et al.'s smoothing implementation
         var finalRotation = (1.0f - _SMOOTHING_FACTOR) * _lastRotationApplied + _SMOOTHING_FACTOR * rotationProposed;

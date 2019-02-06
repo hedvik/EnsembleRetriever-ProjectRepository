@@ -9,6 +9,7 @@ public class RedirectionManagerER : RedirectionManager
 {
     [Header("Ensemble Retriever Related")]
     public float _trackingSpaceFadeSpeed = 5f;
+    public bool _alwaysDisplayTrackingFloor = false;
 
     [HideInInspector]
     public bool _distractorIsActive = false;
@@ -160,8 +161,12 @@ public class RedirectionManagerER : RedirectionManager
             floorColorTemp.a = Mathf.Lerp(floorAlphaStart, fadePhysicalSpaceIn ? 1 : 0, lerpTimer);
             chaperoneColorTemp.a = floorColorTemp.a;
             _environmentFadeVisuals.material.color = cubeColorTemp;
-            _trackingSpaceFloorVisuals.material.color = floorColorTemp;
             _chaperoneVisuals.material.color = chaperoneColorTemp;
+
+            if(!_alwaysDisplayTrackingFloor)
+            {
+                _trackingSpaceFloorVisuals.material.color = floorColorTemp;
+            }
 
             yield return null;
         }

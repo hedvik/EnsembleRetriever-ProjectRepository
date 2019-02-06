@@ -66,15 +66,10 @@ public class UIManager : MonoBehaviour
             _currentlyActiveText.text = newDialogueSnippet._text;
 
             // Using reflection to allow for some amount of scripting when writing dialogue snippets.
-            if(newDialogueSnippet._animationTrigger != "" && _currentTriggerReceiver != null)
-            {
-                var method = _currentTriggerReceiverType.GetMethod("TriggerAnimation");
-                method.Invoke(_currentTriggerReceiver, new object[] { newDialogueSnippet._animationTrigger });
-            }
             if(newDialogueSnippet._functionTrigger != "" && _currentTriggerReceiver != null)
             {
                 var method = _currentTriggerReceiverType.GetMethod(newDialogueSnippet._functionTrigger);
-                method.Invoke(_currentTriggerReceiver, null);
+                method.Invoke(_currentTriggerReceiver, newDialogueSnippet._stringParameter == "" ? null : new object[] { newDialogueSnippet._stringParameter });
             }
         }
         else
