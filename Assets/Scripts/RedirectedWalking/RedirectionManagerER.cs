@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// TODO: Documentation
+/// TODO: Documentation for all redirection related scripts should be in full doxygen. 
 /// </summary>
 public class RedirectionManagerER : RedirectionManager
 {
@@ -80,6 +80,11 @@ public class RedirectionManagerER : RedirectionManager
         _positionSamples = new CircularBuffer.CircularBuffer<Vector3>(_positionSamplesPerSecond);
 
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        var floorColour = _trackingSpaceFloorVisuals.material.color;
+        floorColour.a = _alwaysDisplayTrackingFloor ? 1f : 0f;
+        _trackingSpaceFloorVisuals.material.color = floorColour;
+
     }
 
     /// <summary>
@@ -89,7 +94,7 @@ public class RedirectionManagerER : RedirectionManager
     {
         base.LateUpdate();
 
-        if(_distractorIsActive && FutureDirectionIsAlignedToCentre() && !inReset)
+        if (_distractorIsActive && FutureDirectionIsAlignedToCentre() && !inReset)
         {
             // This approach should keep the smoothing which is nice
             // NOTE: This will run every frame once alignment is finished. 
@@ -98,7 +103,7 @@ public class RedirectionManagerER : RedirectionManager
         }
 
         _sampleTimer += Time.deltaTime;
-        if(_sampleTimer >= 1/_positionSamplesPerSecond)
+        if (_sampleTimer >= 1 / _positionSamplesPerSecond)
         {
             _sampleTimer -= 1 / _positionSamplesPerSecond;
             _positionSamples.PushBack(deltaPos);
@@ -119,7 +124,7 @@ public class RedirectionManagerER : RedirectionManager
         _distractorIsActive = true;
 
         var _averageFuture = Vector3.zero;
-        for(int i = 0; i < _positionSamples.Size; i++)
+        for (int i = 0; i < _positionSamples.Size; i++)
         {
             _averageFuture += _positionSamples[i];
         }
@@ -149,7 +154,7 @@ public class RedirectionManagerER : RedirectionManager
 
     public void SetWorldPauseState(bool isPaused)
     {
-        foreach(var pausable in _pausables)
+        foreach (var pausable in _pausables)
         {
             pausable.SetPauseState(isPaused);
         }
@@ -182,7 +187,7 @@ public class RedirectionManagerER : RedirectionManager
         var floorAlphaStart = _trackingSpaceFloorVisuals.material.color.a;
 
         float lerpTimer = 0f;
-        while(lerpTimer < 1f)
+        while (lerpTimer < 1f)
         {
             lerpTimer += Time.deltaTime * _trackingSpaceFadeSpeed;
 
@@ -193,7 +198,7 @@ public class RedirectionManagerER : RedirectionManager
             _environmentFadeVisuals.material.color = cubeColorTemp;
             _chaperoneVisuals.material.color = chaperoneColorTemp;
 
-            if(!_alwaysDisplayTrackingFloor)
+            if (!_alwaysDisplayTrackingFloor)
             {
                 _trackingSpaceFloorVisuals.material.color = floorColorTemp;
             }
@@ -217,7 +222,7 @@ public class RedirectionManagerER : RedirectionManager
 
     private void SwapRedirectionAlgorithm(bool toAC2F)
     {
-        if(toAC2F)
+        if (toAC2F)
         {
             redirector = _AC2FRedirector;
             _AC2FRedirector._lastRotationApplied = _S2CRedirector._lastRotationApplied;

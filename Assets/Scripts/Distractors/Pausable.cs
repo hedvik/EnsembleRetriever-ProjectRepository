@@ -8,6 +8,7 @@ public class Pausable : MonoBehaviour
     public void SetPauseState(bool isPaused)
     {
         _isPaused = isPaused;
+        PauseStateChange();
     }
 
     protected virtual void PauseStateChange() { }

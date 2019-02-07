@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882bf00422c32e541977e7f3e048f879, type: 3}
   m_Name: tut0
   m_EditorClassIdentifier: 
-  _text: 
+  _text: Hi!
   _voiceLine: {fileID: 0}
-  _functionTrigger: 
-  _stringParameter: 
+  _functionTriggerStart: TeleportTo
+  _stringParameterStart: (0, 2, -5)
+  _functionTriggerEnd: 
+  _stringParameterEnd: 

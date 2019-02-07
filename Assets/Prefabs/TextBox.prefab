@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 224635311989753030}
   - component: {fileID: 223776070975310470}
   m_Layer: 0
-  m_Name: TutorialDisplay3
+  m_Name: Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
