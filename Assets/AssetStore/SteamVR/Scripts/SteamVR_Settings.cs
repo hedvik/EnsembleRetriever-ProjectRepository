@@ -3,6 +3,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Valve.VR
 {
@@ -76,7 +77,7 @@ namespace Valve.VR
                 if (string.IsNullOrEmpty(_instance.editorAppKey))
                 {
                     _instance.editorAppKey = SteamVR.GenerateAppKey();
-                    Debug.Log("<b>[SteamVR]</b> Generated you an editor app key of: " + _instance.editorAppKey + ". This lets the editor tell SteamVR what project this is. Has no effect on builds. This can be changed in Assets/SteamVR/Resources/SteamVR_Settings");
+                    Debug.Log("<b>[SteamVR Setup]</b> Generated you an editor app key of: " + _instance.editorAppKey + ". This lets the editor tell SteamVR what project this is. Has no effect on builds. This can be changed in Assets/SteamVR/Resources/SteamVR_Settings");
 #if UNITY_EDITOR
                     UnityEditor.EditorUtility.SetDirty(_instance);
                     UnityEditor.AssetDatabase.SaveAssets();
@@ -84,67 +85,5 @@ namespace Valve.VR
                 }
             }
         }
-
-        protected const string openVRString = "OpenVR";
-        protected const string openVRPackageString = "com.unity.xr.openvr.standalone";
-
-        public static void AutoEnableVR()
-        {
-#if UNITY_EDITOR
-            if (instance.autoEnableVR)
-            {
-                // Switch to native OpenVR support.
-                var updated = false;
-
-                if (!UnityEditor.PlayerSettings.virtualRealitySupported)
-                {
-                    UnityEditor.PlayerSettings.virtualRealitySupported = true;
-                    updated = true;
-                }
-
-                UnityEditor.BuildTargetGroup currentTarget = UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup;
-
-#if (UNITY_5_4 || UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0)
-                var devices = UnityEditorInternal.VR.VREditor.GetVREnabledDevices(currentTarget);
-#else
-			    var devices = UnityEditorInternal.VR.VREditor.GetVREnabledDevicesOnTargetGroup(currentTarget);
-#endif
-                var hasOpenVR = false;
-                foreach (var device in devices)
-                    if (device.ToLower() == "openvr")
-                        hasOpenVR = true;
-
-
-                if (!hasOpenVR)
-                {
-                    string[] newDevices;
-                    if (updated)
-                    {
-                        newDevices = new string[] { openVRString };
-                    }
-                    else
-                    {
-                        newDevices = new string[devices.Length + 1];
-                        for (int i = 0; i < devices.Length; i++)
-                            newDevices[i] = devices[i];
-                        newDevices[devices.Length] = openVRString;
-                        updated = true;
-                    }
-#if (UNITY_5_6 || UNITY_5_4 || UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0)
-                    UnityEditorInternal.VR.VREditor.SetVREnabledDevices(currentTarget, newDevices);
-#else
-                    UnityEditorInternal.VR.VREditor.SetVREnabledDevicesOnTargetGroup(currentTarget, newDevices);
-#endif
-                }
-
-#if UNITY_2018_1_OR_NEWER
-                UnityEditor.PackageManager.Client.Add(openVRPackageString);
-#endif
-
-                if (updated)
-                    Debug.Log("<b>[SteamVR]</b> Enabling VR in player settings.");
-            }
-#endif
-                }
     }
 }

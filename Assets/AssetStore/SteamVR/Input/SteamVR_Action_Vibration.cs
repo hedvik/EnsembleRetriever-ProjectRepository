@@ -7,6 +7,8 @@ using Valve.VR;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
+#pragma warning disable 0067
+
 namespace Valve.VR
 {
     [Serializable]
@@ -115,13 +117,13 @@ namespace Valve.VR
         {
             InitAfterDeserialize();
         }
-        
+
         public override bool IsUpdating(SteamVR_Input_Sources inputSource)
         {
             return sourceMap.IsUpdating(inputSource);
         }
     }
-    
+
     public class SteamVR_Action_Vibration_Source_Map : SteamVR_Action_Source_Map<SteamVR_Action_Vibration_Source>
     {
         public bool IsUpdating(SteamVR_Input_Sources inputSource)
@@ -132,7 +134,7 @@ namespace Valve.VR
 
     public class SteamVR_Action_Vibration_Source : SteamVR_Action_Out_Source
     {
-        /// <summary>Event fires when the active state (ActionSet active & binding active) changes</summary>
+        /// <summary>Event fires when the active state (ActionSet active and binding active) changes</summary>
         public event SteamVR_Action_Vibration.ActiveChangeHandler onActiveChange;
 
         /// <summary>Event fires when the active state of the binding changes</summary>
@@ -158,6 +160,9 @@ namespace Valve.VR
         /// <summary>The last time the execute method was called on this action</summary>
         public float timeLastExecuted { get; protected set; }
 
+        protected SteamVR_Action_Vibration vibrationAction;
+
+
         /// <summary>
         /// <strong>[Should not be called by user code]</strong> 
         /// Initializes the handle for the inputSource, and any other related SteamVR data.
@@ -167,6 +172,13 @@ namespace Valve.VR
             base.Initialize();
 
             lastActive = true;
+        }
+
+        public override void Preinitialize(SteamVR_Action wrappingAction, SteamVR_Input_Sources forInputSource)
+        {
+            base.Preinitialize(wrappingAction, forInputSource);
+
+            vibrationAction = (SteamVR_Action_Vibration)wrappingAction;
         }
 
 
@@ -180,6 +192,9 @@ namespace Valve.VR
         /// <param name="inputSource">The device you would like to execute the haptic action. Any if the action is not device specific.</param>
         public void Execute(float secondsFromNow, float durationSeconds, float frequency, float amplitude)
         {
+            if (SteamVR_Input.isStartupFrame)
+                return;
+
             timeLastExecuted = Time.realtimeSinceStartup;
 
             EVRInputError err = OpenVR.Input.TriggerHapticVibrationAction(handle, secondsFromNow, durationSeconds, frequency, amplitude, inputSourceHandle);
@@ -188,6 +203,9 @@ namespace Valve.VR
 
             if (err != EVRInputError.None)
                 Debug.LogError("<b>[SteamVR]</b> TriggerHapticVibrationAction (" + fullPath + ") error: " + err.ToString() + " handle: " + handle.ToString());
+
+            if (onExecute != null)
+                onExecute.Invoke(vibrationAction, inputSource, secondsFromNow, durationSeconds, frequency, amplitude);
         }
     }
 
@@ -208,3 +226,5 @@ namespace Valve.VR
         void Execute(float secondsFromNow, float durationSeconds, float frequency, float amplitude, SteamVR_Input_Sources inputSource);
     }
 }
+
+#pragma warning restore 0067

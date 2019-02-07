@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882bf00422c32e541977e7f3e048f879, type: 3}
   m_Name: tut0
   m_EditorClassIdentifier: 
-  _text: "Hello and welcome \nto <color=#00ff00ff>Ensemble Retriever</color>!\n"
+  _text: 
   _voiceLine: {fileID: 0}
-  _animationTrigger: 
   _functionTrigger: 
+  _stringParameter: 

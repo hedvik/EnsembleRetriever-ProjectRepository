@@ -1,4 +1,4 @@
-﻿# SteamVR Unity Plugin - v2.2b4
+﻿# SteamVR Unity Plugin - v2.2.0
 
 Copyright (c) Valve Corporation, All rights reserved.
 
@@ -12,9 +12,7 @@ Requirements:
 
 Documentation:
 
- PDF documents are included in this directory on the new input system and the plugin itself. 
-
- For a basic tutorial see the steam guide here: https://steamcommunity.com/sharedfiles/filedetails/?id=1416820276
+ Documentation can be found online here: https://valvesoftware.github.io/steamvr_unity_plugin/
 
 
 Quick Start:
@@ -33,6 +31,97 @@ Support:
  If you'd like to discuss features, post guides, and give general feedback please post on the steam forum here: https://steamcommunity.com/app/250820/discussions/7/
  
 
+Changes for v2.2.0:
+ 
+ * Removing some unused code
+
+
+Changes for v2.2RC5:
+ 
+ * Fix for controllers that don't support Skeleton Input yet (WinMR)
+ 
+ * Fixing issue where sometimes SteamVR would load legacy bindings for SteamVR Input projects while in the editor.
+ 
+
+Changes for v2.2RC4:
+ 
+ * Changed SteamVR_Input.isStartupFrame to return true for the couple frames around startup. This fixes some startup errors temporarily until we have a SteamVR API to determine startup state.
+
+ * Fixed an issue where builds would fail
+
+ * Significantly reduced asset package file size (~50%). Some psds were replaced with pngs, some png res was lowered. The old assets are still on the github repo under old plugin versions.
+
+ * Made Unity 2018.1+ OpenVR package detection and installation more robust.
+
+ * Improved Project Setup experience when using an Oculus headset
+ 
+
+Changes for v2.2RC3:
+
+ * Minor Breaking Change: SteamVR_Behaviour_ActionType events were incorrectly sending the action instead of the behaviour component they came from.
+
+ * Minor Breaking Change: Simplified the handFollowTransform member to be one variable instead of three
+
+ * Fixed code generation so it deletes unused actionset classes (asks first)
+
+ * Fixed behaviour events disappearing from serialized objects in some unity versions
+
+ * Added a few events to SteamVR_Behaviour_Skeleton
+
+ * Added C# style events to the SteamVR_Behaviour_ActionType components.
+
+ * Added Happy Ball as an example of a complex blending pose that moves the held object
+
+ * Added scaling support for the skeleton poser
+ 
+ * Cleaned up the canvas elements on the Interaction System Sample scene.
+
+ * Skeleton poser is now able to snap/follow interactables
+
+ * Fixed the namespace on a couple small sample scene components
+
+ * When clicking the "Show binding UI" button we will now always try to launch the default browser, though it may fail sometimes (Edge) we have better error messages now
+
+ * Fixed some documentation errors
+
+ * Improved skeleton poser editor ui
+
+ * Fixed an issue with ActionSets not serializing defaults properly
+
+
+Changes for v2.2RC2:
+
+ * Interactable.isHovering now correctly reports hovering when a hand is over it. There is a new associated field Interactable.hoveringHand.
+
+ * RenderModels should no longer throw an error on immediate reload.
+
+ * Added the SteamVR_Behaviour component to the Player prefab in the Interaction System so it's easier to set it's DoNotDestroy value.
+
+ * Fixed an issue with skeletons complaining that they were getting called too early. Initial action updates now happen a frame after SteamVR_Input initialization.
+
+ * Normalized the behaviours of the throwables in the Interaction System sample scene to do what their description says they should.
+
+ * Fixed an issue with TeleportArea throwing errors without a Teleport component in the scene.
+
+ 
+Changes for v2.2RC1:
+
+ * Feature: Added SteamVR_Skeleton_Poser component that simplifies creating poses that are easily compatible with the SteamVR Skeletal System. Check the objects in the Interaction System scene for examples or add the component to an interactable. More documentation on this feature will come before release. Example poses will be improved before release.
+
+ * Copied skeletalTrackingLevel, arrays, and finger splays into the Skeleton Behaviour component
+ 
+ * Fixed some related skeleton docs
+
+ * Added an option to importing partial bindings to just replace the current actions instead of merging.
+ 
+ 
+Changes for v2.2b5:
+
+ * Fixed an issue where the SteamVR_Actions assembly was not being auto referenced by the main assembly. (intellisense would not recognize the class)
+ 
+ * Fixed an issue with nullchecks against unassigned actions returning false incorrectly. (headsetOnHead == null with no action assigned should return true)
+ 
+
 Changes for v2.2b4:
 
  * Fixed an issue in builds where actions and action sets were not deserializing correctly.
@@ -41,17 +130,20 @@ Changes for v2.2b4:
 
  * Fixed an issue where automatic SteamVR Input calls on frame 0 would cause errors.
  
+ 
 Changes for v2.2b3:
 
  * Fixed a named action property generation issue
 
  * Fixed an issue with not removing missing default binding files from the action manifest
 
+
 Changes for v2.2b2:
 
  * Fixed an assembly definition issue during generation.
 
  * Added a warning to Edge users that they need to manually open the binding ui.
+
 
 Changes for v2.2:
 

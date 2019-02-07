@@ -458,6 +458,9 @@ namespace Valve.VR
             {
                 if (string.IsNullOrEmpty(this.actionPath)) //if we haven't set a path, say this action is equal to null
                     return true;
+                if (this.GetSourceMap() == null)
+                    return true;
+                
                 return false;
             }
 
@@ -483,23 +486,13 @@ namespace Valve.VR
         /// </summary>
         public static bool operator ==(SteamVR_Action action1, SteamVR_Action action2)
         {
-            bool action1null = (ReferenceEquals(null, action1));
-            bool action2null = (ReferenceEquals(null, action2));
+            bool action1null = (ReferenceEquals(null, action1) || string.IsNullOrEmpty(action1.actionPath) || action1.GetSourceMap() == null);
+            bool action2null = (ReferenceEquals(null, action2) || string.IsNullOrEmpty(action2.actionPath) || action2.GetSourceMap() == null);
 
             if (action1null && action2null)
                 return true;
-            else if (action1null == false && action2null == true)
-            {
-                if (string.IsNullOrEmpty(action1.actionPath))
-                    return true; //if we haven't set a path, say this action is equal to null
+            else if (action1null != action2null)
                 return false;
-            }
-            else if (action1null == true && action2null == false)
-            {
-                if (string.IsNullOrEmpty(action2.actionPath))
-                    return true; //if we haven't set a path, say this action is equal to null
-                return false;
-            }
 
             return action1.Equals(action2);
         }
@@ -557,8 +550,7 @@ namespace Valve.VR
         {
             get
             {
-                OnAccessSource(inputSource);
-                return sources[inputSource];
+                return GetSourceElementForIndexer(inputSource);
             }
         }
 
@@ -585,6 +577,13 @@ namespace Valve.VR
         {
             sources.Add(inputSource, new SourceElement());
             sources[inputSource].Preinitialize(wrappingAction, inputSource);
+        }
+
+        // Normally I'd just make the indexer virtual and override that but some unity versions don't like that
+        protected virtual SourceElement GetSourceElementForIndexer(SteamVR_Input_Sources inputSource)
+        {
+            OnAccessSource(inputSource);
+            return sources[inputSource];
         }
     }
 

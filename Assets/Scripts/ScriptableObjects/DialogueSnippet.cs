@@ -9,6 +9,8 @@ public class DialogueSnippet : ScriptableObject
     [TextArea]
     public string _text;
     public AudioClip _voiceLine;
-    public string _functionTrigger;
-    public string _stringParameter;
+    public string _functionTriggerStart;
+    public string _stringParameterStart;
+    public string _functionTriggerEnd;
+    public string _stringParameterEnd;
 }

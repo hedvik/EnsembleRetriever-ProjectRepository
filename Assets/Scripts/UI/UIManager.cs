@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Reflection;
+using Valve.VR;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject _debugTextBox;
-
     public float _menuDisplaySpeed = 5f;
+
+    [HideInInspector]
+    public RedirectionManagerER _redirectorManager;
 
     private bool _inDialogue = false;
     private Queue<DialogueSnippet> _currentDialogueList = new Queue<DialogueSnippet>();
@@ -16,15 +18,7 @@ public class UIManager : MonoBehaviour
     private Text _currentlyActiveText;
     private object _currentTriggerReceiver;
     private TypeInfo _currentTriggerReceiverType;
-
-    [HideInInspector]
-    public RedirectionManagerER _redirectorManager;
-
-    private void Start()
-    {
-        // DEBUG: Currently used to test dialogue
-        DebugTextTest();
-    }
+    private DialogueSnippet _currentDialogueSnippet;
 
     private void Update()
     {
@@ -36,6 +30,12 @@ public class UIManager : MonoBehaviour
                 UpdateTextToNextSnippet();
             }
 #endif
+
+            if(SteamVR.active && SteamVR_Actions._default.Teleport[SteamVR_Input_Sources.Any].state)
+            {
+                UpdateTextToNextSnippet();
+            }
+
             _currentlyActiveTextBox.transform.LookAt(_redirectorManager.headTransform.position);
         }
     }
@@ -61,15 +61,20 @@ public class UIManager : MonoBehaviour
 
     private void UpdateTextToNextSnippet()
     {
-        if (_currentDialogueList.Count != 0) {
-            var newDialogueSnippet = _currentDialogueList.Dequeue();
-            _currentlyActiveText.text = newDialogueSnippet._text;
+        // Running the end function trigger on a dialogue snippet if available
+        if (_currentDialogueSnippet != null && _currentDialogueSnippet._functionTriggerEnd != null && _currentTriggerReceiver != null)
+        {
+            TriggerFunction(_currentDialogueSnippet._functionTriggerEnd, _currentDialogueSnippet._stringParameterEnd);
+        }
 
-            // Using reflection to allow for some amount of scripting when writing dialogue snippets.
-            if(newDialogueSnippet._functionTrigger != "" && _currentTriggerReceiver != null)
+        if (_currentDialogueList.Count != 0) {
+            _currentDialogueSnippet = _currentDialogueList.Dequeue();
+            _currentlyActiveText.text = _currentDialogueSnippet._text;
+
+            // Running the start function trigger on a dialogue snippet if available
+            if (_currentDialogueSnippet._functionTriggerStart != "" && _currentTriggerReceiver != null)
             {
-                var method = _currentTriggerReceiverType.GetMethod(newDialogueSnippet._functionTrigger);
-                method.Invoke(_currentTriggerReceiver, newDialogueSnippet._stringParameter == "" ? null : new object[] { newDialogueSnippet._stringParameter });
+                TriggerFunction(_currentDialogueSnippet._functionTriggerStart, _currentDialogueSnippet._stringParameterStart);
             }
         }
         else
@@ -93,9 +98,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void DebugTextTest()
+    private void TriggerFunction(string functionName, string param)
     {
-        var testLines = new Queue<DialogueSnippet>(Resources.LoadAll<DialogueSnippet>("ScriptableObjects/Dialogue/Tutorial"));
-        ActivateDialogue(null, null, _debugTextBox, testLines);
+        // Using reflection to allow for some amount of scripting when writing dialogue snippets.
+        var method = _currentTriggerReceiverType.GetMethod(functionName);
+        method.Invoke(_currentTriggerReceiver, param == "" ? null : new object[] { param });
     }
 }

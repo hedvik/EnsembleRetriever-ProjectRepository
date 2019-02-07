@@ -691,7 +691,7 @@ public struct IVRCompositor
 	internal _GetFrameTiming GetFrameTiming;
 
 	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-	internal delegate uint _GetFrameTimings(ref Compositor_FrameTiming pTiming, uint nFrames);
+	internal delegate uint _GetFrameTimings([In, Out] Compositor_FrameTiming[] pTiming, uint nFrames);
 	[MarshalAs(UnmanagedType.FunctionPtr)]
 	internal _GetFrameTimings GetFrameTimings;
 
@@ -2523,9 +2523,9 @@ public class CVRCompositor
 		bool result = FnTable.GetFrameTiming(ref pTiming,unFramesAgo);
 		return result;
 	}
-	public uint GetFrameTimings(ref Compositor_FrameTiming pTiming,uint nFrames)
+	public uint GetFrameTimings(Compositor_FrameTiming [] pTiming)
 	{
-		uint result = FnTable.GetFrameTimings(ref pTiming,nFrames);
+		uint result = FnTable.GetFrameTimings(pTiming,(uint) pTiming.Length);
 		return result;
 	}
 	public float GetFrameTimeRemaining()
@@ -3803,8 +3803,6 @@ public enum ETrackedDeviceProperty
 	Prop_AdditionalDeviceSettingsPath_String = 1042,
 	Prop_Identifiable_Bool = 1043,
 	Prop_BootloaderVersion_Uint64 = 1044,
-	Prop_AdditionalSystemReportData_String = 1045,
-	Prop_CompositeFirmwareVersion_String = 1046,
 	Prop_ReportsTimeSinceVSync_Bool = 2000,
 	Prop_SecondsFromVsyncToPhotons_Float = 2001,
 	Prop_DisplayFrequency_Float = 2002,
@@ -4046,7 +4044,6 @@ public enum EVREventType
 	VREvent_RoomViewShown = 526,
 	VREvent_RoomViewHidden = 527,
 	VREvent_ShowUI = 528,
-	VREvent_ShowDevTools = 529,
 	VREvent_Notification_Shown = 600,
 	VREvent_Notification_Hidden = 601,
 	VREvent_Notification_BeginInteraction = 602,
@@ -4124,7 +4121,6 @@ public enum EVREventType
 	VREvent_SpatialAnchors_DescriptorUpdated = 1801,
 	VREvent_SpatialAnchors_RequestPoseUpdate = 1802,
 	VREvent_SpatialAnchors_RequestDescriptorUpdate = 1803,
-	VREvent_SystemReport_Started = 1900,
 	VREvent_VendorSpecific_Reserved_Start = 10000,
 	VREvent_VendorSpecific_Reserved_End = 19999,
 }
@@ -4177,7 +4173,6 @@ public enum EShowUIType
 	ShowUI_ManageTrackers = 1,
 	ShowUI_QuickStart = 2,
 	ShowUI_Pairing = 3,
-	ShowUI_Settings = 4,
 }
 public enum EVRInputError
 {
@@ -4862,7 +4857,6 @@ public enum EIOBufferMode
 	[FieldOffset(0)] public VREvent_InputActionManifestLoad_t actionManifest;
 	[FieldOffset(0)] public VREvent_ProgressUpdate_t progressUpdate;
 	[FieldOffset(0)] public VREvent_ShowUI_t showUi;
-	[FieldOffset(0)] public VREvent_ShowDevTools_t showDevTools;
 	[FieldOffset(0)] public VREvent_Keyboard_t keyboard; // This has to be at the end due to a mono bug
 }
 
@@ -5221,10 +5215,6 @@ public enum EIOBufferMode
 [StructLayout(LayoutKind.Sequential)] public struct VREvent_ShowUI_t
 {
 	public EShowUIType eType;
-}
-[StructLayout(LayoutKind.Sequential)] public struct VREvent_ShowDevTools_t
-{
-	public int nBrowserIdentifier;
 }
 [StructLayout(LayoutKind.Sequential)] public struct VREvent_t
 {
@@ -6027,7 +6017,6 @@ public class OpenVR
 	public const string k_pch_App_BindingAutosaveURLSuffix_String = "AutosaveURL";
 	public const string k_pch_App_BindingCurrentURLSuffix_String = "CurrentURL";
 	public const string k_pch_App_NeedToUpdateAutosaveSuffix_Bool = "NeedToUpdateAutosave";
-	public const string k_pch_App_ActionManifestURL_String = "ActionManifestURL";
 	public const string k_pch_Trackers_Section = "trackers";
 	public const string k_pch_DesktopUI_Section = "DesktopUI";
 	public const string k_pch_LastKnown_Section = "LastKnown";

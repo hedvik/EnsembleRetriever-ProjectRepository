@@ -27,6 +27,7 @@ public class RedirectionManagerER : RedirectionManager
     private Distractor _currentActiveDistractor = null;
     private float _baseMinimumRotationGain = 0f;
     private float _baseMaximumRotationGain = 0f;
+    private float _baseCurvatureRadius = 0f;
     private AC2FRedirector _AC2FRedirector;
     private S2CRedirectorER _S2CRedirector;
 
@@ -38,6 +39,7 @@ public class RedirectionManagerER : RedirectionManager
     private MeshRenderer _chaperoneVisuals;
     private GameObject _virtualWorld;
     private UIManager _uiManager;
+    private GameManager _gameManager;
 
     private CircularBuffer.CircularBuffer<Vector3> _positionSamples;
     private float _sampleTimer = 0f;
@@ -51,6 +53,7 @@ public class RedirectionManagerER : RedirectionManager
 
         _baseMaximumRotationGain = MAX_ROT_GAIN;
         _baseMinimumRotationGain = MIN_ROT_GAIN;
+        _baseCurvatureRadius = CURVATURE_RADIUS;
 
         _AC2FRedirector = GetComponent<AC2FRedirector>();
         _AC2FRedirector.redirectionManager = this;
@@ -75,6 +78,8 @@ public class RedirectionManagerER : RedirectionManager
         _uiManager._redirectorManager = this;
 
         _positionSamples = new CircularBuffer.CircularBuffer<Vector3>(_positionSamplesPerSecond);
+
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     /// <summary>
@@ -100,9 +105,16 @@ public class RedirectionManagerER : RedirectionManager
         }
     }
 
+    public void ActivateRotationAndCurvatureGains()
+    {
+        MAX_ROT_GAIN = _baseMaximumRotationGain;
+        MIN_ROT_GAIN = _baseMinimumRotationGain;
+        CURVATURE_RADIUS = _baseCurvatureRadius;
+    }
+
     public void OnDistractorTrigger()
     {
-        if (_distractorIsActive)
+        if (_distractorIsActive || !_gameManager._gameStarted)
             return;
         _distractorIsActive = true;
 

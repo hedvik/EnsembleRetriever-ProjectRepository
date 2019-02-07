@@ -43,8 +43,17 @@ namespace Valve.VR
         /// <summary>An event that fires when the skeleton actions have been updated</summary>
         public static event SkeletonsUpdatedHandler onSkeletonsUpdated;
         public delegate void SkeletonsUpdatedHandler(bool skipSendingEvents);
-        
+
         protected static bool initializing = false;
+
+        protected static int startupFrame = 0;
+        public static bool isStartupFrame
+        {
+            get
+            {
+                return Time.frameCount >= (startupFrame-1) && Time.frameCount <= (startupFrame+1);
+            }
+        }
 
         #region array accessors
         /// <summary>An array of all action sets</summary>
@@ -105,6 +114,11 @@ namespace Valve.VR
             FindPreinitializeMethod();
         }
 
+        public static void ForcePreinitialize()
+        {
+            FindPreinitializeMethod();
+        }
+
         private static void FindPreinitializeMethod()
         {
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -142,6 +156,8 @@ namespace Valve.VR
 
             //Debug.Log("<b>[SteamVR]</b> Initializing SteamVR input...");
             initializing = true;
+
+            startupFrame = Time.frameCount;
 
             SteamVR_ActionSet_Manager.Initialize();
             SteamVR_Input_Source.Initialize();
@@ -215,7 +231,7 @@ namespace Valve.VR
         /// <summary>Gets called by SteamVR_Behaviour every Update and updates actions if the steamvr settings are configured to update then.</summary>
         public static void Update()
         {
-            if (initialized == false)
+            if (initialized == false || isStartupFrame)
                 return;
 
             if (SteamVR.settings.IsInputUpdateMode(SteamVR_UpdateModes.OnUpdate))
@@ -234,7 +250,7 @@ namespace Valve.VR
         /// </summary>
         public static void LateUpdate()
         {
-            if (initialized == false)
+            if (initialized == false || isStartupFrame)
                 return;
 
             if (SteamVR.settings.IsInputUpdateMode(SteamVR_UpdateModes.OnLateUpdate))
@@ -257,7 +273,7 @@ namespace Valve.VR
         /// <summary>Gets called by SteamVR_Behaviour every FixedUpdate and updates actions if the steamvr settings are configured to update then.</summary>
         public static void FixedUpdate()
         {
-            if (initialized == false)
+            if (initialized == false || isStartupFrame)
                 return;
 
             if (SteamVR.settings.IsInputUpdateMode(SteamVR_UpdateModes.OnFixedUpdate))
@@ -274,7 +290,7 @@ namespace Valve.VR
         /// <summary>Gets called by SteamVR_Behaviour every OnPreCull and updates actions if the steamvr settings are configured to update then.</summary>
         public static void OnPreCull()
         {
-            if (initialized == false)
+            if (initialized == false || isStartupFrame)
                 return;
 
             if (SteamVR.settings.IsInputUpdateMode(SteamVR_UpdateModes.OnPreCull))
@@ -353,7 +369,7 @@ namespace Valve.VR
                 return;
 
             SteamVR_ActionSet_Manager.UpdateActionStates();
-            
+
             for (int actionIndex = 0; actionIndex < actionsNonPoseNonSkeletonIn.Length; actionIndex++)
             {
                 ISteamVR_Action_In action = actionsNonPoseNonSkeletonIn[actionIndex];
@@ -366,9 +382,9 @@ namespace Valve.VR
         }
 
 
-#region String accessor helpers
+        #region String accessor helpers
 
-#region action accessors
+        #region action accessors
         /// <summary>
         /// Get an action's action data by the full path to that action. Action paths are in the format /actions/[actionSet]/[direction]/[actionName]
         /// </summary>
@@ -595,7 +611,7 @@ namespace Valve.VR
             }
             else
             {
-                SteamVR_ActionSet actionSet = GetActionSet(actionSetName, caseSensitive);
+                SteamVR_ActionSet actionSet = GetActionSet(actionSetName, caseSensitive, true);
 
                 if (actionSet != null)
                 {
@@ -845,7 +861,7 @@ namespace Valve.VR
         /// <param name="caseSensitive">case sensitive searches are faster</param>
         public static SteamVR_ActionSet GetActionSet(string actionSetName, bool caseSensitive = false, bool returnsNulls = false)
         {
-            return GetActionSet<SteamVR_ActionSet>(actionSetName, caseSensitive);
+            return GetActionSet<SteamVR_ActionSet>(actionSetName, caseSensitive, returnsNulls);
         }
 
         protected static bool HasActionSet(string name, bool caseSensitive = false)
@@ -922,9 +938,9 @@ namespace Valve.VR
         {
             return GetActionSetFromPath<SteamVR_ActionSet>(path, caseSensitive);
         }
-#endregion
+        #endregion
 
-#region digital string accessors
+        #region digital string accessors
         /// <summary>
         /// Get the state of an action by the action set name, action name, and input source. Optionally case sensitive (for faster results)
         /// </summary>
@@ -1016,9 +1032,9 @@ namespace Valve.VR
         {
             return GetStateDown(null, action, inputSource, caseSensitive);
         }
-#endregion
+        #endregion
 
-#region analog string accessors
+        #region analog string accessors
         /// <summary>
         /// Get the float value of an action by the action set name, action name, and input source. Optionally case sensitive (for faster results). (same as GetSingle)
         /// </summary>
@@ -1134,9 +1150,9 @@ namespace Valve.VR
         {
             return GetVector3(null, action, inputSource, caseSensitive);
         }
-#endregion
+        #endregion
 
-#endregion
+        #endregion
 
         /// <summary>
         /// Returns all of the action sets. If we're in the editor, doesn't rely on the actionSets field being filled.
@@ -1328,20 +1344,27 @@ namespace Valve.VR
             return true;
         }
 
-        /// <summary>
-        /// Load from disk and deserialize the actions file
-        /// </summary>
-        /// <param name="force">Force a refresh of this file from disk</param>
-        public static bool InitializeFile(bool force = false, bool showErrors = true)
+        public static bool DoesActionsFileExist()
         {
             string projectPath = Application.dataPath;
             int lastIndex = projectPath.LastIndexOf("/");
             projectPath = projectPath.Remove(lastIndex, projectPath.Length - lastIndex);
             actionsFilePath = Path.Combine(projectPath, SteamVR_Settings.instance.actionsFilePath);
 
+            return File.Exists(actionsFilePath);
+        }
+
+        /// <summary>
+        /// Load from disk and deserialize the actions file
+        /// </summary>
+        /// <param name="force">Force a refresh of this file from disk</param>
+        public static bool InitializeFile(bool force = false, bool showErrors = true)
+        {
+            bool actionsFileExists = DoesActionsFileExist();
+
             string jsonText = null;
 
-            if (File.Exists(actionsFilePath))
+            if (actionsFileExists)
             {
                 jsonText = System.IO.File.ReadAllText(actionsFilePath);
             }
@@ -1369,6 +1392,40 @@ namespace Valve.VR
             actionFile.InitializeHelperLists();
             fileInitialized = true;
             return true;
+        }
+
+        /// <summary>
+        /// Deletes the action manifest file and all the default bindings it had listed in the default bindings section
+        /// </summary>
+        /// <returns>True if we deleted an action file, false if not.</returns>
+        public static bool DeleteManifestAndBindings()
+        {
+            if (DoesActionsFileExist() == false)
+                return false;
+
+            InitializeFile();
+
+            string[] filesToDelete = actionFile.GetFilesToCopy();
+            foreach (string bindingFilePath in filesToDelete)
+            {
+                FileInfo bindingFileInfo = new FileInfo(bindingFilePath);
+                bindingFileInfo.IsReadOnly = false;
+                File.Delete(bindingFilePath);
+            }
+
+            if (File.Exists(actionsFilePath))
+            {
+                FileInfo actionFileInfo = new FileInfo(actionsFilePath);
+                actionFileInfo.IsReadOnly = false;
+                File.Delete(actionsFilePath);
+
+                actionFile = null;
+                fileInitialized = false;
+
+                return true;
+            }
+
+            return false;
         }
 
 #if UNITY_EDITOR
