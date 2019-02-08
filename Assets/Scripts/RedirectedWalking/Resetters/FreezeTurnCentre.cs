@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// Class employing a modified version of the Freeze - Turn reset method.
-/// World rotation is only "frozen" on the y axis, the physical bounds are faded in and the user is asked to look towards the centre of the room. 
+/// World rotation is only "frozen" on the y axis, the physical bounds are faded in and the user is asked to look towards the centre of the room.
 /// </summary>
 public class FreezeTurnCentre : Resetter
 {
@@ -29,7 +29,7 @@ public class FreezeTurnCentre : Resetter
         if (_safetyMode)
         {
             return IsUserOutOfBounds();
-        } 
+        }
         else
         {
             return !isUserFacingAwayFromWall();
@@ -38,16 +38,16 @@ public class FreezeTurnCentre : Resetter
 
     public override void InitializeReset()
     {
+        _redirectionManagerER.SetWorldPauseState(true);
         SetResetVisuals();
         _redirectionManagerER.FadeTrackingSpace(true);
-        _redirectionManagerER.SetWorldPauseState(true);
     }
 
     public override void ApplyResetting()
     {
         // The view of the virtual environment will be frozen while the virtual representation of the tracking space still works normally.
         InjectRotation(-_redirectionManagerER.deltaDir);
-        var dotProductFaceAndCentre = Vector2.Dot(Redirection.Utilities.FlattenedDir2D(_redirectionManagerER.headTransform.forward), 
+        var dotProductFaceAndCentre = Vector2.Dot(Redirection.Utilities.FlattenedDir2D(_redirectionManagerER.headTransform.forward),
                                                   Redirection.Utilities.FlattenedDir2D(_redirectionManagerER.headTransform.position - _redirectionManagerER.trackedSpace.position));
 
         // -1 would in this case mean pointing directly at the centre. Some error is acceptable
@@ -68,6 +68,12 @@ public class FreezeTurnCentre : Resetter
         Destroy(_resetVisualObjectInstance.gameObject);
         _redirectionManagerER.FadeTrackingSpace(false);
         _redirectionManagerER.SetWorldPauseState(false);
+
+        // If we are still in the tutorial. Resets can trigger special text boxes.
+        if(!_redirectionManagerER._gameManager._gameStarted)
+        {
+            _redirectionManagerER._gameManager.EventTriggerDialogue();
+        }
     }
 
     public void SetResetVisuals()
@@ -80,6 +86,10 @@ public class FreezeTurnCentre : Resetter
         _resetVisualObjectInstance = Instantiate(_resetVisualObjectPrefab);
         _resetVisualObjectInstance.transform.parent = _redirectionManagerER.trackedSpace;
         _resetVisualObjectInstance.transform.localPosition = new Vector3(0, _redirectionManagerER.headTransform.position.y, 0);
+
+        var animatedCharacter = _resetVisualObjectInstance.GetComponent<AnimatedCharacter>();
+        animatedCharacter.LookAtPosition(_redirectionManagerER.headTransform.position);
+        animatedCharacter.AnimationTrigger("Jumps");
     }
 
     public override void SimulatedWalkerUpdate()

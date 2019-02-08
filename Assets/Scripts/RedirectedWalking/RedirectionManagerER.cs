@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// TODO: Documentation for all redirection related scripts should be in full doxygen. 
+/// TODO: Documentation for all redirection related scripts should be in full doxygen.
 /// </summary>
 public class RedirectionManagerER : RedirectionManager
 {
@@ -21,8 +21,11 @@ public class RedirectionManagerER : RedirectionManager
     [HideInInspector]
     public Vector3 _centreToHead = Vector3.zero;
 
+    [HideInInspector]
+    public GameManager _gameManager;
+
     // TODO: The choice of distractor can probably be semi random by using a stack or queue. Pick one randomly, remove it from the container, pick next one randomly etc
-    //       This container is then reset once everything has been picked once. 
+    //       This container is then reset once everything has been picked once.
     private List<GameObject> _distractorPrefabPool = new List<GameObject>();
     private Distractor _currentActiveDistractor = null;
     private float _baseMinimumRotationGain = 0f;
@@ -39,7 +42,6 @@ public class RedirectionManagerER : RedirectionManager
     private MeshRenderer _chaperoneVisuals;
     private GameObject _virtualWorld;
     private UIManager _uiManager;
-    private GameManager _gameManager;
 
     private CircularBuffer.CircularBuffer<Vector3> _positionSamples;
     private float _sampleTimer = 0f;
@@ -97,7 +99,7 @@ public class RedirectionManagerER : RedirectionManager
         if (_distractorIsActive && FutureDirectionIsAlignedToCentre() && !inReset)
         {
             // This approach should keep the smoothing which is nice
-            // NOTE: This will run every frame once alignment is finished. 
+            // NOTE: This will run every frame once alignment is finished.
             MAX_ROT_GAIN = 0f;
             MIN_ROT_GAIN = 0f;
         }
@@ -154,6 +156,9 @@ public class RedirectionManagerER : RedirectionManager
 
     public void SetWorldPauseState(bool isPaused)
     {
+        // NOTE: This approach might not be ideal performance wise.
+        _pausables.Clear();
+        _pausables.AddRange(FindObjectsOfType<Pausable>());
         foreach (var pausable in _pausables)
         {
             pausable.SetPauseState(isPaused);
@@ -162,7 +167,7 @@ public class RedirectionManagerER : RedirectionManager
 
     /// <summary>
     /// Can be used to fade the environment out and the physical space in.
-    /// The primary use case for this would be custom reset methods. 
+    /// The primary use case for this would be custom reset methods.
     /// </summary>
     /// <param name="fadePhysicalSpaceIn">Whether to fade in or out.</param>
     public void FadeTrackingSpace(bool fadePhysicalSpaceIn)
@@ -173,7 +178,7 @@ public class RedirectionManagerER : RedirectionManager
     }
 
     /// <summary>
-    /// Interpolates the alpha values for the physical tracking space. 
+    /// Interpolates the alpha values for the physical tracking space.
     /// </summary>
     /// <param name="environmentAlphaTarget"></param>
     /// <param name="floorAlphaTarget"></param>
@@ -191,7 +196,7 @@ public class RedirectionManagerER : RedirectionManager
         {
             lerpTimer += Time.deltaTime * _trackingSpaceFadeSpeed;
 
-            // To make sure that the environment is slightly visible, 0.99 is used as the max alpha. 
+            // To make sure that the environment is slightly visible, 0.99 is used as the max alpha.
             cubeColorTemp.a = Mathf.Lerp(cubeAlphaStart, fadePhysicalSpaceIn ? 0.99f : 0, lerpTimer);
             floorColorTemp.a = Mathf.Lerp(floorAlphaStart, fadePhysicalSpaceIn ? 1 : 0, lerpTimer);
             chaperoneColorTemp.a = floorColorTemp.a;
@@ -213,7 +218,7 @@ public class RedirectionManagerER : RedirectionManager
     /// <returns></returns>
     private bool FutureDirectionIsAlignedToCentre()
     {
-        // TODO: Might refactor updating centreToHead away if necessary later as it wont change much. 
+        // TODO: Might refactor updating centreToHead away if necessary later as it wont change much.
         _centreToHead = Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position);
         var dotProduct = Vector3.Dot(_futureVirtualWalkingDirection, _centreToHead);
 

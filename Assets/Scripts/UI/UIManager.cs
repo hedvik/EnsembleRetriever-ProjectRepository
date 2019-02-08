@@ -27,13 +27,13 @@ public class UIManager : MonoBehaviour
 #if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.T))
             {
-                UpdateTextToNextSnippet();
+                NextDialogueSnippet(false);
             }
 #endif
 
             if (SteamVR.active && SteamVR_Actions._default.Teleport[SteamVR_Input_Sources.Any].state)
             {
-                UpdateTextToNextSnippet();
+                NextDialogueSnippet(false);
             }
 
             _currentlyActiveTextBox.transform.LookAt(_redirectorManager.headTransform.position);
@@ -45,51 +45,73 @@ public class UIManager : MonoBehaviour
         StartCoroutine(QueueDialogueSourceChange(triggerReceiver, typeInfo, dialogueBox, textLines));
     }
 
-    public void FinishDialogue()
+    public void EventTriggerSnippet()
     {
-        StartCoroutine(ChangeMenuVisibilityAnimation(false, true));
+        StartCoroutine(ChangeMenuVisibilityAnimation(true));
+        NextDialogueSnippet(true);
     }
 
-    private void UpdateTextToNextSnippet()
+    private void NextDialogueSnippet(bool eventTrigger)
+    {
+        // If the current textbox makes use of an eventTrigger, then controller/keyboard inputs are not allowed to advance it
+        if(!eventTrigger && (_currentDialogueSnippet != null && _currentDialogueSnippet._eventTriggered))
+        {
+            return;
+        }
+        CheckEndTriggers();
+        if (_currentDialogueList.Count != 0)
+        {
+            _currentDialogueSnippet = _currentDialogueList.Dequeue();
+            _currentlyActiveText.text = _currentDialogueSnippet._text;
+            CheckStartTriggers();
+        }
+        else
+        {
+            StartCoroutine(ChangeMenuVisibilityAnimation(false));
+        }
+    }
+
+    private void CheckStartTriggers()
+    {
+        // Running the start function trigger on a dialogue snippet if available
+        if (!string.IsNullOrEmpty(_currentDialogueSnippet._functionTriggerStart) && _currentTriggerReceiver != null)
+        {
+            TriggerFunction(_currentDialogueSnippet._functionTriggerStart, _currentDialogueSnippet._stringParameterStart);
+        }
+    }
+
+    private void CheckEndTriggers()
     {
         // Running the end function trigger on a dialogue snippet if available
         if (_currentDialogueSnippet != null && !string.IsNullOrEmpty(_currentDialogueSnippet._functionTriggerEnd) && _currentTriggerReceiver != null)
         {
             TriggerFunction(_currentDialogueSnippet._functionTriggerEnd, _currentDialogueSnippet._stringParameterEnd);
         }
-
-        if (_currentDialogueList.Count != 0)
-        {
-            _currentDialogueSnippet = _currentDialogueList.Dequeue();
-            _currentlyActiveText.text = _currentDialogueSnippet._text;
-
-            // Running the start function trigger on a dialogue snippet if available
-            if (!string.IsNullOrEmpty(_currentDialogueSnippet._functionTriggerStart) && _currentTriggerReceiver != null)
-            {
-                TriggerFunction(_currentDialogueSnippet._functionTriggerStart, _currentDialogueSnippet._stringParameterStart);
-            }
-        }
-        else
-        {
-            FinishDialogue();
-        }
     }
 
-    private IEnumerator ChangeMenuVisibilityAnimation(bool displaying, bool finalDialogue)
+    private IEnumerator ChangeMenuVisibilityAnimation(bool displaying)
     {
         var lerpTimer = 0f;
         var currentScale = _currentlyActiveTextBox.transform.localScale;
+        var startScale = currentScale.y;
+        var targetScale = displaying ? 1f : 0f;
+
+        if (Mathf.Approximately(startScale, targetScale))
+        {
+            yield break;
+        }
 
         while (lerpTimer <= 1f)
         {
             lerpTimer += Time.deltaTime * _menuDisplaySpeed;
-            currentScale.y = Mathf.Lerp(displaying ? 0 : 1, displaying ? 1 : 0, lerpTimer);
+            currentScale.y = Mathf.Lerp(startScale, targetScale, lerpTimer);
 
             _currentlyActiveTextBox.transform.localScale = currentScale;
             yield return null;
         }
 
-        if(finalDialogue)
+
+        if (!displaying && _currentDialogueList.Count == 0)
         {
             Cleanup();
         }
@@ -108,9 +130,8 @@ public class UIManager : MonoBehaviour
         _currentlyActiveText = _currentlyActiveTextBox.GetComponentInChildren<Text>();
         _currentTriggerReceiver = triggerReceiver;
         _currentTriggerReceiverType = typeInfo;
-        UpdateTextToNextSnippet();
-
-        StartCoroutine(ChangeMenuVisibilityAnimation(true, false));
+        NextDialogueSnippet(false);
+        StartCoroutine(ChangeMenuVisibilityAnimation(true));
     }
 
     private void TriggerFunction(string functionName, string param)
