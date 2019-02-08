@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882bf00422c32e541977e7f3e048f879, type: 3}
   m_Name: StartGame0
   m_EditorClassIdentifier: 
-  _text: 'Hello and welcome to <color=#00ff00ff>Ensemble Retriever</color>! Press
-    the below button on either controller to start the tutorial!
-
-'
+  _text: 'Hello and welcome to <color=#00ff00ff>Ensemble Retriever</color>! You can
+    advance dialogue boxes by pressing the below button:'
   _voiceLine: {fileID: 0}
   _functionTriggerStart: 
   _stringParameterStart: 
-  _functionTriggerEnd: StartTutorial
+  _functionTriggerEnd: 
   _stringParameterEnd: 
+  _eventTriggered: 0

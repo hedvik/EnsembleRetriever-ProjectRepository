@@ -10,16 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 882bf00422c32e541977e7f3e048f879, type: 3}
-  m_Name: tut0
+  m_Name: tut5
   m_EditorClassIdentifier: 
-  _text: 'Greetings <color=#00FF00>Conductor</color>! It seems like one of your instruments:
-    the <color=#800080>Mountain King</color>, has decided to run away and create an
-    ensemble of his own. How rude!'
+  _text: I will show up to help whenever you get close to these outer bounds so dont
+    worry about crashing into any walls!
   _voiceLine: {fileID: 0}
-  _functionTriggerStart: TeleportToStringPosition
-  _stringParameterStart: (0, 2, -5)
+  _functionTriggerStart: 
+  _stringParameterStart: 
   _functionTriggerEnd: 
   _stringParameterEnd: 
-  _eventTriggeredBox: 0
-  _boxStateOnEnd: 1
-  _boxStateOnStart: 1
+  _eventTriggered: 0

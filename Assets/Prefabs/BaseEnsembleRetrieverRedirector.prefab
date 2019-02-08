@@ -90,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 1950792065969311442}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.77, z: 0}
-  m_LocalScale: {x: 1, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 7, z: 1}
   m_Children: []
   m_Father: {fileID: 3331080996621382299}
   m_RootOrder: 3
@@ -487,6 +487,8 @@ MonoBehaviour:
   inReset: 0
   startTimeOfProgram: 
   _trackingSpaceFadeSpeed: 5
+  _alwaysDisplayTrackingFloor: 0
+  _positionSamplesPerSecond: 60
   _distractorIsActive: 0
   _futureVirtualWalkingDirection: {x: 0, y: 0, z: 0}
   _centreToHead: {x: 0, y: 0, z: 0}

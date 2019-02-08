@@ -6,7 +6,7 @@ using Redirection;
 /// <summary>
 /// Align Centre To Future Redirector.
 /// Based on what Peck et al. described for their modified S2C algorithm.
-/// This redirector makes use of rotation gains to attempt aligning the future virtual walking direction through the centre of the tracking space. 
+/// This redirector makes use of rotation gains to attempt aligning the future virtual walking direction through the centre of the tracking space.
 /// </summary>
 public class AC2FRedirector : Redirector
 {
@@ -33,10 +33,10 @@ public class AC2FRedirector : Redirector
     {
         // Get Required Data
         var deltaDir = redirectionManager.deltaDir;
-        
+
         _rotationFromRotationGain = 0;
 
-        // The steering direction is used to determine whether rotations are clockwise or counter clockwise. 
+        // The steering direction is used to determine whether rotations are clockwise or counter clockwise.
         var desiredSteeringDirection = (-1) * (int)Mathf.Sign(Utilities.GetSignedAngle(_redirectionManagerER._centreToHead, _redirectionManagerER._futureVirtualWalkingDirection));
 
         // If user is rotating
@@ -44,13 +44,13 @@ public class AC2FRedirector : Redirector
         {
             // Calculate gains
             var againstGain = deltaDir * redirectionManager.MIN_ROT_GAIN;
-            var withGain = deltaDir * redirectionManager.MAX_ROT_GAIN; 
-            
+            var withGain = deltaDir * redirectionManager.MAX_ROT_GAIN;
+
             // The resulting dot products from applying gains to the vector from the centre of the physical space to the user head
             var dotFromAgainst = Vector3.Dot(Quaternion.AngleAxis(againstGain, Vector3.up) * _redirectionManagerER._centreToHead, _redirectionManagerER._futureVirtualWalkingDirection);
             var dotFromWith = Vector3.Dot(Quaternion.AngleAxis(withGain, Vector3.up) * _redirectionManagerER._centreToHead, _redirectionManagerER._futureVirtualWalkingDirection);
 
-            // The the gain that provides the closest dot product to the target is chosen. 
+            // The the gain that provides the closest dot product to the target is chosen.
             // The target in this case is aligning the future virtual direction with (trackingSpaceCentre - headPosition)
             if (dotFromAgainst < dotFromWith)
             {
@@ -58,7 +58,7 @@ public class AC2FRedirector : Redirector
             }
             else
             {
-                _rotationFromRotationGain =  Mathf.Min(Mathf.Abs(deltaDir * redirectionManager.MAX_ROT_GAIN), _ROTATION_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
+                _rotationFromRotationGain = Mathf.Min(Mathf.Abs(deltaDir * redirectionManager.MAX_ROT_GAIN), _ROTATION_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
             }
         }
 
@@ -70,9 +70,9 @@ public class AC2FRedirector : Redirector
             return;
         }
 
-        // TODO: Some dampening would be nice so changes are less jarring 
+        // TODO: Some dampening would be nice so changes are less jarring
         // If there has been some change in gain
-        //    Interpolate from one gain to the other
+        //    Smoothly move from lastApplied towards what we want to apply right now
 
         // Azmandian et al.'s smoothing implementation
         var finalRotation = (1.0f - _SMOOTHING_FACTOR) * _lastRotationApplied + _SMOOTHING_FACTOR * rotationProposed;

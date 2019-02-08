@@ -13,4 +13,5 @@ public class DialogueSnippet : ScriptableObject
     public string _stringParameterStart;
     public string _functionTriggerEnd;
     public string _stringParameterEnd;
+    public bool _eventTriggered = false;
 }

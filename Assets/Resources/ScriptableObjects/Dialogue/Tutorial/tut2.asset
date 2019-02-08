@@ -12,7 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882bf00422c32e541977e7f3e048f879, type: 3}
   m_Name: tut2
   m_EditorClassIdentifier: 
-  _text: Hopefully it works out :p
+  _text: Let's start with the safety measures first! I will move outside the edge
+    of your <color=#00FF00>physical tracking space</color>. Try following me and see
+    what happens!
   _voiceLine: {fileID: 0}
-  _animationTrigger: 
-  _functionTrigger: 
+  _functionTriggerStart: 
+  _stringParameterStart: 
+  _functionTriggerEnd: MoveByStringVector
+  _stringParameterEnd: (0, 0, -4)
+  _nextBoxIsEventTrigger: 1
+  _boxStateOnEnd: 0
+  _boxStateOnStart: 1

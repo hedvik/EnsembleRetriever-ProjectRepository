@@ -5,18 +5,26 @@ using UnityEngine;
 
 
 // Scriptable interface for programmatic animation and movement
-public class AnimatedCharacter : MonoBehaviour
+public class AnimatedCharacter : Pausable
 {
+    public float _movementSpeed = 5f;
     public ParticleSystem _teleportParticles;
     public AudioClip _teleportSound;
 
     private AudioSource _audioSource;
     private Animator _animator;
+    private RedirectionManagerER _redirectionManager;
 
-    private void Start()
+    private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
+        _redirectionManager = GameObject.FindGameObjectWithTag("RedirectionManager").GetComponent<RedirectionManagerER>();
+    }
+
+    protected override void PauseStateChange()
+    {
+        _animator.enabled = !_isPaused;
     }
 
     public void AnimationTrigger(string trigger)
@@ -24,7 +32,7 @@ public class AnimatedCharacter : MonoBehaviour
         _animator.SetTrigger(trigger);
     }
 
-    public void TeleportTo(string position)
+    public void TeleportToStringPosition(string position)
     {
         _teleportParticles.Play();
         _audioSource.PlayOneShot(_teleportSound);
@@ -32,9 +40,45 @@ public class AnimatedCharacter : MonoBehaviour
         transform.position = StringToVector3(position);
     }
 
-    public void LookTowards(string target)
+    public void TeleportToPosition(Vector3 position)
     {
-        // TODO: use coroutine for it
+        _teleportParticles.Play();
+        _audioSource.PlayOneShot(_teleportSound);
+
+        transform.position = position;
+    }
+
+    public void LookAtStringPositon(string target)
+    {
+        Debug.LogError("This function is not yet implemented!");
+    }
+
+    public void LookAtPosition(Vector3 target)
+    {
+        transform.LookAt(target);
+    }
+
+    public void MoveByStringVector(string vector)
+    {
+        StartCoroutine(MoveToPosition(transform.position + StringToVector3(vector)));
+    }
+
+    public void StartGame()
+    {
+        _redirectionManager._gameManager.StartGame();
+    }
+
+    private IEnumerator MoveToPosition(Vector3 position)
+    {
+        var startPosition = transform.position;
+        var lerpTimer = 0f;
+
+        while(lerpTimer <= 1)
+        {
+            lerpTimer += Time.deltaTime * _movementSpeed;
+            transform.position = Vector3.Lerp(startPosition, position, lerpTimer);
+            yield return null;
+        }
     }
 
     // https://answers.unity.com/questions/1134997/string-to-vector3.html
