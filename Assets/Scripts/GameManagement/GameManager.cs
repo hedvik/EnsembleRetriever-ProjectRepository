@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     private Queue<DialogueSnippet> _tutorialDialogue;
     private RedirectionManagerER _redirectionManager;
 
-    private void Start()
+    private void Awake()
     {
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         _startGameDialogue = new Queue<DialogueSnippet>(Resources.LoadAll<DialogueSnippet>("ScriptableObjects/Dialogue/StartGame"));
@@ -61,5 +61,10 @@ public class GameManager : MonoBehaviour
     public void EventTriggerDialogue()
     {
         _uiManager.EventTriggerSnippet();
+    }
+
+    public PlayerManager GetCurrentPlayerManager()
+    {
+        return _redirectionManager.GetComponentInChildren<PlayerManager>();
     }
 }
