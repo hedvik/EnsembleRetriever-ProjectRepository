@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 // Scriptable interface for programmatic animation and movement
-public class AnimatedCharacter : Pausable
+public class AnimatedCharacterInterface : Pausable
 {
     public float _movementSpeed = 5f;
     public ParticleSystem _teleportParticles;
@@ -14,6 +14,10 @@ public class AnimatedCharacter : Pausable
     private AudioSource _audioSource;
     private Animator _animator;
     private RedirectionManagerER _redirectionManager;
+
+    #region TutorialRelated
+    private bool _attackTutorialActive = false;
+    #endregion
 
     private void Awake()
     {
@@ -67,6 +71,39 @@ public class AnimatedCharacter : Pausable
     {
         _redirectionManager._gameManager.StartGame();
     }
+
+    #region TutorialSpecificFunctions
+    public void StartTutorialAttacks()
+    {
+        _attackTutorialActive = true;
+        StartCoroutine(TutorialAttackPhase());
+    }
+
+    // A quick and dirty coroutine so the tutorial NPC can throw attacks
+    private IEnumerator TutorialAttackPhase()
+    {
+        var tutorialPhase = Resources.Load<EnemyPhase>("ScriptableObjects/EnemyPhases/Tutorial/Normal");
+        var attackTimer = 0f;
+        var tutorialAttack = tutorialPhase._enemyAttacks[0];
+
+        while(_attackTutorialActive)
+        {
+            if (!_isPaused)
+            {
+                attackTimer += Time.deltaTime;
+
+                if (attackTimer >= tutorialPhase._attackCooldown)
+                {
+                    attackTimer -= tutorialPhase._attackCooldown;
+                    var projectile = Instantiate(tutorialAttack._attackPrefab, transform.position + transform.forward, Quaternion.identity).GetComponent<BasicProjectile>();
+                    projectile.Initialise(tutorialAttack, _redirectionManager.headTransform);
+                    _audioSource.PlayOneShot(tutorialAttack._spawnAudio, tutorialAttack._spawnAudioScale);
+                }
+            }
+            yield return null;
+        }
+    }
+    #endregion
 
     private IEnumerator MoveToPosition(Vector3 position)
     {

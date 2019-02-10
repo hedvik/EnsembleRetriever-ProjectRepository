@@ -7,6 +7,7 @@ public class EnemyAttack : ScriptableObject
 {
     [Header("Visuals and Animation")]
     public GameObject _attackPrefab;
+    public Vector3 _visualsScale;
 
     [Tooltip("If null, keeps material of _attackPrefab. Otherwise overrides it.")]
     public Material _attackMaterial;

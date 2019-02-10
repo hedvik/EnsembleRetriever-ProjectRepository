@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882bf00422c32e541977e7f3e048f879, type: 3}
   m_Name: tut9
   m_EditorClassIdentifier: 
-  _text: Try to shield yourself from my attack!
+  _text: Try to shield yourself from my attacks!
   _voiceLine: {fileID: 0}
-  _functionTriggerStart: 
+  _functionTriggerStart: StartTutorialAttacks
   _stringParameterStart: 
   _functionTriggerEnd: 
   _stringParameterEnd: 

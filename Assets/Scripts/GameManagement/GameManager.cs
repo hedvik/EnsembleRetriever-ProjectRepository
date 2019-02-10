@@ -8,7 +8,7 @@ using System.Linq;
 public class GameManager : MonoBehaviour
 {
     public GameObject _startGameTextBox;
-    public AnimatedCharacter _tutorialInstrument;
+    public AnimatedCharacterInterface _tutorialInstrument;
     public bool _skipTutorial;
 
     [HideInInspector]
@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     private Queue<DialogueSnippet> _startGameDialogue;
     private Queue<DialogueSnippet> _tutorialDialogue;
     private RedirectionManagerER _redirectionManager;
+
+    private bool _shieldEventTriggered = false;
 
     private void Awake()
     {
@@ -43,7 +45,7 @@ public class GameManager : MonoBehaviour
         if (!_skipTutorial)
         {
             _tutorialInstrument.gameObject.SetActive(true);
-            _uiManager.ActivateDialogue(_tutorialInstrument, typeof(AnimatedCharacter).GetTypeInfo(), _tutorialInstrument.transform.GetChild(0).gameObject, _tutorialDialogue);
+            _uiManager.ActivateDialogue(_tutorialInstrument, typeof(AnimatedCharacterInterface).GetTypeInfo(), _tutorialInstrument.transform.GetChild(0).gameObject, _tutorialDialogue);
         }
         else
         {
@@ -65,6 +67,15 @@ public class GameManager : MonoBehaviour
     public void EventTriggerDialogue()
     {
         _uiManager.EventTriggerSnippet();
+    }
+
+    public void ShieldEventTriggerDialogue()
+    {
+        if (!_shieldEventTriggered)
+        {
+            _uiManager.EventTriggerSnippet();
+            _shieldEventTriggered = true;
+        }
     }
 
     public PlayerManager GetCurrentPlayerManager()

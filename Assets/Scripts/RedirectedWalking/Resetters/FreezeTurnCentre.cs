@@ -69,7 +69,7 @@ public class FreezeTurnCentre : Resetter
         _redirectionManagerER.FadeTrackingSpace(false);
         _redirectionManagerER.SetWorldPauseState(false);
 
-        // If we are still in the tutorial. Resets can trigger special text boxes.
+        // If we are still in the tutorial. Resets can trigger event text boxes.
         if(!_redirectionManagerER._gameManager._gameStarted)
         {
             _redirectionManagerER._gameManager.EventTriggerDialogue();
@@ -87,7 +87,7 @@ public class FreezeTurnCentre : Resetter
         _resetVisualObjectInstance.transform.parent = _redirectionManagerER.trackedSpace;
         _resetVisualObjectInstance.transform.localPosition = new Vector3(0, _redirectionManagerER.headTransform.position.y, 0);
 
-        var animatedCharacter = _resetVisualObjectInstance.GetComponent<AnimatedCharacter>();
+        var animatedCharacter = _resetVisualObjectInstance.GetComponent<AnimatedCharacterInterface>();
         animatedCharacter.LookAtPosition(_redirectionManagerER.headTransform.position);
         animatedCharacter.AnimationTrigger("Jumps");
     }

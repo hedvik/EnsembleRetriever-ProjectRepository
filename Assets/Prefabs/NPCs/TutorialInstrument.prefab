@@ -43,9 +43,10 @@ GameObject:
   - component: {fileID: 5646779019583372912}
   - component: {fileID: 4595783451275030724}
   - component: {fileID: 2849696706442311637}
+  - component: {fileID: 699832762466206542}
   m_Layer: 9
   m_Name: TutorialInstrument
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -197,6 +198,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &699832762466206542
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5646779019583372914}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.3639374, y: 3.0932488, z: 0.60830414}
+  m_Center: {x: 0.0057906806, y: 0.32520747, z: 0.19584793}
 --- !u!1 &5646779019877601756
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,10 +412,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5646779019583372915}
     m_Modifications:
-    - target: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
       propertyPath: m_Name
       value: TeleportParticles
@@ -466,6 +476,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
 --- !u!4 &1942075869666306407 stripped
@@ -487,6 +501,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5646779019583372915}
     m_Modifications:
+    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
+      propertyPath: m_Name
+      value: TextBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.821
@@ -534,14 +556,6 @@ PrefabInstance:
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalScale.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
-      propertyPath: m_Name
-      value: TextBox
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
-      propertyPath: m_Layer
-      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1347623075794840, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_Layer

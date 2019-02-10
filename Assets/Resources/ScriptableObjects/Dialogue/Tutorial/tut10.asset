@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882bf00422c32e541977e7f3e048f879, type: 3}
   m_Name: tut10
   m_EditorClassIdentifier: 
-  _text: 'Great! Try to keep shielding my attacks. Shielding attacks charges up your
-    <color=#ffa500ff>conductor baton</color>! Once it starts pulsating, you are able
-    to counterattack by using the trigger button on the back of your controller. '
+  _text: Great! Shielding attacks charges up your <color=#ffa500ff>conductor baton</color>!
+    Once it starts pulsating, you are able to counterattack by using the trigger button
+    on the back of your controller. Try it out!
   _voiceLine: {fileID: 0}
   _functionTriggerStart: 
   _stringParameterStart: 

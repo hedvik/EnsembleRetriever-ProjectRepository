@@ -17,15 +17,21 @@ public class PlayerShield : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // TODO: If in tutorial, trigger box as well
         if (other.CompareTag("projectile"))
         {
-            //var projectile = other.gameObject.GetComponent<Projectile>();
-            //_playerManager.AddCharge(projectile._chargeValue);
-            //projectile.Destroy();
+            var projectile = other.gameObject.GetComponent<ProjectileAttack>();
+            _playerManager.AddCharge(projectile._chargeValue);
+            projectile.Destroy();
 
-            //_particleSystem.transform.position = other.transform.position;
-            //_particleSystem.Play();
-            //_playerManager._audioSource.PlayOneShot(_playerManager._absorbSound);
+            _particleSystem.transform.position = other.transform.position;
+            _particleSystem.Play();
+            _playerManager._audioSource.PlayOneShot(_playerManager._absorbSound);
+
+            if(!_gameManager._gameStarted)
+            {
+                _gameManager.ShieldEventTriggerDialogue();
+            }
         }
     }
 }

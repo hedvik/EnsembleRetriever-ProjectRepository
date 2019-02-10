@@ -10,8 +10,6 @@ public class ProjectileAttack : Pausable
     [HideInInspector]
     public float _movementSpeed = 1;
     [HideInInspector]
-    public float _damageValue = 0f;
-    [HideInInspector]
     public float _chargeValue = 10f;
     [HideInInspector]
     public Transform _targetTransform;
@@ -23,6 +21,14 @@ public class ProjectileAttack : Pausable
     {
         _translating = true;
         _collider = GetComponent<BoxCollider>();
+    }
+
+    public void Initialise(EnemyAttack attack, Transform target)
+    {
+        _movementSpeed = attack._attackSpeed;
+        _chargeValue = attack._attackChargeAmount;
+        transform.localScale = attack._visualsScale;
+        _targetTransform = target;
     }
 
     public void Destroy()
@@ -42,6 +48,8 @@ public class ProjectileAttack : Pausable
             transform.localScale = Vector3.Lerp(baseScale, Vector3.zero, timer);
             yield return null;
         }
+
+        Destroy(gameObject);
     }
 
     protected override void PauseStateChange()
