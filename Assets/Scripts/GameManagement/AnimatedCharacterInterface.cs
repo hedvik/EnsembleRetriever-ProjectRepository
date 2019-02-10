@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 
-
-// Scriptable interface for programmatic animation and movement
+/// <summary>
+/// "Scriptable"(from dialogue snippets) interface for programmatic animation and movement.
+/// Also contains some tutorial related functionality.
+/// </summary>
 public class AnimatedCharacterInterface : Pausable
 {
     public float _movementSpeed = 5f;
@@ -72,6 +74,8 @@ public class AnimatedCharacterInterface : Pausable
         _redirectionManager._gameManager.StartGame();
     }
 
+    // TODO: Might eventually just put the meat of these into a "fake" distractor that doesn't interface with RedirectionManagerER. 
+    //       That would make a bit more sense.
     #region TutorialSpecificFunctions
     public void StartTutorialAttacks()
     {

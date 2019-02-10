@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private RedirectionManagerER _redirectionManager;
 
     private bool _shieldEventTriggered = false;
+    private bool _resetEventTriggered = false;
 
     private void Awake()
     {
@@ -64,9 +65,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void EventTriggerDialogue()
+    public void ResetEventTriggerDialogue()
     {
-        _uiManager.EventTriggerSnippet();
+        if (!_resetEventTriggered)
+        {
+            _uiManager.EventTriggerSnippet();
+            _resetEventTriggered = true;
+        }
     }
 
     public void ShieldEventTriggerDialogue()

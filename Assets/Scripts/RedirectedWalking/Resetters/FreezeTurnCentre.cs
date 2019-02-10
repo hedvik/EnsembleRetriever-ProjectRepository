@@ -72,7 +72,7 @@ public class FreezeTurnCentre : Resetter
         // If we are still in the tutorial. Resets can trigger event text boxes.
         if(!_redirectionManagerER._gameManager._gameStarted)
         {
-            _redirectionManagerER._gameManager.EventTriggerDialogue();
+            _redirectionManagerER._gameManager.ResetEventTriggerDialogue();
         }
     }
 
