@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c223800ba6f57c4b8e9a903c185ce47, type: 3}
+  m_Name: TutorialProjectile
+  m_EditorClassIdentifier: 
+  _attackPrefab: {fileID: 1247011670433890, guid: 7cdb46995c595f540a1956804be26a86,
+    type: 3}
+  _attackMaterial: {fileID: 0}
+  _attackSpeed: 5
+  _telegraphAnimationTrigger: 
+  _attackChargeAmount: 50
+  _telegraphAudio: {fileID: 0}
+  _telegraphAudioScale: 0
+  _spawnAudio: {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
+  _spawnAudioScale: 1

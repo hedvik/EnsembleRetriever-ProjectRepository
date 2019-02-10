@@ -51,7 +51,7 @@ public class PlayerManager : MonoBehaviour
 
         _vignette = GameObject.Find("PostProcessing").GetComponent<PostProcessVolume>().profile.GetSetting<Vignette>();
 
-        AddCharge(_maxBatonCharge);
+        ResetBaton();
     }
 
     private void Update()
