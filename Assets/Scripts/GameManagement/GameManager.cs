@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
 
         if (!_skipTutorial)
         {
-            _tutorialInstrument.AnimationTrigger("Leave");
+            _tutorialInstrument.GetComponent<TutorialNPC>().FinishTutorial();
         }
     }
 

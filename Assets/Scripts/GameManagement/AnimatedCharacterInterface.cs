@@ -55,11 +55,13 @@ public class AnimatedCharacterInterface : Pausable
         transform.position = position;
     }
 
-    public void LookAtStringPositon(string target)
+    // TODO: Interpolate animation
+    public void LookAtStringPosition(string target)
     {
-        Debug.LogError("This function is not yet implemented!");
+        transform.LookAt(StringToVector3(target));
     }
 
+    // TODO: Interpolate animation
     public void LookAtPosition(Vector3 target)
     {
         transform.LookAt(target);

@@ -19,6 +19,19 @@ public class TutorialNPC : DistractorEnemy
         _attackTutorialActive = false;
     }
 
+    public void FinishTutorial()
+    {
+        _animatedInterface.AnimationTrigger("Leave");
+        StartCoroutine(DisableTutorial());
+    }
+
+    private IEnumerator DisableTutorial()
+    {
+        // HACK: Quick way to disable after animation is done
+        yield return new WaitForSeconds(1.5f);
+        gameObject.SetActive(false);
+    }
+
     private IEnumerator TutorialAttackPhase()
     {
         var tutorialPhase = Resources.Load<EnemyPhase>("ScriptableObjects/EnemyPhases/Tutorial/Normal");

@@ -22,4 +22,4 @@ MonoBehaviour:
   _telegraphAudio: {fileID: 0}
   _telegraphAudioScale: 0
   _spawnAudio: {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
-  _spawnAudioScale: 1
+  _spawnAudioScale: 0.75
