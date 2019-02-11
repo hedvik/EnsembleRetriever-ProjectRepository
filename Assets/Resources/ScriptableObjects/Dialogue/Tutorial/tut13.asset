@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 882bf00422c32e541977e7f3e048f879, type: 3}
-  m_Name: tut6
+  m_Name: tut12
   m_EditorClassIdentifier: 
-  _text: The <color=#800080>Mountain King's</color> ensemble will most likely try
-    to stop you during your adventure today so you should also learn the basics of
-    <color=#800000ff>conductor combat</color>!
+  _text: Before I leave, it might be a good idea to tell you where you can find the
+    <color=#800080>Mountain King</color>.
   _voiceLine: {fileID: 0}
-  _functionTriggerStart: AnimationTrigger
-  _stringParameterStart: Jumps
-  _functionTriggerEnd: AnimationTrigger
-  _stringParameterEnd: Idle
+  _functionTriggerStart: 
+  _stringParameterStart: 
+  _functionTriggerEnd: 
+  _stringParameterEnd: 
   _eventTriggered: 0

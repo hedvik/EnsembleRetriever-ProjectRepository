@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 
     private bool _shieldEventTriggered = false;
     private bool _resetEventTriggered = false;
+    private bool _attackEventTriggered = false;
 
     private void Awake()
     {
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
         {
             _tutorialInstrument.gameObject.SetActive(true);
             _uiManager.ActivateDialogue(_tutorialInstrument, typeof(AnimatedCharacterInterface).GetTypeInfo(), _tutorialInstrument.transform.GetChild(0).gameObject, _tutorialDialogue);
+            _tutorialInstrument.GetComponent<TutorialNPC>().InitialiseDistractor(_redirectionManager);
         }
         else
         {
@@ -80,6 +82,15 @@ public class GameManager : MonoBehaviour
         {
             _uiManager.EventTriggerSnippet();
             _shieldEventTriggered = true;
+        }
+    }
+
+    public void AttackEventTriggerDialogue()
+    {
+        if(!_attackEventTriggered)
+        {
+            _uiManager.EventTriggerSnippet();
+            _attackEventTriggered = true;
         }
     }
 

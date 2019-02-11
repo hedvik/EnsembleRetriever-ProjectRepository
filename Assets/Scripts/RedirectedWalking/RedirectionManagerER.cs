@@ -27,7 +27,7 @@ public class RedirectionManagerER : RedirectionManager
     // TODO: The choice of distractor can probably be semi random by using a stack or queue. Pick one randomly, remove it from the container, pick next one randomly etc
     //       This container is then reset once everything has been picked once.
     private List<GameObject> _distractorPrefabPool = new List<GameObject>();
-    private Distractor _currentActiveDistractor = null;
+    private DistractorEnemy _currentActiveDistractor = null;
     private float _baseMinimumRotationGain = 0f;
     private float _baseMaximumRotationGain = 0f;
     private float _baseCurvatureRadius = 0f;
@@ -136,7 +136,7 @@ public class RedirectionManagerER : RedirectionManager
         _baseMinimumRotationGain = MIN_ROT_GAIN;
         SwapRedirectionAlgorithm(true);
         // TODO: Request gain increase
-        _currentActiveDistractor = Instantiate(_distractorPrefabPool[Random.Range(0, _distractorPrefabPool.Count)], _virtualWorld.transform).GetComponent<Distractor>();
+        _currentActiveDistractor = Instantiate(_distractorPrefabPool[Random.Range(0, _distractorPrefabPool.Count)], _virtualWorld.transform).GetComponent<DistractorEnemy>();
         _currentActiveDistractor.InitialiseDistractor(this);
         _pausables.Add(_currentActiveDistractor);
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DebugDistractor : Distractor
+public class DebugDistractor : DistractorEnemy
 {
     public float _forwardOffsetFromPlayer;
     public ParticleSystem _spawnParticles;
@@ -13,7 +13,7 @@ public class DebugDistractor : Distractor
     {
         base.InitialiseDistractor(redirectionManager);
 
-        transform.position = _redirectionManagerER.headTransform.position + _redirectionManagerER.headTransform.forward * _forwardOffsetFromPlayer;
+        transform.position = _redirectionManager.headTransform.position + _redirectionManager.headTransform.forward * _forwardOffsetFromPlayer;
         _spawnParticles.Play();
 
         StartCoroutine(RotateAroundPlayer());
@@ -28,11 +28,11 @@ public class DebugDistractor : Distractor
             if (!_isPaused)
             {
                 timer += Time.deltaTime;
-                transform.RotateAround(_redirectionManagerER.headTransform.position, Vector3.up, _rotationSpeed * Time.deltaTime);
+                transform.RotateAround(_redirectionManager.headTransform.position, Vector3.up, _rotationSpeed * Time.deltaTime);
             }
             yield return null;
         }
 
-        _redirectionManagerER.OnDistractorEnd();
+        _redirectionManager.OnDistractorEnd();
     }
 }

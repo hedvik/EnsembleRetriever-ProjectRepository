@@ -15,8 +15,8 @@ MonoBehaviour:
   _text: I will show up to help whenever you get close to these outer bounds so dont
     worry about crashing into any walls!
   _voiceLine: {fileID: 0}
-  _functionTriggerStart: 
-  _stringParameterStart: 
-  _functionTriggerEnd: 
-  _stringParameterEnd: 
+  _functionTriggerStart: AnimationTrigger
+  _stringParameterStart: Jumps
+  _functionTriggerEnd: AnimationTrigger
+  _stringParameterEnd: Idle
   _eventTriggered: 0

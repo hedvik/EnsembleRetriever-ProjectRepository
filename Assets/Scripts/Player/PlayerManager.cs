@@ -115,7 +115,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                // TODO: hit.gameObject.GetComponent<Enemy>().TakeDamage(_shotDamage);
+                hit.collider.gameObject.GetComponent<DistractorEnemy>().TakeDamage(_shotDamage);
                 attackEndPoint = hit.point;
             }
         }

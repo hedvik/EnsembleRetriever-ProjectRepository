@@ -12,20 +12,21 @@ public class AnimatedCharacterInterface : Pausable
     public float _movementSpeed = 5f;
     public ParticleSystem _teleportParticles;
     public AudioClip _teleportSound;
+    public AudioClip _groundCrashSound;
 
-    private AudioSource _audioSource;
+    [HideInInspector]
+    public AudioSource _audioSource;
+
     private Animator _animator;
     private RedirectionManagerER _redirectionManager;
-
-    #region TutorialRelated
-    private bool _attackTutorialActive = false;
-    #endregion
+    private BoxCollider _collider;
 
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
         _redirectionManager = GameObject.FindGameObjectWithTag("RedirectionManager").GetComponent<RedirectionManagerER>();
+        _collider = GetComponent<BoxCollider>();
     }
 
     protected override void PauseStateChange()
@@ -74,40 +75,60 @@ public class AnimatedCharacterInterface : Pausable
         _redirectionManager._gameManager.StartGame();
     }
 
-    // TODO: Might eventually just put the meat of these into a "fake" distractor that doesn't interface with RedirectionManagerER. 
-    //       That would make a bit more sense.
-    #region TutorialSpecificFunctions
     public void StartTutorialAttacks()
     {
-        _attackTutorialActive = true;
-        StartCoroutine(TutorialAttackPhase());
+        var tutorialNPC = GetComponent<TutorialNPC>();
+        tutorialNPC.InitialiseDistractor(_redirectionManager);
+        tutorialNPC.StartTutorialAttacks();
     }
 
-    // A quick and dirty coroutine so the tutorial NPC can throw attacks
-    private IEnumerator TutorialAttackPhase()
+    public void TakeDamageAnimation(string fallingAnimationTrigger, string onGroundAnimationTrigger, float fallSpeed, System.Action callbackOnFinish)
     {
-        var tutorialPhase = Resources.Load<EnemyPhase>("ScriptableObjects/EnemyPhases/Tutorial/Normal");
-        var attackTimer = 0f;
-        var tutorialAttack = tutorialPhase._enemyAttacks[0];
+        StartCoroutine(FallToFloorAnimation(fallingAnimationTrigger, onGroundAnimationTrigger, fallSpeed, callbackOnFinish));
+    }
 
-        while(_attackTutorialActive)
+    private IEnumerator FallToFloorAnimation(string fallingAnimationTrigger, string onGroundAnimationTrigger, float fallSpeed, System.Action callbackOnFinish)
+    {
+        // It is necessary to find the y value of the position that should be fallen to.
+        // Layer 9 contains the virtual environment
+        var positionToFallTowards = transform.position;
+        var layerBitMask = 1 << 9;
+
+        // Avoiding to raycast the collider of this GameObject
+        _collider.enabled = false;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 50, layerBitMask))
         {
-            if (!_isPaused)
-            {
-                attackTimer += Time.deltaTime;
+            positionToFallTowards.y = hit.point.y + 0.75f;
+        }
+        _collider.enabled = true;
 
-                if (attackTimer >= tutorialPhase._attackCooldown)
-                {
-                    attackTimer -= tutorialPhase._attackCooldown;
-                    var projectile = Instantiate(tutorialAttack._attackPrefab, transform.position + transform.forward, Quaternion.identity).GetComponent<BasicProjectile>();
-                    projectile.Initialise(tutorialAttack, _redirectionManager.headTransform);
-                    _audioSource.PlayOneShot(tutorialAttack._spawnAudio, tutorialAttack._spawnAudioScale);
-                }
-            }
+        // A small bounce at the start of the fall animation is given so the interpolation "starts" at a later stage in the animation before falling using a sine wave
+        _animator.SetTrigger(fallingAnimationTrigger);
+        var basePosition = transform.position;
+        var offsetBasePosition = basePosition;
+        offsetBasePosition.y += 1;
+        // InverseLerp calculates the t parameter of the current position
+        var positionLerpTimer = Mathf.InverseLerp(positionToFallTowards.y, offsetBasePosition.y, basePosition.y);
+        while (Mathf.Sin(positionLerpTimer) > 0.0f)
+        {
+            positionLerpTimer += (Time.deltaTime * fallSpeed);
+            transform.position = Vector3.Lerp(positionToFallTowards, offsetBasePosition, Mathf.Sin(positionLerpTimer));
             yield return null;
         }
+
+        // As the boss faces down the position has to go down a bit as well so it looks like it is on the floor
+        _animator.SetTrigger(onGroundAnimationTrigger);
+        transform.position += Vector3.down * 0.5f;
+        _audioSource.PlayOneShot(_groundCrashSound);
+
+        // HACK: There aren't any easy ways to check the length of the animation 
+        yield return new WaitForSeconds(3);
+
+        TeleportToPosition(basePosition);
+        _animator.SetTrigger("Idle");
+        callbackOnFinish.Invoke();
     }
-    #endregion
 
     private IEnumerator MoveToPosition(Vector3 position)
     {
@@ -122,6 +143,7 @@ public class AnimatedCharacterInterface : Pausable
         }
     }
 
+    #region Utilities
     // https://answers.unity.com/questions/1134997/string-to-vector3.html
     private static Vector3 StringToVector3(string sVector)
     {
@@ -143,4 +165,5 @@ public class AnimatedCharacterInterface : Pausable
 
         return result;
     }
+    #endregion
 }
