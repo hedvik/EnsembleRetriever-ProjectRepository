@@ -55,16 +55,14 @@ public class AnimatedCharacterInterface : Pausable
         transform.position = position;
     }
 
-    // TODO: Interpolate animation
     public void LookAtStringPosition(string target)
     {
-        transform.LookAt(StringToVector3(target));
+        StartCoroutine(LookTowardsPosition(StringToVector3(target)));
     }
 
-    // TODO: Interpolate animation
     public void LookAtPosition(Vector3 target)
     {
-        transform.LookAt(target);
+        StartCoroutine(LookTowardsPosition(target));
     }
 
     public void MoveByStringVector(string vector)
@@ -141,6 +139,23 @@ public class AnimatedCharacterInterface : Pausable
         {
             lerpTimer += Time.deltaTime * _movementSpeed;
             transform.position = Vector3.Lerp(startPosition, position, lerpTimer);
+            yield return null;
+        }
+    }
+
+    private IEnumerator LookTowardsPosition(Vector3 target)
+    {
+        var oldRotation = transform.rotation;
+        transform.LookAt(target);
+        var newRotation = transform.rotation;
+
+        var lerpTimer = 0f;
+        while(lerpTimer <= 1)
+        {
+            lerpTimer += Time.deltaTime * _movementSpeed;
+
+            transform.rotation = Quaternion.Lerp(oldRotation, newRotation, lerpTimer);
+
             yield return null;
         }
     }

@@ -74,7 +74,7 @@ public class RedirectionManagerER : RedirectionManager
         _distractorPrefabPool.AddRange(Resources.LoadAll<GameObject>("Distractors"));
         _pausables.AddRange(FindObjectsOfType<Pausable>());
 
-        _virtualWorld = GameObject.Find("Virtual World");
+        _virtualWorld = GameObject.Find("Virtual Environment");
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 
         _uiManager._redirectorManager = this;

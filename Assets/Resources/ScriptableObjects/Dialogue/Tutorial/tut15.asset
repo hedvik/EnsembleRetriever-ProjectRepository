@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tut15
   m_EditorClassIdentifier: 
   _text: 'If you ever feel lost, then you can just press the <color=#00FF00>green</color>
-    button on your baton controller to toggle a objective marker. '
+    button on your baton controller to toggle an objective marker. '
   _voiceLine: {fileID: 0}
   _functionTriggerStart: 
   _stringParameterStart: 
