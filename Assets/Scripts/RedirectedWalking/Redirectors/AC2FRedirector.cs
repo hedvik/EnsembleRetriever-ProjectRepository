@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Redirection;
 
+public enum RotationGainTypes {none = -1, with, against };
+
 /// <summary>
 /// Align Centre To Future Redirector.
 /// Based on what Peck et al. described for their modified S2C algorithm.
@@ -10,6 +12,9 @@ using Redirection;
 /// </summary>
 public class AC2FRedirector : Redirector
 {
+    public bool _superSmoothingEnabled = true;
+    public float _superSmoothSpeed = 0.5f;
+
     [HideInInspector]
     public float _lastRotationApplied = 0f;
 
@@ -24,13 +29,30 @@ public class AC2FRedirector : Redirector
     // Auxiliary Parameters
     private float _rotationFromRotationGain; // Proposed rotation gain based on head's yaw
 
+    private bool _transitioningBetweenGains = false;
+    private RotationGainTypes _previousRotationGainType;
+    private float _previousProposedRotation = 0f;
+    private float _smoothedRotation = 0f;
+    private float _lerpTimer = 0f;
+
     private void Start()
     {
         _redirectionManagerER = redirectionManager as RedirectionManagerER;
     }
 
+    public void OnRedirectionMethodSwitch()
+    {
+        _previousRotationGainType = RotationGainTypes.none;
+    }
+
     public override void ApplyRedirection()
     {
+        if(_transitioningBetweenGains && _lerpTimer >= 1f)
+        {
+            _transitioningBetweenGains = false;
+            Debug.Log("Dampening done!");
+        }
+
         // Get Required Data
         var deltaDir = redirectionManager.deltaDir;
 
@@ -39,6 +61,7 @@ public class AC2FRedirector : Redirector
         // The steering direction is used to determine whether rotations are clockwise or counter clockwise.
         var desiredSteeringDirection = (-1) * (int)Mathf.Sign(Utilities.GetSignedAngle(_redirectionManagerER._centreToHead, _redirectionManagerER._futureVirtualWalkingDirection));
 
+        var currentGainType = RotationGainTypes.none;
         // If user is rotating
         if (Mathf.Abs(deltaDir) / redirectionManager.GetDeltaTime() >= _ROTATION_THRESHOLD)
         {
@@ -55,10 +78,12 @@ public class AC2FRedirector : Redirector
             if (dotFromAgainst < dotFromWith)
             {
                 _rotationFromRotationGain = Mathf.Min(Mathf.Abs(deltaDir * redirectionManager.MIN_ROT_GAIN), _ROTATION_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
+                currentGainType = RotationGainTypes.against;
             }
             else
             {
                 _rotationFromRotationGain = Mathf.Min(Mathf.Abs(deltaDir * redirectionManager.MAX_ROT_GAIN), _ROTATION_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
+                currentGainType = RotationGainTypes.with;
             }
         }
 
@@ -70,13 +95,40 @@ public class AC2FRedirector : Redirector
             return;
         }
 
-        // TODO: Some dampening would be nice so changes are less jarring
-        // If there has been some change in gain
-        //    Smoothly move from lastApplied towards what we want to apply right now
+        CheckForGainDifference(currentGainType, rotationProposed, deltaDir);
 
-        // Azmandian et al.'s smoothing implementation
-        var finalRotation = (1.0f - _SMOOTHING_FACTOR) * _lastRotationApplied + _SMOOTHING_FACTOR * rotationProposed;
-        _lastRotationApplied = finalRotation;
-        InjectRotation(finalRotation);
+        if (_superSmoothingEnabled && _transitioningBetweenGains)
+        {
+            _lerpTimer += Time.deltaTime;
+            _smoothedRotation = SuperSmoothLerp(_lastRotationApplied, _previousProposedRotation, rotationProposed, _lerpTimer, _superSmoothSpeed);
+            Debug.Log(_smoothedRotation);
+        }
+        else
+        {
+            _smoothedRotation = rotationProposed;
+        }
+        
+        _lastRotationApplied = _smoothedRotation;
+        _previousRotationGainType = currentGainType;
+        InjectRotation(_smoothedRotation);
+    }
+
+    private void CheckForGainDifference(RotationGainTypes newGain, float rotationProposed, float deltaDir)
+    {
+        // The approximately check is used to make sure that we dont transition between gains if they have been set to 0
+        if(newGain != RotationGainTypes.none && newGain != _previousRotationGainType && !Mathf.Approximately(rotationProposed, deltaDir))
+        {
+            _transitioningBetweenGains = true;
+            _previousProposedRotation = rotationProposed;
+            _lerpTimer = 0f;
+        }
+    }
+
+    // https://forum.unity.com/threads/how-to-smooth-damp-towards-a-moving-target-without-causing-jitter-in-the-movement.130920/
+    // Smoothing towards a moving target
+    private float SuperSmoothLerp(float followerOld, float targetOld, float targetNew, float t, float speed)
+    {
+        var f = followerOld - targetOld + (targetNew - targetOld) / (speed * t);
+        return targetNew - (targetNew - targetOld) / (speed * t) + f * Mathf.Exp(-speed * t);
     }
 }

@@ -11,6 +11,7 @@ public class RedirectionManagerER : RedirectionManager
     public float _trackingSpaceFadeSpeed = 5f;
     public bool _alwaysDisplayTrackingFloor = false;
     public int _positionSamplesPerSecond = 60;
+    public float _alignmentThreshold = -0.9f;
 
     [HideInInspector]
     public bool _distractorIsActive = false;
@@ -130,7 +131,7 @@ public class RedirectionManagerER : RedirectionManager
         {
             _averageFuture += _positionSamples[i];
         }
-        _futureVirtualWalkingDirection = _averageFuture / _positionSamples.Size;
+        _futureVirtualWalkingDirection = (_averageFuture / _positionSamples.Size).normalized;
 
         _baseMaximumRotationGain = MAX_ROT_GAIN;
         _baseMinimumRotationGain = MIN_ROT_GAIN;
@@ -220,9 +221,9 @@ public class RedirectionManagerER : RedirectionManager
     {
         // TODO: Might refactor updating centreToHead away if necessary later as it wont change much.
         _centreToHead = Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position);
-        var dotProduct = Vector3.Dot(_futureVirtualWalkingDirection, _centreToHead);
+        var dotProduct = Vector3.Dot(_centreToHead, _futureVirtualWalkingDirection);
 
-        return dotProduct <= -0.975;
+        return dotProduct <= _alignmentThreshold;
     }
 
     private void SwapRedirectionAlgorithm(bool toAC2F)
@@ -230,6 +231,7 @@ public class RedirectionManagerER : RedirectionManager
         if (toAC2F)
         {
             redirector = _AC2FRedirector;
+            _AC2FRedirector.OnRedirectionMethodSwitch();
             _AC2FRedirector._lastRotationApplied = _S2CRedirector._lastRotationApplied;
         }
         else

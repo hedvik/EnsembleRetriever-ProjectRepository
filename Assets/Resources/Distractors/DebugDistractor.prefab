@@ -107,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _forwardOffsetFromPlayer: 5
   _spawnParticles: {fileID: 7091383756467857428}
-  _lifeTime: 10
+  _lifeTime: 20
   _rotationSpeed: 50
 --- !u!1001 &7091383756481886164
 PrefabInstance:
