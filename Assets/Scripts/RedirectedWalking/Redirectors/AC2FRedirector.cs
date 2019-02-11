@@ -31,7 +31,6 @@ public class AC2FRedirector : Redirector
 
     private bool _transitioningBetweenGains = false;
     private RotationGainTypes _previousRotationGainType;
-    private float _previousProposedRotation = 0f;
     private float _smoothedRotation = 0f;
     private float _lerpTimer = 0f;
 
@@ -100,8 +99,10 @@ public class AC2FRedirector : Redirector
         if (_superSmoothingEnabled && _transitioningBetweenGains)
         {
             _lerpTimer += Time.deltaTime;
-            _smoothedRotation = SuperSmoothLerp(_lastRotationApplied, _previousProposedRotation, rotationProposed, _lerpTimer, _superSmoothSpeed);
-            Debug.Log(_smoothedRotation);
+
+            // Whenever the gain type changes, we smoothly interpolate from the injected rotation at the time of changing towards the current one
+            _smoothedRotation = SuperSmoothLerp(_smoothedRotation, _lastRotationApplied, rotationProposed, _lerpTimer, _superSmoothSpeed);
+            //Debug.Log(_smoothedRotation);
         }
         else
         {
@@ -119,7 +120,6 @@ public class AC2FRedirector : Redirector
         if(newGain != RotationGainTypes.none && newGain != _previousRotationGainType && !Mathf.Approximately(rotationProposed, deltaDir))
         {
             _transitioningBetweenGains = true;
-            _previousProposedRotation = rotationProposed;
             _lerpTimer = 0f;
         }
     }
