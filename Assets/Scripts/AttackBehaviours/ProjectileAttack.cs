@@ -17,13 +17,7 @@ public class ProjectileAttack : Pausable
     protected bool _translating;
     protected BoxCollider _collider;
 
-    protected virtual void Start()
-    {
-        _translating = true;
-        _collider = GetComponent<BoxCollider>();
-    }
-
-    public void Initialise(EnemyAttack attack, Transform target)
+    public virtual void Initialise(EnemyAttack attack, Transform target)
     {
         _movementSpeed = attack._attackSpeed;
         _chargeValue = attack._attackChargeAmount;
@@ -36,6 +30,9 @@ public class ProjectileAttack : Pausable
             materials[0] = attack._attackMaterial;
             _mainMeshRenderer.materials = materials;
         }
+
+        _translating = true;
+        _collider = GetComponent<BoxCollider>();
     }
 
     public void Destroy()

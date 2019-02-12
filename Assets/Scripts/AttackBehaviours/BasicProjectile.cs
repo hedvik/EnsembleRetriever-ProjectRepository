@@ -7,10 +7,9 @@ public class BasicProjectile : ProjectileAttack
     public float _rotationSpeed = 3;
     private Vector3 _rotationAxis;
 
-    // Use this for initialization
-    protected override void Start()
+    public override void Initialise(EnemyAttack attack, Transform target)
     {
-        base.Start();
+        base.Initialise(attack, target);
         _rotationAxis = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)).normalized;
     }
 

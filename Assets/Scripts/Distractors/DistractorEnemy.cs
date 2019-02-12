@@ -69,7 +69,9 @@ public class DistractorEnemy : Pausable
         StartCoroutine(DisplayHealth());
         _attackingPhaseActive = false;
 
-        _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, null);
+        // TODO: Check for Phase change
+
+        _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, RestartAttacking);
     }
 
     public virtual void RestartAttacking()

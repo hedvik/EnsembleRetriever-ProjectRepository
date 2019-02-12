@@ -49,7 +49,7 @@ public class AC2FRedirector : Redirector
         if(_transitioningBetweenGains && _lerpTimer >= 1f)
         {
             _transitioningBetweenGains = false;
-            Debug.Log("Dampening done!");
+            //Debug.Log("Dampening done!");
         }
 
         // Get Required Data

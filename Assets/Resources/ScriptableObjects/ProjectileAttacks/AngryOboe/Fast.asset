@@ -16,9 +16,9 @@ MonoBehaviour:
     type: 3}
   _visualsScale: {x: 0.5, y: 0.5, z: 0.5}
   _attackMaterial: {fileID: 2100000, guid: 254d791961b439a4f97297841d772837, type: 2}
-  _attackSpeed: 3
+  _attackSpeed: 100
   _telegraphAnimationTrigger: 
-  _attackChargeAmount: 30
+  _attackChargeAmount: 70
   _telegraphAudio: {fileID: 0}
   _telegraphAudioScale: 0
   _spawnAudio: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
