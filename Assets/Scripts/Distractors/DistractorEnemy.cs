@@ -44,7 +44,7 @@ public class DistractorEnemy : Pausable
         Destroy(gameObject);
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         if (!_isPaused && _attackingPhaseActive)
         {
@@ -67,8 +67,14 @@ public class DistractorEnemy : Pausable
     {
         _health = Mathf.Clamp(_health - damageValue, 0, _maxHealth);
         StartCoroutine(DisplayHealth());
+        _attackingPhaseActive = false;
 
         _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, null);
+    }
+
+    public virtual void RestartAttacking()
+    {
+        _attackingPhaseActive = true;
     }
 
     protected IEnumerator DisplayHealth()
@@ -119,7 +125,7 @@ public class DistractorEnemy : Pausable
         }
     }
 
-    protected virtual void Attack()
+    public virtual void Attack()
     {
         var newProjectile = Instantiate(_queuedAttack._attackPrefab, transform.position + transform.forward, Quaternion.identity).GetComponent<ProjectileAttack>();
         newProjectile.Initialise(_queuedAttack, _redirectionManager.headTransform);

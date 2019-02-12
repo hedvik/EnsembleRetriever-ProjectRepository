@@ -22,6 +22,8 @@ public class AnimatedCharacterInterface : Pausable
     private BoxCollider _collider;
 
     private string _currentAnimation = null;
+    private Dictionary<string, System.Action> _onAnimationEndCallbacks = new Dictionary<string, System.Action>();
+
 
     private void Awake()
     {
@@ -49,10 +51,16 @@ public class AnimatedCharacterInterface : Pausable
         _currentAnimation = trigger;
     }
 
-    public void AnimationTriggerWithCallback(string trigger, System.Action callbackOnFinish)
+    public void AnimationTriggerWithCallback(string trigger, System.Action callback)
     {
         AnimationTrigger(trigger);
-        StartCoroutine(WaitForAnimationFinish(trigger, callbackOnFinish));
+        _onAnimationEndCallbacks.Add(trigger, callback);
+    }
+
+    public void OnAnimationEnd(string trigger)
+    {
+        _onAnimationEndCallbacks[trigger]?.Invoke();
+        _onAnimationEndCallbacks.Remove(trigger);
     }
 
     public void TeleportToStringPosition(string position)
@@ -197,16 +205,6 @@ public class AnimatedCharacterInterface : Pausable
             );
 
         return result;
-    }
-
-    private IEnumerator WaitForAnimationFinish(string trigger, System.Action callback)
-    {
-        while (!_animator.GetCurrentAnimatorStateInfo(0).IsName(_animator.GetLayerName(0) + "." + trigger))
-        {
-            yield return null;
-        }
-
-        callback.Invoke();
     }
     #endregion
 }
