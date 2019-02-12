@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         if (!_skipTutorial)
         {
             _tutorialInstrument.gameObject.SetActive(true);
-            _uiManager.ActivateDialogue(_tutorialInstrument, typeof(AnimatedCharacterInterface).GetTypeInfo(), _tutorialInstrument.transform.GetChild(0).gameObject, _tutorialDialogue);
+            _uiManager.ActivateDialogue(_tutorialInstrument, typeof(AnimatedCharacterInterface).GetTypeInfo(), _tutorialInstrument.transform.Find("TextBox").gameObject, _tutorialDialogue);
             _tutorialInstrument.GetComponent<TutorialNPC>().InitialiseDistractor(_redirectionManager);
         }
         else

@@ -21,6 +21,8 @@ public class AnimatedCharacterInterface : Pausable
     private RedirectionManagerER _redirectionManager;
     private BoxCollider _collider;
 
+    private string _currentAnimation = null;
+
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
@@ -36,7 +38,21 @@ public class AnimatedCharacterInterface : Pausable
 
     public void AnimationTrigger(string trigger)
     {
+        if (_currentAnimation == trigger)
+            return;
+
+        if(_currentAnimation != null)
+        {
+            _animator.ResetTrigger(_currentAnimation);
+        }
         _animator.SetTrigger(trigger);
+        _currentAnimation = trigger;
+    }
+
+    public void AnimationTriggerWithCallback(string trigger, System.Action callbackOnFinish)
+    {
+        AnimationTrigger(trigger);
+        StartCoroutine(WaitForAnimationFinish(trigger, callbackOnFinish));
     }
 
     public void TeleportToStringPosition(string position)
@@ -104,7 +120,7 @@ public class AnimatedCharacterInterface : Pausable
         _collider.enabled = true;
 
         // A small bounce at the start of the fall animation is given so the interpolation "starts" at a later stage in the animation before falling using a sine wave
-        _animator.SetTrigger(fallingAnimationTrigger);
+        AnimationTrigger(fallingAnimationTrigger);
         var basePosition = transform.position;
         var offsetBasePosition = basePosition;
         offsetBasePosition.y += 1;
@@ -118,7 +134,7 @@ public class AnimatedCharacterInterface : Pausable
         }
 
         // As the boss faces down the position has to go down a bit as well so it looks like it is on the floor
-        _animator.SetTrigger(onGroundAnimationTrigger);
+        AnimationTrigger(onGroundAnimationTrigger);
         transform.position += Vector3.down * 0.5f;
         _audioSource.PlayOneShot(_groundCrashSound);
 
@@ -126,8 +142,8 @@ public class AnimatedCharacterInterface : Pausable
         yield return new WaitForSeconds(3);
 
         TeleportToPosition(basePosition);
-        _animator.SetTrigger("Idle");
-        callbackOnFinish.Invoke();
+        AnimationTrigger("Idle");
+        callbackOnFinish?.Invoke();
     }
 
     private IEnumerator MoveToPosition(Vector3 position)
@@ -181,6 +197,16 @@ public class AnimatedCharacterInterface : Pausable
             );
 
         return result;
+    }
+
+    private IEnumerator WaitForAnimationFinish(string trigger, System.Action callback)
+    {
+        while (!_animator.GetCurrentAnimatorStateInfo(0).IsName(_animator.GetLayerName(0) + "." + trigger))
+        {
+            yield return null;
+        }
+
+        callback.Invoke();
     }
     #endregion
 }

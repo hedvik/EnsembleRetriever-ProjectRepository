@@ -137,7 +137,7 @@ public class RedirectionManagerER : RedirectionManager
         _baseMinimumRotationGain = MIN_ROT_GAIN;
         SwapRedirectionAlgorithm(true);
         // TODO: Request gain increase
-        _currentActiveDistractor = Instantiate(_distractorPrefabPool[Random.Range(0, _distractorPrefabPool.Count)], _virtualWorld.transform).GetComponent<DistractorEnemy>();
+        _currentActiveDistractor = Instantiate(_distractorPrefabPool[Random.Range(0, _distractorPrefabPool.Count)]).GetComponent<DistractorEnemy>();
         _currentActiveDistractor.InitialiseDistractor(this);
         _pausables.Add(_currentActiveDistractor);
     }

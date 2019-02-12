@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc236ad86ba6c24e909e3b18befea47, type: 3}
   m_Name: Normal
   m_EditorClassIdentifier: 
-  _attackCooldown: 4
-  _containsMovement: 0
+  _attackCooldown: 5
+  _containsMovement: 1
   _movementSpeed: 3
   _healthThreshold: {x: 0, y: 100}
   _enemyAttacks:
-  - {fileID: 11400000, guid: f5229079b923fc64185750caa3bab9dc, type: 2}
+  - {fileID: 11400000, guid: 029151bf496041b4ca203d2b58a39df9, type: 2}
+  - {fileID: 11400000, guid: 38a11bcd42cb3cc44b9c23a0bc799a94, type: 2}
+  - {fileID: 11400000, guid: c3459e157d57f9c45841fb86f3b03f56, type: 2}
   _randomAttackOrder: 1
   _attackOrder: []

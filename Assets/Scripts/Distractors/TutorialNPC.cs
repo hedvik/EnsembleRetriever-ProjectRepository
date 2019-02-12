@@ -14,21 +14,17 @@ public class TutorialNPC : DistractorEnemy
 
     public override void TakeDamage(float damageValue)
     {
-        base.TakeDamage(damageValue);
-        _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", 3f, _redirectionManager._gameManager.AttackEventTriggerDialogue);
+        _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, _redirectionManager._gameManager.AttackEventTriggerDialogue);
         _attackTutorialActive = false;
     }
 
     public void FinishTutorial()
     {
-        _animatedInterface.AnimationTrigger("Leave");
-        StartCoroutine(DisableTutorial());
+        _animatedInterface.AnimationTriggerWithCallback("Leave", DisableTutorial);
     }
 
-    private IEnumerator DisableTutorial()
+    public void DisableTutorial()
     {
-        // HACK: Quick way to disable after animation is done
-        yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
     }
 

@@ -29,6 +29,13 @@ public class ProjectileAttack : Pausable
         _chargeValue = attack._attackChargeAmount;
         transform.localScale = attack._visualsScale;
         _targetTransform = target;
+
+        if(attack._attackMaterial != null)
+        {
+            var materials = _mainMeshRenderer.materials;
+            materials[0] = attack._attackMaterial;
+            _mainMeshRenderer.materials = materials;
+        }
     }
 
     public void Destroy()

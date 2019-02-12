@@ -8,8 +8,8 @@ public class EnemyPhase : ScriptableObject
     public float _attackCooldown = 5f;
     public bool _containsMovement;
     public float _movementSpeed = 1f;
-    public string _transitionFunctionName = "";
     public Vector2Int _healthThreshold;
+    public bool _usesPhaseTransitionAnimation = false;
     public List<EnemyAttack> _enemyAttacks = new List<EnemyAttack>();
     public bool _randomAttackOrder;
 
