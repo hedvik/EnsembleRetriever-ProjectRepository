@@ -19,6 +19,12 @@ public class UIManager : MonoBehaviour
     private object _currentTriggerReceiver;
     private TypeInfo _currentTriggerReceiverType;
     private DialogueSnippet _currentDialogueSnippet;
+    private PlayerManager _playerManager;
+
+    private void Start()
+    {
+        _playerManager = _redirectorManager._playerManager;
+    }
 
     private void Update()
     {
@@ -31,7 +37,7 @@ public class UIManager : MonoBehaviour
             }
 #endif
 
-            if (SteamVR.active && SteamVR_Actions._default.Teleport[SteamVR_Input_Sources.Any].state)
+            if (SteamVR.active && SteamVR_Actions._default.Teleport.GetStateDown(_playerManager._batonHand))
             {
                 NextDialogueSnippet(false);
             }

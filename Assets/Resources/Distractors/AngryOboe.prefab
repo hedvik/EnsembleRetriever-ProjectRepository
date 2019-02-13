@@ -198,10 +198,10 @@ GameObject:
   - component: {fileID: 5646779019583372915}
   - component: {fileID: 5646779019583372912}
   - component: {fileID: 4595783451275030724}
+  - component: {fileID: 2010157102283253142}
   - component: {fileID: 2849696706442311637}
   - component: {fileID: 699832762466206542}
   - component: {fileID: 3350402008711220425}
-  - component: {fileID: 2010157102283253142}
   m_Layer: 9
   m_Name: AngryOboe
   m_TagString: Enemy
@@ -263,6 +263,65 @@ MonoBehaviour:
   _teleportSound: {fileID: 8300000, guid: c9a56c9d8ae10c547b06aead0a3834b9, type: 3}
   _groundCrashSound: {fileID: 8300000, guid: bda1360711787e0499427174cb0f1462, type: 3}
   _audioSource: {fileID: 0}
+--- !u!114 &2010157102283253142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5646779019583372914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073d505d3d9ac8c48b2f5c8997bb8e50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 50
+  _movementSpeed: 3
+  _healthBarDisplayDuration: 3
+  _fallSpeedOnDamage: 3
+  _healthBarScaleDuringAnimation:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.15416566
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8541667
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _forwardOffsetFromPlayer: 10
 --- !u!82 &2849696706442311637
 AudioSource:
   m_ObjectHideFlags: 0
@@ -388,65 +447,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2010157102283253142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5646779019583372914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073d505d3d9ac8c48b2f5c8997bb8e50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _health: 50
-  _movementSpeed: 3
-  _healthBarDisplayDuration: 3
-  _fallSpeedOnDamage: 3
-  _healthBarScaleDuringAnimation:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.0041656494
-      value: 0.012501478
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.15416566
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.8541667
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: -0.012500763
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _forwardOffsetFromPlayer: 5
 --- !u!1 &5646779019877601756
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,6 +722,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5646779019583372915}
     m_Modifications:
+    - target: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
       propertyPath: m_Name
       value: TeleportParticles
@@ -786,10 +790,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11400000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
@@ -812,10 +812,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5646779019877601757}
     m_Modifications:
-    - target: {fileID: 100000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
-      propertyPath: m_Name
-      value: oboeanimation
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -872,6 +868,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
+      propertyPath: m_Name
+      value: oboeanimation
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11100000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
@@ -888,18 +888,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5646779019583372915}
     m_Modifications:
-    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
-      propertyPath: m_Name
-      value: TextBox
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.821
@@ -946,6 +934,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
+      propertyPath: m_Name
+      value: TextBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1347623075794840, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}

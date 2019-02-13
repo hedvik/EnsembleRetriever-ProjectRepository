@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StartGame0
   m_EditorClassIdentifier: 
   _text: 'Hello and welcome to <color=#00ff00ff>Ensemble Retriever</color>! You can
-    advance dialogue boxes by pressing the below button:'
+    advance dialogue boxes by pressing the below button on your baton:'
   _voiceLine: {fileID: 0}
   _functionTriggerStart: 
   _stringParameterStart: 

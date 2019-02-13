@@ -70,6 +70,7 @@ public class DistractorEnemy : Pausable
         _attackingPhaseActive = false;
 
         // TODO: Check for Phase change
+        // Play particles etc
 
         _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, RestartAttacking);
     }
@@ -93,6 +94,7 @@ public class DistractorEnemy : Pausable
             _healthBarTransform.localScale = Vector3.one * _healthBarScaleDuringAnimation.Evaluate(UtilitiesER.Remap(0, _healthBarDisplayDuration, 0, 1, healthAnimationTimer));
         }
 
+        _healthBarTransform.localScale = Vector3.zero;
         _healthBarFillImage.fillAmount = targetFill;
     }
 

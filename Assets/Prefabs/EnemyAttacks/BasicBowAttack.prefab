@@ -62,10 +62,9 @@ MonoBehaviour:
   _mainMeshRenderer: {fileID: 23374491872278718}
   _destructionSpeed: 5
   _movementSpeed: 1
-  _damageValue: 0
   _chargeValue: 10
   _targetTransform: {fileID: 0}
-  _rotationSpeed: 3
+  _rotationSpeed: 30
 --- !u!1 &1444309533051254
 GameObject:
   m_ObjectHideFlags: 0

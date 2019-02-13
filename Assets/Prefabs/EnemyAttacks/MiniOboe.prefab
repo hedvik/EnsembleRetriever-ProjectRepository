@@ -50,7 +50,8 @@ MonoBehaviour:
   _movementSpeed: 1
   _chargeValue: 10
   _targetTransform: {fileID: 0}
-  _rotationSpeed: 10
+  _rotationSpeed: 30
+  _movementScaleAfterRotation: 0.1
 --- !u!65 &3676292156434624102
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -71,18 +72,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3913893507600129625}
     m_Modifications:
-    - target: {fileID: 100000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
-      propertyPath: m_Name
-      value: oboeanimation
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 95a3a79a72aa89f4dab8d6402dae9379, type: 2}
     - target: {fileID: 400000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -139,10 +132,18 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.1
       objectReference: {fileID: 0}
-    - target: {fileID: 2300002, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 95a3a79a72aa89f4dab8d6402dae9379, type: 2}
+    - target: {fileID: 100000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
+      propertyPath: m_Name
+      value: oboeanimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11100000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}

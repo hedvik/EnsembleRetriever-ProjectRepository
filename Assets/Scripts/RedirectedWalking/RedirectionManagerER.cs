@@ -25,6 +25,9 @@ public class RedirectionManagerER : RedirectionManager
     [HideInInspector]
     public GameManager _gameManager;
 
+    [HideInInspector]
+    public PlayerManager _playerManager;
+
     // TODO: The choice of distractor can probably be semi random by using a stack or queue. Pick one randomly, remove it from the container, pick next one randomly etc
     //       This container is then reset once everything has been picked once.
     private List<GameObject> _distractorPrefabPool = new List<GameObject>();
@@ -88,6 +91,7 @@ public class RedirectionManagerER : RedirectionManager
         floorColour.a = _alwaysDisplayTrackingFloor ? 1f : 0f;
         _trackingSpaceFloorVisuals.material.color = floorColour;
 
+        _playerManager = GetComponentInChildren<PlayerManager>();
     }
 
     /// <summary>
