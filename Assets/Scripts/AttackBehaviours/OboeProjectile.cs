@@ -37,7 +37,7 @@ public class OboeProjectile : ProjectileAttack
 
     private void MoveBehindPlayer()
     {
-        transform.position = RotatePointAroundPivot(transform.position, _targetTransform.position, Quaternion.AngleAxis(-Time.deltaTime * _movementSpeed, _orbitAxis));
+        transform.position = UtilitiesER.RotatePointAroundPivot(transform.position, _targetTransform.position, Quaternion.AngleAxis(-Time.deltaTime * _movementSpeed, _orbitAxis));
 
         if(transform.position.y < _startPosition.y)
         {
@@ -49,11 +49,5 @@ public class OboeProjectile : ProjectileAttack
     private void MoveTowardsPlayer()
     {
         transform.position += (_targetTransform.position - transform.position).normalized * Time.deltaTime * _movementSpeed;
-    }
-
-    // https://answers.unity.com/questions/532297/rotate-a-vector-around-a-certain-point.html
-    public Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Quaternion rotation)
-    {
-        return rotation * (point - pivot) + pivot;
     }
 }

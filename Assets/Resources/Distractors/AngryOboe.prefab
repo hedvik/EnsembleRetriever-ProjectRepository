@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b6de0b659624b4abaf3edd41533c04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 5
+  _movementSpeed: 100
   _teleportParticles: {fileID: 1942075869685705767}
   _teleportSound: {fileID: 8300000, guid: c9a56c9d8ae10c547b06aead0a3834b9, type: 3}
   _groundCrashSound: {fileID: 8300000, guid: bda1360711787e0499427174cb0f1462, type: 3}
@@ -276,7 +276,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 50
-  _movementSpeed: 3
   _healthBarDisplayDuration: 3
   _fallSpeedOnDamage: 3
   _healthBarScaleDuringAnimation:

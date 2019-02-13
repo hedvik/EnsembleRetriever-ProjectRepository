@@ -185,6 +185,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5163990942235738769, guid: a2145ea94da7f57408cc0bcf2ad577ac,
+        type: 3}
+      propertyPath: _alwaysDisplayTrackingFloor
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2145ea94da7f57408cc0bcf2ad577ac, type: 3}
 --- !u!1 &170076733
@@ -9295,7 +9300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startGameTextBox: {fileID: 1995807369}
   _tutorialInstrument: {fileID: 1637816236}
-  _skipTutorial: 0
+  _skipTutorial: 1
   _gameStarted: 0
 --- !u!4 &1828877937
 Transform:

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackCooldown: 4
   _containsMovement: 0
-  _movementSpeed: 3
-  _healthThreshold: {x: 0, y: 100}
+  _activeInHealthPercentage: {x: 0, y: 100}
+  _usesPhaseTransitionAnimation: 0
   _enemyAttacks:
   - {fileID: 11400000, guid: f5229079b923fc64185750caa3bab9dc, type: 2}
   _randomAttackOrder: 1

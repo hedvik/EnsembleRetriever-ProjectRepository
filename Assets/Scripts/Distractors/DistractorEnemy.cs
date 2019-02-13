@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class DistractorEnemy : Pausable
 {
     public float _health = 50f;
-    public float _movementSpeed = 3f;
     public float _healthBarDisplayDuration = 3f;
     public float _fallSpeedOnDamage = 3f;
     public AnimationCurve _healthBarScaleDuringAnimation;
@@ -68,8 +67,7 @@ public class DistractorEnemy : Pausable
         _health = Mathf.Clamp(_health - damageValue, 0, _maxHealth);
         StartCoroutine(DisplayHealth());
         _attackingPhaseActive = false;
-
-        // TODO: Check for Phase change
+        CheckForPhaseChange();
         // Play particles etc
 
         _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, RestartAttacking);
@@ -98,9 +96,13 @@ public class DistractorEnemy : Pausable
         _healthBarFillImage.fillAmount = targetFill;
     }
 
-    protected virtual void TelegraphAttack()
+    protected virtual void TelegraphAttack(bool resetTimer = true)
     {
-        _attackTimer -= _currentPhase._attackCooldown;
+        if (resetTimer)
+        {
+            _attackTimer -= _currentPhase._attackCooldown;
+        }
+
         EnemyAttack newAttack;
         if(_currentPhase._randomAttackOrder)
         {
@@ -135,13 +137,18 @@ public class DistractorEnemy : Pausable
         newProjectile.Initialise(_queuedAttack, _redirectionManager.headTransform);
         _animatedInterface._audioSource.PlayOneShot(_queuedAttack._spawnAudio, _queuedAttack._spawnAudioScale);
         _queuedAttack = null;
+
+        if (_currentPhase._containsMovement)
+        {
+            _animatedInterface.RotateAroundPivot(Random.Range(-180f, 180f), _redirectionManager.headTransform.position);
+        }
     }
 
     protected bool CheckForPhaseChange()
     {
         foreach (var phase in _phases)
         {
-            if (phase.IsWithinPhaseThreshold(_health) && phase != _currentPhase)
+            if (phase.IsWithinPhaseThreshold(UtilitiesER.Remap(0, _maxHealth, 0, 100, _health)) && phase != _currentPhase)
             {
                 _currentPhase = phase;
                 _attackOrderIndex = 0;
@@ -153,5 +160,13 @@ public class DistractorEnemy : Pausable
             }
         }
         return false;
+    }
+
+    protected IEnumerator BeginCombat(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        _attackingPhaseActive = true;
+        _animatedInterface.AnimationTrigger("Idle");
+        TelegraphAttack(false);
     }
 }

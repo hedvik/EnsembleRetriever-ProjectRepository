@@ -7,8 +7,7 @@ public class EnemyPhase : ScriptableObject
 {
     public float _attackCooldown = 5f;
     public bool _containsMovement;
-    public float _movementSpeed = 1f;
-    public Vector2Int _healthThreshold;
+    public Vector2Int _activeInHealthPercentage;
     public bool _usesPhaseTransitionAnimation = false;
     public List<EnemyAttack> _enemyAttacks = new List<EnemyAttack>();
     public bool _randomAttackOrder;
@@ -18,6 +17,6 @@ public class EnemyPhase : ScriptableObject
 
     public bool IsWithinPhaseThreshold(float healthValue)
     {
-        return (healthValue >= _healthThreshold.x && healthValue <= _healthThreshold.y);
+        return (healthValue >= _activeInHealthPercentage.x && healthValue <= _activeInHealthPercentage.y);
     }
 }

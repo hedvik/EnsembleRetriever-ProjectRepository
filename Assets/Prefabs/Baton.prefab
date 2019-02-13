@@ -147,7 +147,7 @@ LineRenderer:
       m_NumAlphaKeys: 2
     numCornerVertices: 5
     numCapVertices: 5
-    alignment: 0
+    alignment: 1
     textureMode: 0
     shadowBias: 0
     generateLightingData: 0

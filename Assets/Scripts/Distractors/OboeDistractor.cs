@@ -5,6 +5,7 @@ using UnityEngine;
 public class OboeDistractor : DistractorEnemy
 {
     public float _forwardOffsetFromPlayer = 2f;
+    public float _timeUntilStartAfterSpawn = 2f;
 
     public override void InitialiseDistractor(RedirectionManagerER redirectionManager)
     {
@@ -14,10 +15,10 @@ public class OboeDistractor : DistractorEnemy
         spawnPosition.y = _redirectionManager.headTransform.position.y;
         _animatedInterface.TeleportToPosition(spawnPosition);
 
-        _animatedInterface.AnimationTrigger("Idle");
+        _animatedInterface.AnimationTrigger("Jumps");
 
         InitialisePhases("ScriptableObjects/EnemyPhases/AngryOboe");
 
-        _attackingPhaseActive = true;
+        StartCoroutine(BeginCombat(_timeUntilStartAfterSpawn));
     }
 }

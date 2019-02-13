@@ -106,6 +106,11 @@ public class AnimatedCharacterInterface : Pausable
         tutorialNPC.StartTutorialAttacks();
     }
 
+    public void RotateAroundPivot(float angleToRotate, Vector3 pivot)
+    {
+        StartCoroutine(RotateAroundPivotAnimation(angleToRotate, pivot));
+    }
+
     public void TakeDamageAnimation(string fallingAnimationTrigger, string onGroundAnimationTrigger, float fallSpeed, System.Action callbackOnFinish)
     {
         StartCoroutine(FallToFloorAnimation(fallingAnimationTrigger, onGroundAnimationTrigger, fallSpeed, callbackOnFinish));
@@ -179,6 +184,31 @@ public class AnimatedCharacterInterface : Pausable
             lerpTimer += Time.deltaTime * _movementSpeed;
 
             transform.rotation = Quaternion.Lerp(oldRotation, newRotation, lerpTimer);
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator RotateAroundPivotAnimation(float angleToRotate, Vector3 pivot)
+    {
+        // TODO: enable trails
+        var currentlyRotatedAngle = 0f;
+        var finishedRotating = false;
+        while(!finishedRotating)
+        {
+            var deltaAngle = Time.deltaTime * _movementSpeed * Mathf.Sign(angleToRotate);
+            transform.position = UtilitiesER.RotatePointAroundPivot(transform.position, pivot, Quaternion.AngleAxis(deltaAngle, Vector3.up));
+            currentlyRotatedAngle += deltaAngle;
+            transform.LookAt(pivot);
+
+            if(angleToRotate > 0 && currentlyRotatedAngle >= angleToRotate)
+            {
+                finishedRotating = true;
+            }
+            else if(angleToRotate < 0 && currentlyRotatedAngle <= angleToRotate)
+            {
+                finishedRotating = true;
+            }
 
             yield return null;
         }
