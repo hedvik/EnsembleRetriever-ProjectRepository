@@ -14,6 +14,7 @@ public class OboeDistractor : DistractorEnemy
         var spawnPosition = _redirectionManager.headTransform.position + _redirectionManager.headTransform.forward * _forwardOffsetFromPlayer;
         spawnPosition.y = _redirectionManager.headTransform.position.y;
         _animatedInterface.TeleportToPosition(spawnPosition);
+        transform.LookAt(_redirectionManager.headTransform.position);
 
         _animatedInterface.AnimationTrigger("Jumps");
 

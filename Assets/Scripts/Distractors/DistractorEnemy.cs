@@ -70,7 +70,15 @@ public class DistractorEnemy : Pausable
         CheckForPhaseChange();
         // Play particles etc
 
-        _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, RestartAttacking);
+        if (_health > 0)
+        {
+            _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, RestartAttacking);
+        }
+        else
+        {
+            // TODO: Play some death animation
+            _redirectionManager.OnDistractorEnd();
+        }
     }
 
     public virtual void RestartAttacking()
