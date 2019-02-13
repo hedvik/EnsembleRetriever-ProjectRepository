@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public static class UtilitiesER
 {
@@ -12,4 +13,21 @@ public static class UtilitiesER
     {
         return rotation * (point - pivot) + pivot;
     }
+
+    public static readonly Dictionary<AttackTypeSpeed, string> AttackTypeSpeedTriggers = new Dictionary<AttackTypeSpeed, string>
+    {
+        { AttackTypeSpeed.slow, "SlowAttackTelegraph" },
+        { AttackTypeSpeed.medium, "MediumAttackTelegraph" },
+        { AttackTypeSpeed.fast, "FastAttackTelegraph" }
+    };
+
+    public static readonly Dictionary<AttackTypeInstrument, string> AttackTypeInstrumentTriggers = new Dictionary<AttackTypeInstrument, string>
+    {
+        { AttackTypeInstrument.contrabass, "ContrabassTelegraph" },
+        { AttackTypeInstrument.oboe, "OboeTelegraph" },
+        { AttackTypeInstrument.harpsichord, "HarpsichordTelegraph" },
+        { AttackTypeInstrument.glockenspiel, "GlockenspielTelegraph" },
+        { AttackTypeInstrument.violin, "ViolinTelegraph" },
+        { AttackTypeInstrument.mountainKing, "MountainKingTelegraph" }
+    };
 }

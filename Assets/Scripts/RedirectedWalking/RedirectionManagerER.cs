@@ -140,7 +140,6 @@ public class RedirectionManagerER : RedirectionManager
         // TODO: Request gain increase
         _currentActiveDistractor = Instantiate(_distractorPrefabPool[Random.Range(0, _distractorPrefabPool.Count)]).GetComponent<DistractorEnemy>();
         _currentActiveDistractor.InitialiseDistractor(this);
-        _pausables.Add(_currentActiveDistractor);
     }
 
     public void OnDistractorEnd()
@@ -153,7 +152,6 @@ public class RedirectionManagerER : RedirectionManager
         // TODO: This swap should also be similar to a gain change request. It should only swap when deltaDir is low enough(user it not moving their head around)
         SwapRedirectionAlgorithm(false);
         _currentActiveDistractor.FinaliseDistractor();
-        _pausables.Remove(_currentActiveDistractor);
         _currentActiveDistractor = null;
     }
 
@@ -176,8 +174,6 @@ public class RedirectionManagerER : RedirectionManager
     public void FadeTrackingSpace(bool fadePhysicalSpaceIn)
     {
         StartCoroutine(FadeCoroutine(fadePhysicalSpaceIn));
-
-        // TODO: might somehow want to disable any objects intersecting with the floor
     }
 
     /// <summary>

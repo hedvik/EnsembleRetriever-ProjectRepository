@@ -128,15 +128,17 @@ public class DistractorEnemy : Pausable
 
         _queuedAttack = newAttack;
 
-        if(!string.IsNullOrEmpty(newAttack._telegraphAnimationTrigger))
-        {
-            _animatedInterface._audioSource.PlayOneShot(newAttack._telegraphAudio, newAttack._telegraphAudioScale);
-            _animatedInterface.AnimationTriggerWithCallback(newAttack._telegraphAnimationTrigger, Attack);
-        }
-        else
-        {
+        // TODO: Telegraph enemy first, then attack type.
+        // GameManager can keep track of the audio files.
+        //if(!string.IsNullOrEmpty(newAttack._telegraphAnimationTrigger))
+        //{
+        //    _animatedInterface._audioSource.PlayOneShot(newAttack._telegraphAudio, newAttack._telegraphAudioScale);
+        //    _animatedInterface.AnimationTriggerWithCallback(newAttack._telegraphAnimationTrigger, Attack);
+        //}
+        //else
+        //{
             Attack();
-        }
+        //}
     }
 
     public virtual void Attack()
