@@ -57,7 +57,7 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
 #if UNITY_EDITOR
-        if (Input.GetKey(KeyCode.P) || (SteamVR.active && SteamVR_Actions._default.Teleport.GetStateDown(_batonHand)))
+        if (Input.GetKey(KeyCode.P) || (SteamVR.active && SteamVR_Actions._default.GrabGrip.GetStateDown(_batonHand)))
         {
             AddCharge(100);
         }

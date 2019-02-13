@@ -103,10 +103,7 @@ public class RedirectionManagerER : RedirectionManager
 
         if (_distractorIsActive && FutureDirectionIsAlignedToCentre() && !inReset)
         {
-            // This approach should keep the smoothing which is nice
-            // NOTE: This will run every frame once alignment is finished.
-            MAX_ROT_GAIN = 0f;
-            MIN_ROT_GAIN = 0f;
+            _AC2FRedirector.DisableGains();
         }
 
         _sampleTimer += Time.deltaTime;
@@ -153,6 +150,7 @@ public class RedirectionManagerER : RedirectionManager
         // TODO: Request gain decrease instead of setting them here. Might not want to change it until user has moved towards future
         MAX_ROT_GAIN = _baseMaximumRotationGain;
         MIN_ROT_GAIN = _baseMinimumRotationGain;
+        // TODO: This swap should also be similar to a gain change request. It should only swap when deltaDir is low enough(user it not moving their head around)
         SwapRedirectionAlgorithm(false);
         _currentActiveDistractor.FinaliseDistractor();
         _pausables.Remove(_currentActiveDistractor);

@@ -34,6 +34,8 @@ public class AC2FRedirector : Redirector
     private float _smoothedRotation = 0f;
     private float _lerpTimer = 0f;
 
+    private bool _isAligned = false;
+
     private void Start()
     {
         _redirectionManagerER = redirectionManager as RedirectionManagerER;
@@ -42,6 +44,7 @@ public class AC2FRedirector : Redirector
     public void OnRedirectionMethodSwitch()
     {
         _previousRotationGainType = RotationGainTypes.none;
+        _isAligned = false;
     }
 
     public override void ApplyRedirection()
@@ -62,7 +65,7 @@ public class AC2FRedirector : Redirector
 
         var currentGainType = RotationGainTypes.none;
         // If user is rotating
-        if (Mathf.Abs(deltaDir) / redirectionManager.GetDeltaTime() >= _ROTATION_THRESHOLD)
+        if (Mathf.Abs(deltaDir) / Time.deltaTime >= _ROTATION_THRESHOLD)
         {
             // Calculate gains
             var againstGain = deltaDir * redirectionManager.MIN_ROT_GAIN;
@@ -119,6 +122,20 @@ public class AC2FRedirector : Redirector
         // The approximately check is used to make sure that we dont transition between gains if they have been set to 0
         if(newGain != RotationGainTypes.none && newGain != _previousRotationGainType && !Mathf.Approximately(rotationProposed, deltaDir))
         {
+            _transitioningBetweenGains = true;
+            _lerpTimer = 0f;
+        }
+    }
+
+    // This function is mostly relevant during the distractor active period. 
+    // In particular to smooth out gain changes when alignment is finished. 
+    public void DisableGains()
+    {
+        if (!_isAligned)
+        {
+            _isAligned = true;
+            _redirectionManagerER.MAX_ROT_GAIN = 0;
+            _redirectionManagerER.MIN_ROT_GAIN = 0;
             _transitioningBetweenGains = true;
             _lerpTimer = 0f;
         }
