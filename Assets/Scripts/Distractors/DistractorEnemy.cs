@@ -73,12 +73,11 @@ public class DistractorEnemy : Pausable
         _health = Mathf.Clamp(_health - damageValue, 0, _maxHealth);
         StartCoroutine(DisplayHealth());
         _attackingPhaseActive = false;
-        CheckForPhaseChange();
         _animatedInterface.CleanCallbacks();
 
         if (_health > 0)
         {
-            _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, RestartAttacking, true);
+            _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, CheckForPhaseChange, true);
         }
         else
         {
@@ -101,6 +100,8 @@ public class DistractorEnemy : Pausable
     public virtual void RestartAttacking()
     {
         _attackingPhaseActive = true;
+        _animatedInterface.SetSweatState(_currentPhase._sweatState);
+
     }
 
     protected IEnumerator DisplayHealth()
@@ -129,7 +130,7 @@ public class DistractorEnemy : Pausable
         }
 
         EnemyAttack newAttack;
-        if(_currentPhase._randomAttackOrder)
+        if (_currentPhase._randomAttackOrder)
         {
             newAttack = _currentPhase._enemyAttacks[Random.Range(0, _currentPhase._enemyAttacks.Count)];
         }
@@ -137,7 +138,7 @@ public class DistractorEnemy : Pausable
         {
             newAttack = _currentPhase._attackOrder[_attackOrderIndex];
             _attackOrderIndex++;
-            if(_attackOrderIndex >= _currentPhase._attackOrder.Count)
+            if (_attackOrderIndex >= _currentPhase._attackOrder.Count)
             {
                 _attackOrderIndex = 0;
             }
@@ -181,7 +182,7 @@ public class DistractorEnemy : Pausable
         _animatedInterface.AnimationTrigger("Idle");
     }
 
-    protected bool CheckForPhaseChange()
+    public void CheckForPhaseChange()
     {
         foreach (var phase in _phases)
         {
@@ -191,12 +192,14 @@ public class DistractorEnemy : Pausable
                 _attackOrderIndex = 0;
                 if (_currentPhase._usesPhaseTransitionAnimation)
                 {
-                    // TODO: Trigger a phase change animation
+                    _animatedInterface.AnimationTriggerWithCallback("PhaseTransition", RestartAttacking);
                 }
-                return true;
+                else
+                {
+                    RestartAttacking();
+                }
             }
         }
-        return false;
     }
 
     protected IEnumerator BeginCombat(float waitTime)
@@ -209,9 +212,9 @@ public class DistractorEnemy : Pausable
 
     protected AudioClip FindAudioClipInArray(string animationTriggerName, AudioClip[] audioClipArray)
     {
-        foreach(var audioClip in audioClipArray)
+        foreach (var audioClip in audioClipArray)
         {
-            if(audioClip.name == animationTriggerName)
+            if (audioClip.name == animationTriggerName)
             {
                 return audioClip;
             }

@@ -11,9 +11,11 @@ public class AnimatedCharacterInterface : Pausable
 {
     public float _movementSpeed = 5f;
     public ParticleSystem _teleportParticles;
+    public ParticleSystem _sweatParticles;
     public AudioClip _teleportSound;
     public AudioClip _groundCrashSound;
     public AudioClip _deathExplosionSound;
+    public AudioClip _phaseTransitionSound;
 
     [HideInInspector]
     public AudioSource _audioSource;
@@ -135,6 +137,16 @@ public class AnimatedCharacterInterface : Pausable
     public void PlayDeathExplosionSound()
     {
         _audioSource.PlayOneShot(_deathExplosionSound, 1f);
+    }
+
+    public void PlayPhaseTransitionSound()
+    {
+        _audioSource.PlayOneShot(_phaseTransitionSound, 1f);
+    }
+
+    public void SetSweatState(bool state)
+    {
+        _sweatParticles.gameObject.SetActive(state);
     }
 
     private IEnumerator FallToFloorAnimation(string fallingAnimationTrigger, string onGroundAnimationTrigger, float fallSpeed, System.Action callbackOnFinish, bool returnToStartPositionAfterEnd)

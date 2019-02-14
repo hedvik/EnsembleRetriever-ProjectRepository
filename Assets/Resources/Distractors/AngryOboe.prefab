@@ -325,9 +325,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 100
   _teleportParticles: {fileID: 1942075869685705767}
+  _sweatParticles: {fileID: 9183146303750824279}
   _teleportSound: {fileID: 8300000, guid: c9a56c9d8ae10c547b06aead0a3834b9, type: 3}
   _groundCrashSound: {fileID: 8300000, guid: bda1360711787e0499427174cb0f1462, type: 3}
   _deathExplosionSound: {fileID: 8300000, guid: 7e26c9daf4c32483b9c2790e662d3f1b,
+    type: 3}
+  _phaseTransitionSound: {fileID: 8300000, guid: 357fd8e83aadfb24f9838db0c50cdc1b,
     type: 3}
   _audioSource: {fileID: 0}
 --- !u!82 &2849696706442311637
@@ -1006,15 +1009,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 11400000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
---- !u!198 &1942075869685705767 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328,
-    type: 3}
-  m_PrefabInstance: {fileID: 1942075869666702311}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1942075869666306407 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 83cd9cc9f9c88824ba18dc59b05ae328,
+    type: 3}
+  m_PrefabInstance: {fileID: 1942075869666702311}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1942075869685705767 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328,
     type: 3}
   m_PrefabInstance: {fileID: 1942075869666702311}
   m_PrefabAsset: {fileID: 0}
@@ -1236,6 +1239,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc53e45cf6e14b14691e60a413e43b5e, type: 3}
+--- !u!198 &9183146303750824279 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6659089386579308573, guid: bc53e45cf6e14b14691e60a413e43b5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2528982763762110794}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9183146303750824277 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6659089386579308575, guid: bc53e45cf6e14b14691e60a413e43b5e,
