@@ -14,7 +14,7 @@ public class TutorialNPC : DistractorEnemy
 
     public override void TakeDamage(float damageValue)
     {
-        _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, _redirectionManager._gameManager.AttackEventTriggerDialogue);
+        _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, _redirectionManager._gameManager.AttackEventTriggerDialogue, true);
         _attackTutorialActive = false;
     }
 

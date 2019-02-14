@@ -94,6 +94,14 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void ResetCharge()
+    {
+        _currentCharge = 0f;
+
+        var remappedValue = UtilitiesER.Remap(0, _maxBatonCharge, 0, 1, _currentCharge);
+        _batonRenderer.material.SetColor("_EmissionColor", new Color(remappedValue, remappedValue, remappedValue, 1.0f) * (remappedValue + 1));
+    }
+
     public void TakeDamage()
     {
         // TODO: recordedNumberOfPlayerhits++

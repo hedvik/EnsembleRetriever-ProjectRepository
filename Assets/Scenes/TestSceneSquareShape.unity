@@ -9266,10 +9266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startGameTextBox: {fileID: 1995807369}
   _tutorialInstrument: {fileID: 1637816236}
-  _skipTutorial: 0
-  _slowAttackTelegraphSound: {fileID: 0}
-  _mediumttackTelegraphSound: {fileID: 0}
-  _fastAttackTelegraphSound: {fileID: 0}
+  _skipTutorial: 1
   _gameStarted: 0
 --- !u!4 &1828877937
 Transform:

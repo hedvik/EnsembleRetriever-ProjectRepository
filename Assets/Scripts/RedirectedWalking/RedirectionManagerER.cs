@@ -10,7 +10,9 @@ public class RedirectionManagerER : RedirectionManager
     [Header("Ensemble Retriever Related")]
     public float _trackingSpaceFadeSpeed = 5f;
     public bool _alwaysDisplayTrackingFloor = false;
+    public bool _switchToAC2FOnDistractor = true;
     public int _positionSamplesPerSecond = 60;
+    [Range(-1, 0)]
     public float _alignmentThreshold = -0.9f;
 
     [HideInInspector]
@@ -226,16 +228,19 @@ public class RedirectionManagerER : RedirectionManager
 
     private void SwapRedirectionAlgorithm(bool toAC2F)
     {
-        if (toAC2F)
+        if (_switchToAC2FOnDistractor)
         {
-            redirector = _AC2FRedirector;
-            _AC2FRedirector.OnRedirectionMethodSwitch();
-            _AC2FRedirector._lastRotationApplied = _S2CRedirector._lastRotationApplied;
-        }
-        else
-        {
-            redirector = _S2CRedirector;
-            _S2CRedirector._lastRotationApplied = _AC2FRedirector._lastRotationApplied;
+            if (toAC2F)
+            {
+                redirector = _AC2FRedirector;
+                _AC2FRedirector.OnRedirectionMethodSwitch();
+                _AC2FRedirector._lastRotationApplied = _S2CRedirector._lastRotationApplied;
+            }
+            else
+            {
+                redirector = _S2CRedirector;
+                _S2CRedirector._lastRotationApplied = _AC2FRedirector._lastRotationApplied;
+            }
         }
     }
 }

@@ -74,17 +74,28 @@ public class DistractorEnemy : Pausable
         StartCoroutine(DisplayHealth());
         _attackingPhaseActive = false;
         CheckForPhaseChange();
-        // Play particles etc
+        _animatedInterface.CleanCallbacks();
 
         if (_health > 0)
         {
-            _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, RestartAttacking);
+            _animatedInterface.TakeDamageAnimation("Fall", "GroundCrash", _fallSpeedOnDamage, RestartAttacking, true);
         }
         else
         {
-            // TODO: Play some death animation
-            _redirectionManager.OnDistractorEnd();
+            _animatedInterface.TakeDamageAnimation("FallDeath", "DeathCrash", 0.75f, Die, false);
         }
+    }
+
+    public void Die()
+    {
+        _redirectionManager._playerManager.ResetCharge();
+        _animatedInterface.AnimationTriggerWithCallback("Death", AwardEXP);
+    }
+
+    public void AwardEXP()
+    {
+        // TODO: Award EXP
+        _redirectionManager.OnDistractorEnd();
     }
 
     public virtual void RestartAttacking()

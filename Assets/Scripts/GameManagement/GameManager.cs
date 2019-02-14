@@ -11,11 +11,6 @@ public class GameManager : MonoBehaviour
     public AnimatedCharacterInterface _tutorialInstrument;
     public bool _skipTutorial;
 
-    [Header("Generic Audio")]
-    public AudioClip _slowAttackTelegraphSound;
-    public AudioClip _mediumttackTelegraphSound;
-    public AudioClip _fastAttackTelegraphSound;
-
     [HideInInspector]
     public bool _gameStarted = false;
 

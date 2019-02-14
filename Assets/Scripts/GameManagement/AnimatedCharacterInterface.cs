@@ -13,6 +13,7 @@ public class AnimatedCharacterInterface : Pausable
     public ParticleSystem _teleportParticles;
     public AudioClip _teleportSound;
     public AudioClip _groundCrashSound;
+    public AudioClip _deathExplosionSound;
 
     [HideInInspector]
     public AudioSource _audioSource;
@@ -38,6 +39,11 @@ public class AnimatedCharacterInterface : Pausable
     protected override void PauseStateChange()
     {
         _animator.enabled = !_isPaused;
+    }
+
+    public void CleanCallbacks()
+    {
+        _onAnimationEndCallbacks.Clear();
     }
 
     public void AnimationTrigger(string trigger)
@@ -121,13 +127,20 @@ public class AnimatedCharacterInterface : Pausable
         StartCoroutine(RotateAroundPivotAnimation(angleToRotate, pivot));
     }
 
-    public void TakeDamageAnimation(string fallingAnimationTrigger, string onGroundAnimationTrigger, float fallSpeed, System.Action callbackOnFinish)
+    public void TakeDamageAnimation(string fallingAnimationTrigger, string onGroundAnimationTrigger, float fallSpeed, System.Action callbackOnFinish, bool returnToStartPositionAfterEnd)
     {
-        StartCoroutine(FallToFloorAnimation(fallingAnimationTrigger, onGroundAnimationTrigger, fallSpeed, callbackOnFinish));
+        StartCoroutine(FallToFloorAnimation(fallingAnimationTrigger, onGroundAnimationTrigger, fallSpeed, callbackOnFinish, returnToStartPositionAfterEnd));
     }
 
-    private IEnumerator FallToFloorAnimation(string fallingAnimationTrigger, string onGroundAnimationTrigger, float fallSpeed, System.Action callbackOnFinish)
+    public void PlayDeathExplosionSound()
     {
+        _audioSource.PlayOneShot(_deathExplosionSound, 1f);
+    }
+
+    private IEnumerator FallToFloorAnimation(string fallingAnimationTrigger, string onGroundAnimationTrigger, float fallSpeed, System.Action callbackOnFinish, bool returnToStartPositionAfterEnd)
+    {
+        _animator.SetFloat("speed", fallSpeed);
+
         // It is necessary to find the y value of the position that should be fallen to.
         // Layer 9 contains the virtual environment
         var positionToFallTowards = transform.position;
@@ -161,11 +174,17 @@ public class AnimatedCharacterInterface : Pausable
         transform.position += Vector3.down * 0.5f;
         _audioSource.PlayOneShot(_groundCrashSound);
 
-        // HACK: There aren't any easy ways to check the length of the animation 
+        // HACK: Could have waited for the length of the animation somehow, but that is tedious to find
         yield return new WaitForSeconds(3);
 
-        TeleportToPosition(basePosition);
-        AnimationTrigger("Idle");
+        _animator.SetFloat("speed", 1f);
+
+        if (returnToStartPositionAfterEnd)
+        {
+            TeleportToPosition(basePosition);
+            AnimationTrigger("Idle");
+        }
+
         callbackOnFinish?.Invoke();
     }
 
