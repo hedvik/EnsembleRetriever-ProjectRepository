@@ -20,6 +20,7 @@ public class AnimatedCharacterInterface : Pausable
     private Animator _animator;
     private RedirectionManagerER _redirectionManager;
     private BoxCollider _collider;
+    private TrailRenderer _trailRenderer;
 
     private string _currentAnimation = null;
     private Dictionary<string, System.Action> _onAnimationEndCallbacks = new Dictionary<string, System.Action>();
@@ -31,6 +32,7 @@ public class AnimatedCharacterInterface : Pausable
         _animator = GetComponent<Animator>();
         _redirectionManager = GameObject.FindGameObjectWithTag("RedirectionManager").GetComponent<RedirectionManagerER>();
         _collider = GetComponent<BoxCollider>();
+        _trailRenderer = GetComponent<TrailRenderer>();
     }
 
     protected override void PauseStateChange()
@@ -65,18 +67,26 @@ public class AnimatedCharacterInterface : Pausable
 
     public void TeleportToStringPosition(string position)
     {
+        _trailRenderer.enabled = false;
+
         _teleportParticles.Play();
         _audioSource.PlayOneShot(_teleportSound);
 
         transform.position = StringToVector3(position);
+
+        _trailRenderer.enabled = true;
     }
 
     public void TeleportToPosition(Vector3 position)
     {
+        _trailRenderer.enabled = false;
+
         _teleportParticles.Play();
         _audioSource.PlayOneShot(_teleportSound);
 
         transform.position = position;
+
+        _trailRenderer.enabled = true;
     }
 
     public void LookAtStringPosition(string target)
@@ -191,7 +201,6 @@ public class AnimatedCharacterInterface : Pausable
 
     private IEnumerator RotateAroundPivotAnimation(float angleToRotate, Vector3 pivot)
     {
-        // TODO: enable trails
         var currentlyRotatedAngle = 0f;
         var finishedRotating = false;
         while(!finishedRotating)

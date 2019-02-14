@@ -21,6 +21,13 @@ public static class UtilitiesER
         { AttackTypeSpeed.fast, "FastAttackTelegraph" }
     };
 
+    public static readonly Dictionary<AttackTypeSpeed, float> AttackTypeSpeedAudioScales = new Dictionary<AttackTypeSpeed, float>
+    {
+        { AttackTypeSpeed.slow, 1 },
+        { AttackTypeSpeed.medium, 1 },
+        { AttackTypeSpeed.fast, 0.5f }
+    };
+
     public static readonly Dictionary<AttackTypeInstrument, string> AttackTypeInstrumentTriggers = new Dictionary<AttackTypeInstrument, string>
     {
         { AttackTypeInstrument.contrabass, "ContrabassTelegraph" },
@@ -29,5 +36,15 @@ public static class UtilitiesER
         { AttackTypeInstrument.glockenspiel, "GlockenspielTelegraph" },
         { AttackTypeInstrument.violin, "ViolinTelegraph" },
         { AttackTypeInstrument.mountainKing, "MountainKingTelegraph" }
+    };
+
+    public static readonly Dictionary<AttackTypeInstrument, float> AttackTypeInstrumentAudioScales = new Dictionary<AttackTypeInstrument, float>
+    {
+        { AttackTypeInstrument.contrabass, 1 },
+        { AttackTypeInstrument.oboe, 0.6f },
+        { AttackTypeInstrument.harpsichord, 1 },
+        { AttackTypeInstrument.glockenspiel, 1 },
+        { AttackTypeInstrument.violin, 1 },
+        { AttackTypeInstrument.mountainKing, 1 }
     };
 }

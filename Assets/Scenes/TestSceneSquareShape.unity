@@ -188,7 +188,7 @@ PrefabInstance:
     - target: {fileID: 5163990942235738769, guid: a2145ea94da7f57408cc0bcf2ad577ac,
         type: 3}
       propertyPath: _alwaysDisplayTrackingFloor
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2145ea94da7f57408cc0bcf2ad577ac, type: 3}
@@ -9266,7 +9266,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startGameTextBox: {fileID: 1995807369}
   _tutorialInstrument: {fileID: 1637816236}
-  _skipTutorial: 1
+  _skipTutorial: 0
+  _slowAttackTelegraphSound: {fileID: 0}
+  _mediumttackTelegraphSound: {fileID: 0}
+  _fastAttackTelegraphSound: {fileID: 0}
   _gameStarted: 0
 --- !u!4 &1828877937
 Transform:
@@ -9548,6 +9551,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1786776657}
     m_Modifications:
+    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
+      propertyPath: m_Name
+      value: StartTextBox
+      objectReference: {fileID: 0}
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9595,10 +9602,6 @@ PrefabInstance:
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
-      propertyPath: m_Name
-      value: StartTextBox
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}

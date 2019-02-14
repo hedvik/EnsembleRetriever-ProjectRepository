@@ -26,6 +26,9 @@ public class DistractorEnemy : Pausable
 
     protected EnemyAttack _queuedAttack = null;
 
+    protected AudioClip[] _uniqueTelegraphAudioClips;
+    protected AudioClip[] _speedTelegraphAudioClips;
+
     public virtual void InitialiseDistractor(RedirectionManagerER redirectionManager)
     {
         _maxHealth = _health;
@@ -36,6 +39,9 @@ public class DistractorEnemy : Pausable
         _healthBarTransform = transform.Find("HealthBarCanvas")?.GetComponent<RectTransform>();
         _healthBarFillImage = _healthBarTransform?.GetChild(1)?.GetComponent<Image>();
         _healthBarTransform.localScale = Vector3.zero;
+
+        _uniqueTelegraphAudioClips = Resources.LoadAll<AudioClip>("Audio/InstrumentTelegraphAudio/");
+        _speedTelegraphAudioClips = Resources.LoadAll<AudioClip>("Audio/SpeedTelegraphAudio/");
     }
 
     public virtual void FinaliseDistractor()
@@ -51,7 +57,7 @@ public class DistractorEnemy : Pausable
 
             if (_attackTimer >= _currentPhase._attackCooldown)
             {
-                TelegraphAttack();
+                StartAttackTelegraphs();
             }
         }
     }
@@ -104,7 +110,7 @@ public class DistractorEnemy : Pausable
         _healthBarFillImage.fillAmount = targetFill;
     }
 
-    protected virtual void TelegraphAttack(bool resetTimer = true)
+    protected virtual void StartAttackTelegraphs(bool resetTimer = true)
     {
         if (resetTimer)
         {
@@ -128,17 +134,25 @@ public class DistractorEnemy : Pausable
 
         _queuedAttack = newAttack;
 
-        // TODO: Telegraph enemy first, then attack type.
-        // GameManager can keep track of the audio files.
-        //if(!string.IsNullOrEmpty(newAttack._telegraphAnimationTrigger))
-        //{
-        //    _animatedInterface._audioSource.PlayOneShot(newAttack._telegraphAudio, newAttack._telegraphAudioScale);
-        //    _animatedInterface.AnimationTriggerWithCallback(newAttack._telegraphAnimationTrigger, Attack);
-        //}
-        //else
-        //{
-            Attack();
-        //}
+        if (newAttack._attackParentInstrument != AttackTypeInstrument.none)
+        {
+            // Run Unique Telegraph + audio
+            var uniqueTelegraphAudio = FindAudioClipInArray(UtilitiesER.AttackTypeInstrumentTriggers[newAttack._attackParentInstrument], _uniqueTelegraphAudioClips);
+            _animatedInterface._audioSource.PlayOneShot(uniqueTelegraphAudio, UtilitiesER.AttackTypeInstrumentAudioScales[_queuedAttack._attackParentInstrument]);
+            _animatedInterface.AnimationTriggerWithCallback(UtilitiesER.AttackTypeInstrumentTriggers[newAttack._attackParentInstrument], StartAttackSpeedTelegraph);
+        }
+        else
+        {
+            StartAttackSpeedTelegraph();
+        }
+    }
+
+    public void StartAttackSpeedTelegraph()
+    {
+        // Run attack speed type telegraph + audio
+        var speedTelegraphAudio = FindAudioClipInArray(UtilitiesER.AttackTypeSpeedTriggers[_queuedAttack._attackType], _speedTelegraphAudioClips);
+        _animatedInterface._audioSource.PlayOneShot(speedTelegraphAudio, UtilitiesER.AttackTypeSpeedAudioScales[_queuedAttack._attackType]);
+        _animatedInterface.AnimationTriggerWithCallback(UtilitiesER.AttackTypeSpeedTriggers[_queuedAttack._attackType], Attack);
     }
 
     public virtual void Attack()
@@ -152,6 +166,8 @@ public class DistractorEnemy : Pausable
         {
             _animatedInterface.RotateAroundPivot(Random.Range(-180f, 180f), _redirectionManager.headTransform.position);
         }
+
+        _animatedInterface.AnimationTrigger("Idle");
     }
 
     protected bool CheckForPhaseChange()
@@ -177,6 +193,18 @@ public class DistractorEnemy : Pausable
         yield return new WaitForSeconds(waitTime);
         _attackingPhaseActive = true;
         _animatedInterface.AnimationTrigger("Idle");
-        TelegraphAttack(false);
+        StartAttackTelegraphs(false);
+    }
+
+    protected AudioClip FindAudioClipInArray(string animationTriggerName, AudioClip[] audioClipArray)
+    {
+        foreach(var audioClip in audioClipArray)
+        {
+            if(audioClip.name == animationTriggerName)
+            {
+                return audioClip;
+            }
+        }
+        return null;
     }
 }

@@ -88,7 +88,7 @@ public class FreezeTurnCentre : Resetter
         _resetVisualObjectInstance.transform.localPosition = new Vector3(0, _redirectionManagerER.headTransform.position.y, 0);
 
         var animatedCharacter = _resetVisualObjectInstance.GetComponent<AnimatedCharacterInterface>();
-        animatedCharacter.LookAtPosition(_redirectionManagerER.headTransform.position);
+        animatedCharacter.transform.LookAt(_redirectionManagerER.headTransform.position);
         animatedCharacter.AnimationTrigger("Jumps");
     }
 
