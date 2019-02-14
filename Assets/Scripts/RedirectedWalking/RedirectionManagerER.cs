@@ -138,7 +138,7 @@ public class RedirectionManagerER : RedirectionManager
 
         _baseMaximumRotationGain = MAX_ROT_GAIN;
         _baseMinimumRotationGain = MIN_ROT_GAIN;
-        SwapRedirectionAlgorithm(true);
+        RequestAlgorithmSwitch(true);
         // TODO: Request gain increase
         _currentActiveDistractor = Instantiate(_distractorPrefabPool[Random.Range(0, _distractorPrefabPool.Count)]).GetComponent<DistractorEnemy>();
         _currentActiveDistractor.InitialiseDistractor(this);
@@ -148,11 +148,10 @@ public class RedirectionManagerER : RedirectionManager
     {
         _distractorIsActive = false;
         _futureVirtualWalkingDirection = Vector3.zero;
-        // TODO: Request gain decrease instead of setting them here. Might not want to change it until user has moved towards future
+        // TODO: Request gain decrease instead of setting them here. 
         MAX_ROT_GAIN = _baseMaximumRotationGain;
         MIN_ROT_GAIN = _baseMinimumRotationGain;
-        // TODO: This swap should also be similar to a gain change request. It should only swap when deltaDir is low enough(user it not moving their head around)
-        SwapRedirectionAlgorithm(false);
+        RequestAlgorithmSwitch(false);
         _currentActiveDistractor.FinaliseDistractor();
         _currentActiveDistractor = null;
     }
@@ -160,6 +159,7 @@ public class RedirectionManagerER : RedirectionManager
     public void SetWorldPauseState(bool isPaused)
     {
         // NOTE: This approach might not be ideal performance wise.
+        // A better option could be to have every pausable "subscribe" to this list on initialise and remove itself OnDestroy()
         _pausables.Clear();
         _pausables.AddRange(FindObjectsOfType<Pausable>());
         foreach (var pausable in _pausables)
@@ -226,21 +226,34 @@ public class RedirectionManagerER : RedirectionManager
         return dotProduct <= _alignmentThreshold;
     }
 
-    private void SwapRedirectionAlgorithm(bool toAC2F)
+    private void RequestAlgorithmSwitch(bool toAC2F)
     {
         if (_switchToAC2FOnDistractor)
         {
-            if (toAC2F)
-            {
-                redirector = _AC2FRedirector;
-                _AC2FRedirector.OnRedirectionMethodSwitch();
-                _AC2FRedirector._lastRotationApplied = _S2CRedirector._lastRotationApplied;
-            }
-            else
-            {
-                redirector = _S2CRedirector;
-                _S2CRedirector._lastRotationApplied = _AC2FRedirector._lastRotationApplied;
-            }
+            StartCoroutine(SwapRedirectionAlgorithm(toAC2F));
+        }
+    }
+
+    private IEnumerator SwapRedirectionAlgorithm(bool toAC2F)
+    {
+        // Wait until the head is relatively stable, then switch
+        while (Mathf.Abs(deltaDir) / Time.deltaTime >= AC2FRedirector._ROTATION_THRESHOLD)
+        {
+            yield return null;
+        }
+
+        //Debug.Log("Algorithm Switched To: " + (toAC2F ? "AC2F" : "S2C"));
+
+        if (toAC2F)
+        {
+            redirector = _AC2FRedirector;
+            _AC2FRedirector.OnRedirectionMethodSwitch();
+            _AC2FRedirector._lastRotationApplied = _S2CRedirector._lastRotationApplied;
+        }
+        else
+        {
+            redirector = _S2CRedirector;
+            _S2CRedirector._lastRotationApplied = _AC2FRedirector._lastRotationApplied;
         }
     }
 }

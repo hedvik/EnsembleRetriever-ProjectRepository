@@ -88,10 +88,10 @@ public class DistractorEnemy : Pausable
     public void Die()
     {
         _redirectionManager._playerManager.ResetCharge();
-        _animatedInterface.AnimationTriggerWithCallback("Death", AwardEXP);
+        _animatedInterface.AnimationTriggerWithCallback("Death", AwardEXPAndFinish);
     }
 
-    public void AwardEXP()
+    public void AwardEXPAndFinish()
     {
         // TODO: Award EXP
         _redirectionManager.OnDistractorEnd();

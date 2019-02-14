@@ -34,7 +34,6 @@ public class PlayerManager : MonoBehaviour
     private Vignette _vignette;
     private Coroutine _takeDamageRoutine;
 
-
     private void Awake()
     {
         // Needed for runtime modification of emission colour

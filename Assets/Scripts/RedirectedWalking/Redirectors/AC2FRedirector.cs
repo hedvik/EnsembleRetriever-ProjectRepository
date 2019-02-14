@@ -22,7 +22,7 @@ public class AC2FRedirector : Redirector
     protected RedirectionManagerER _redirectionManagerER;
 
     // User Experience Improvement Parameters
-    private const float _ROTATION_THRESHOLD = 1.5f; // degrees per second
+    public const float _ROTATION_THRESHOLD = 1.5f; // degrees per second
     private const float _ROTATION_GAIN_CAP_DEGREES_PER_SECOND = 30;  // degrees per second
     private const float _SMOOTHING_FACTOR = 0.125f; // Smoothing factor for redirection rotations
 
