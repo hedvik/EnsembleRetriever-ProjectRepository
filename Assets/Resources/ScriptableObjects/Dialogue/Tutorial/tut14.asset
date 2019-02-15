@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882bf00422c32e541977e7f3e048f879, type: 3}
   m_Name: tut14
   m_EditorClassIdentifier: 
-  _text: I would recommend that you gather <color=#800080>3 shiny clues</color> before
+  _text: I would recommend that you gather <color=#00FF00>3 shiny clues</color> before
     entering though. Otherwise you might not be able to decipher the <color=#a52a2aff>password</color>
     to enter his lair!
   _voiceLine: {fileID: 0}

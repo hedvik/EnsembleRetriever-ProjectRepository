@@ -348,6 +348,111 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b976d491ffe702e4ab12fd866d9d11de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &272593226
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1786776657}
+    m_Modifications:
+    - target: {fileID: 7151346412534525533, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_Name
+      value: HintGiver (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 12.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5983246
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8012538
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -73.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146911517292470288, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146911517292470288, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109876748951653764, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_Text
+      value: 'The <color=#800080>Mountain King</color> is pretty popular among us
+        <color=#a52a2aff>fireflies</color>! We even have our own <color=#a52a2aff>fan
+        club</color>, dedicated to him!
+
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109876748951653764, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109876748951653764, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_FontData.m_AlignByGeometry
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 46d7fb483220b7a4786f40e8aaade7ea, type: 3}
+--- !u!4 &272593227 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 272593226}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &275077394
 GameObject:
   m_ObjectHideFlags: 0
@@ -9186,6 +9291,8 @@ Transform:
   - {fileID: 972453798}
   - {fileID: 1063718554}
   - {fileID: 711801495}
+  - {fileID: 1861006864}
+  - {fileID: 272593227}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9297,7 +9404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startGameTextBox: {fileID: 1995807369}
   _tutorialInstrument: {fileID: 1637816236}
-  _skipTutorial: 1
+  _skipTutorial: 0
   _levelUpDialogueBoxOffsetFromPlayer: 5
   _levelUpDialoguePrefab: {fileID: 3532050167178501051, guid: 6cf30edf6f49bad45a1f36223d6ad72e,
     type: 3}
@@ -9319,6 +9426,115 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1861006863
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1786776657}
+    m_Modifications:
+    - target: {fileID: 7151346412534525533, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_Name
+      value: HintGiver (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -16.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 20.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5941912
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.80432385
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 72.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146911517292470288, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.848
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146911517292470288, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109876748951653764, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_Text
+      value: 'The <color=#800080>Mountain King</color> passed by earlier! I think
+        I heard him mumbling something about a <color=#a52a2aff>new musical masterpiece</color>...
+
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109876748951653764, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109876748951653764, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_FontData.m_RichText
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109876748951653764, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_FontData.m_AlignByGeometry
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 46d7fb483220b7a4786f40e8aaade7ea, type: 3}
+--- !u!4 &1861006864 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7151346412534525535, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 1861006863}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1916257555
 PrefabInstance:
   m_ObjectHideFlags: 0
