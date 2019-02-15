@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fd72dcf5bb1954298df89b47282ad3, type: 3}
+  m_Name: BatonUpgrades
+  m_EditorClassIdentifier: 
+  _batonUpgrades:
+  - _emissionColor: {r: 2.9960785, g: 2.7137256, b: 2.7137256, a: 1}
+    _damageValue: 13
+  - _emissionColor: {r: 0.10980392, g: 2.9960785, b: 0.26666668, a: 1}
+    _damageValue: 20
+  - _emissionColor: {r: 0, g: 2.1803923, b: 4, a: 1}
+    _damageValue: 30

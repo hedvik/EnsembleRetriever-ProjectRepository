@@ -9,6 +9,7 @@ public class DistractorEnemy : Pausable
     public float _healthBarDisplayDuration = 3f;
     public float _fallSpeedOnDamage = 3f;
     public AnimationCurve _healthBarScaleDuringAnimation;
+    public int _awardedEXP = 50;
 
     protected RedirectionManagerER _redirectionManager;
     protected AnimatedCharacterInterface _animatedInterface;
@@ -93,7 +94,7 @@ public class DistractorEnemy : Pausable
 
     public void AwardEXPAndFinish()
     {
-        // TODO: Award EXP
+        _redirectionManager._playerManager.AddEXP(_awardedEXP);
         _redirectionManager.OnDistractorEnd();
     }
 

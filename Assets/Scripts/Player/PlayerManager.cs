@@ -10,9 +10,9 @@ public class PlayerManager : MonoBehaviour
     public MeshRenderer _batonRenderer;
     public float _chargedAnimationSpeed = 5f;
     public float _pointerLineLength = 50f;
-    public float _shotDamage = 50f;
     public float _shotAnimationNoise = 1f;
     public float _takeDamageAnimationSpeed = 5f;
+    public int _expNeededForLevelUp = 100;
 
     [Header("Audio")]
     public AudioClip _attackSound;
@@ -34,6 +34,15 @@ public class PlayerManager : MonoBehaviour
     private Vignette _vignette;
     private Coroutine _takeDamageRoutine;
 
+    private int _currentEXP = 0;
+    private float _currentShotDamage = 0f;
+    private ShieldUpgrades _shieldUpgrades;
+    private BatonUpgrades _batonUpgrades;
+    private int _currentBatonLevel = 0;
+    private int _currentShieldLevel = 0;
+    private Color _currentEmissionColor;
+    private PlayerShield _playerShield;
+
     private void Awake()
     {
         // Needed for runtime modification of emission colour
@@ -49,6 +58,13 @@ public class PlayerManager : MonoBehaviour
         _batonLineRenderer.SetPosition(1, _pointerOrigin.InverseTransformPoint(_pointerOrigin.position + _pointerOrigin.forward * _pointerLineLength));
 
         _vignette = GameObject.Find("PostProcessing").GetComponent<PostProcessVolume>().profile.GetSetting<Vignette>();
+
+        _playerShield = GetComponentInChildren<PlayerShield>();
+
+        _shieldUpgrades = Resources.Load<ShieldUpgrades>("ScriptableObjects/PlayerUpgrades/ShieldUpgrades");
+        _batonUpgrades = Resources.Load<BatonUpgrades>("ScriptableObjects/PlayerUpgrades/BatonUpgrades");
+
+        UpdatePlayerUpgrades();
 
         ResetBaton();
     }
@@ -74,7 +90,7 @@ public class PlayerManager : MonoBehaviour
             var sineTimer = UtilitiesER.Remap(-1f, 1f, 0, 1, Mathf.Sin(_chargedAnimationTimer));
 
             // +1 is added to these calculations so the emission strength is a bit more noticeable
-            _batonRenderer.material.SetColor("_EmissionColor", new Color(sineTimer, sineTimer, sineTimer, 1.0f) * (sineTimer + 1));
+            _batonRenderer.material.SetColor("_EmissionColor", Color.Lerp(Color.black * 0, _currentEmissionColor, sineTimer));
         }
     }
 
@@ -101,6 +117,27 @@ public class PlayerManager : MonoBehaviour
         _batonRenderer.material.SetColor("_EmissionColor", new Color(remappedValue, remappedValue, remappedValue, 1.0f) * (remappedValue + 1));
     }
 
+    // TODO: Implement this
+    public void AddEXP(int value)
+    {
+        var oldExp = _currentEXP;
+        _currentEXP += value;
+        // Play exp animation
+
+        // OnAnimationEnd: If levelup, ask player what they want to upgrade
+        if(_currentEXP >= _expNeededForLevelUp)
+        {
+            // Ask player. Spawn dialogue box?
+            _currentEXP -= _expNeededForLevelUp;
+
+            // DEBUG: Both level up at the same time
+            LevelUp(false);
+            LevelUp(true);
+        }
+
+        // Run animation for that upgrade
+    }
+
     public void TakeDamage()
     {
         // TODO: recordedNumberOfPlayerhits++
@@ -122,7 +159,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                hit.collider.gameObject.GetComponent<DistractorEnemy>().TakeDamage(_shotDamage);
+                hit.collider.gameObject.GetComponent<DistractorEnemy>().TakeDamage(_currentShotDamage);
                 attackEndPoint = hit.point;
             }
         }
@@ -138,6 +175,33 @@ public class PlayerManager : MonoBehaviour
         _currentCharge = 0;
         // HACK: Hacky way to quickly reset stuff
         AddCharge(0);
+    }
+
+    private void LevelUp(bool batonChosen)
+    {
+        if(batonChosen)
+        {
+            if(_currentBatonLevel + 1 < _batonUpgrades._batonUpgrades.Count)
+            {
+                _currentBatonLevel++;
+            }
+        }
+        else
+        {
+            if (_currentShieldLevel + 1 < _shieldUpgrades._shieldUpgrades.Count)
+            {
+                _currentShieldLevel++;
+            }
+        }
+
+        UpdatePlayerUpgrades();
+    }
+
+    private void UpdatePlayerUpgrades()
+    {
+        _currentEmissionColor = _batonUpgrades._batonUpgrades[_currentBatonLevel]._emissionColor;
+        _currentShotDamage = _batonUpgrades._batonUpgrades[_currentBatonLevel]._damageValue;
+        _playerShield.transform.localScale = _shieldUpgrades._shieldUpgrades[_currentShieldLevel]._shieldScale;
     }
 
     private IEnumerator ShotAnimation(Vector3 endPoint)

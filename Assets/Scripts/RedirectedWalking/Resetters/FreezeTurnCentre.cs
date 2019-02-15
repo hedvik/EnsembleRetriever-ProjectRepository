@@ -78,10 +78,15 @@ public class FreezeTurnCentre : Resetter
 
     public void SetResetVisuals()
     {
-        _resetTextInstance = Instantiate(_resetTextPrefab);
-        _resetTextInstance.transform.parent = _redirectionManagerER.headTransform;
-        _resetTextInstance.transform.localPosition = _resetTextInstance.transform.position;
-        _resetTextInstance.transform.localRotation = _resetTextInstance.transform.rotation;
+        // This disables the reset text once the tutorial is finished.
+        if (_redirectionManagerER._gameManager._gameStarted)
+        {
+            _resetTextInstance = Instantiate(_resetTextPrefab);
+            _resetTextInstance.transform.parent = _redirectionManagerER.headTransform;
+            _resetTextInstance.transform.localPosition = _resetTextInstance.transform.position;
+            _resetTextInstance.transform.localRotation = _resetTextInstance.transform.rotation;
+        }
+        // TODO: Instead it might be possible to just have an arrow or something in the peripheral vision that encourages rotation
 
         _resetVisualObjectInstance = Instantiate(_resetVisualObjectPrefab);
         _resetVisualObjectInstance.transform.parent = _redirectionManagerER.trackedSpace;
