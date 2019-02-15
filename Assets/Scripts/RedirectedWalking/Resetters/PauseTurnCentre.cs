@@ -6,7 +6,7 @@ using UnityEngine;
 /// Class employing a modified version of the Freeze - Turn reset method.
 /// World rotation is only "frozen" on the y axis, the physical bounds are faded in and the user is asked to look towards the centre of the room.
 /// </summary>
-public class FreezeTurnCentre : Resetter
+public class PauseTurnCentre : Resetter
 {
     [Tooltip("The reset does not finalise until the user has walked a few steps towards the centre of the room. This allows resetting to occur when walking backwards or sideways into a reset collider.")]
     public bool _safetyMode = true;
@@ -20,8 +20,8 @@ public class FreezeTurnCentre : Resetter
     private void Start()
     {
         _redirectionManagerER = base.redirectionManager as RedirectionManagerER;
-        _resetTextPrefab = Resources.Load<GameObject>("ResetText/FreezeTurnCentreER HUD");
-        _resetVisualObjectPrefab = Resources.Load<GameObject>("ResetObjects/FreezeTurnCentreER Object");
+        _resetTextPrefab = Resources.Load<GameObject>("ResetText/PauseTurnCentreER HUD");
+        _resetVisualObjectPrefab = Resources.Load<GameObject>("ResetObjects/PauseTurnCentreER Object");
     }
 
     public override bool IsResetRequired()
@@ -64,12 +64,15 @@ public class FreezeTurnCentre : Resetter
     public override void FinalizeReset()
     {
         // If this results in too much garbage collection it is always possible to just disable the objects instead of deleting them
-        Destroy(_resetTextInstance.gameObject);
+        if (_resetTextInstance != null)
+        {
+            Destroy(_resetTextInstance.gameObject);
+        }
         Destroy(_resetVisualObjectInstance.gameObject);
         _redirectionManagerER.FadeTrackingSpace(false);
         _redirectionManagerER.SetWorldPauseState(false);
 
-        // If we are still in the tutorial. Resets can trigger event text boxes.
+        // If we are still in the tutorial. Resets can trigger certain event text boxes.
         if(!_redirectionManagerER._gameManager._gameStarted)
         {
             _redirectionManagerER._gameManager.ResetEventTriggerDialogue();
@@ -79,7 +82,7 @@ public class FreezeTurnCentre : Resetter
     public void SetResetVisuals()
     {
         // This disables the reset text once the tutorial is finished.
-        if (_redirectionManagerER._gameManager._gameStarted)
+        if (!_redirectionManagerER._gameManager._gameStarted)
         {
             _resetTextInstance = Instantiate(_resetTextPrefab);
             _resetTextInstance.transform.parent = _redirectionManagerER.headTransform;

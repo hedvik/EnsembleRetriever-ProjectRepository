@@ -10,7 +10,6 @@ public class LevelUpBox : MonoBehaviour
 
     private PlayerManager _playerManager;
     private GameManager _gameManager;
-    private Transform _playerHeadTransform;
     private bool _batonUpgradeAvailable = true;
     private bool _shieldUpgradeAvailable = true;
 
@@ -19,14 +18,11 @@ public class LevelUpBox : MonoBehaviour
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _playerManager = _gameManager.GetCurrentPlayerManager();
-        _playerHeadTransform = _gameManager._redirectionManager.GetUserHeadTransform();
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(_playerHeadTransform);
-
         #if UNITY_EDITOR
         if (_batonUpgradeAvailable && Input.GetKeyDown(KeyCode.L))
         {

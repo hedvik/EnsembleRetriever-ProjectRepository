@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public float _levelUpDialogueBoxOffsetFromPlayer = 5f;
 
     [SerializeField]
-    private GameObject _levelUpDialoguePrefab;
+    private GameObject _levelUpDialoguePrefab = null;
 
     [HideInInspector]
     public bool _gameStarted = false;

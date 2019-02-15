@@ -41,8 +41,6 @@ public class UIManager : MonoBehaviour
             {
                 NextDialogueSnippet(false);
             }
-
-            _currentlyActiveTextBox.transform.LookAt(_redirectorManager.headTransform.position);
         }
     }
 
