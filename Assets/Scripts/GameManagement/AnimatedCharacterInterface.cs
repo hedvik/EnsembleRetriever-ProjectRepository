@@ -69,8 +69,11 @@ public class AnimatedCharacterInterface : Pausable
 
     public void OnAnimationEnd(string trigger)
     {
-        _onAnimationEndCallbacks[trigger]?.Invoke();
-        _onAnimationEndCallbacks.Remove(trigger);
+        if (_onAnimationEndCallbacks.ContainsKey(trigger))
+        {
+            _onAnimationEndCallbacks[trigger]?.Invoke();
+            _onAnimationEndCallbacks.Remove(trigger);
+        }
     }
 
     public void TeleportToStringPosition(string position)

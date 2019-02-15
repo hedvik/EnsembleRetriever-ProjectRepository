@@ -101,7 +101,6 @@ public class DistractorEnemy : Pausable
     {
         _attackingPhaseActive = true;
         _animatedInterface.SetSweatState(_currentPhase._sweatState);
-
     }
 
     protected IEnumerator DisplayHealth()
@@ -184,6 +183,7 @@ public class DistractorEnemy : Pausable
 
     public void CheckForPhaseChange()
     {
+        var phaseChanged = false;
         foreach (var phase in _phases)
         {
             if (phase.IsWithinPhaseThreshold(UtilitiesER.Remap(0, _maxHealth, 0, 100, _health)) && phase != _currentPhase)
@@ -193,12 +193,14 @@ public class DistractorEnemy : Pausable
                 if (_currentPhase._usesPhaseTransitionAnimation)
                 {
                     _animatedInterface.AnimationTriggerWithCallback("PhaseTransition", RestartAttacking);
-                }
-                else
-                {
-                    RestartAttacking();
+                    phaseChanged = true;
                 }
             }
+        }
+
+        if(!phaseChanged)
+        {
+            RestartAttacking();
         }
     }
 
