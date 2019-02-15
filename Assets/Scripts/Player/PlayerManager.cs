@@ -151,11 +151,14 @@ public class PlayerManager : MonoBehaviour
     private void Shoot()
     {
         _audioSource.PlayOneShot(_attackSound);
-
         var attackEndPoint = _pointerOrigin.position + _pointerOrigin.forward * _pointerLineLength;
 
+        // We do not want to potentially hit the distractor or reset colliders so we only raycast objects in the virtual world.
+        // Layer 9 is in this case the VirtualWorld layer.
+        var layerMask = 1 << 9;
+
         RaycastHit hit;
-        if (Physics.Raycast(_pointerOrigin.position, _pointerOrigin.forward, out hit, _pointerLineLength))
+        if (Physics.Raycast(_pointerOrigin.position, _pointerOrigin.forward, out hit, _pointerLineLength, layerMask))
         {
             if (hit.collider.CompareTag("Enemy"))
             {
