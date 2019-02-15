@@ -57,6 +57,11 @@ public class UIManager : MonoBehaviour
         NextDialogueSnippet(true);
     }
 
+    public void ChangeTextBoxVisibility(bool displaying, Transform target)
+    {
+        StartCoroutine(ChangeMenuVisibilityAnimation(displaying, target));
+    }
+
     private void NextDialogueSnippet(bool eventTrigger)
     {
         // If the current textbox makes use of an eventTrigger, then controller/keyboard inputs are not allowed to advance it
@@ -120,6 +125,24 @@ public class UIManager : MonoBehaviour
         if (!displaying && _currentDialogueList.Count == 0)
         {
             Cleanup();
+        }
+    }
+
+    // Alternative for displaying text boxes that do not use the regular dialogue system
+    private IEnumerator ChangeMenuVisibilityAnimation(bool displaying, Transform target)
+    {
+        var lerpTimer = 0f;
+        var currentScale = target.localScale;
+        var startScale = currentScale;
+        var targetScale = displaying ? Vector3.one : Vector3.zero;
+
+        while (lerpTimer <= 1f)
+        {
+            lerpTimer += Time.deltaTime * _menuDisplaySpeed;
+            currentScale = Vector3.Lerp(startScale, targetScale, lerpTimer);
+
+            target.localScale = currentScale;
+            yield return null;
         }
     }
 

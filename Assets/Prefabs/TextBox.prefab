@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4575638806629468}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TextBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224635311989753030}
   - component: {fileID: 223776070975310470}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 224153030625780346}
   - component: {fileID: 222575784521958856}
   - component: {fileID: 114266297545499080}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 224425512063743322}
   - component: {fileID: 222130935970412478}
   - component: {fileID: 114571253642233912}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

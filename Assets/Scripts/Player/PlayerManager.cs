@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("VR")]
     public SteamVR_Input_Sources _batonHand;
+    public SteamVR_Input_Sources _shieldHand;
 
     private float _currentCharge = 0f;
 
@@ -42,6 +43,8 @@ public class PlayerManager : MonoBehaviour
     private int _currentShieldLevel = 0;
     private Color _currentEmissionColor;
     private PlayerShield _playerShield;
+    private GameManager _gameManager;
+    private Transform _headTransform;
 
     private void Awake()
     {
@@ -64,19 +67,31 @@ public class PlayerManager : MonoBehaviour
         _shieldUpgrades = Resources.Load<ShieldUpgrades>("ScriptableObjects/PlayerUpgrades/ShieldUpgrades");
         _batonUpgrades = Resources.Load<BatonUpgrades>("ScriptableObjects/PlayerUpgrades/BatonUpgrades");
 
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         UpdatePlayerUpgrades();
 
         ResetBaton();
     }
 
+    private void Start()
+    {
+        _headTransform = _gameManager._redirectionManager.GetUserHeadTransform();
+    }
+
     private void Update()
     {
-#if UNITY_EDITOR
-        if (Input.GetKey(KeyCode.P) || (SteamVR.active && SteamVR_Actions._default.GrabGrip.GetStateDown(_batonHand)))
+        #if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.P) || (SteamVR.active && SteamVR_Actions._default.GrabGrip.GetStateDown(_batonHand)))
         {
             AddCharge(100);
         }
-#endif
+
+        if(Input.GetKeyDown(KeyCode.X) || (SteamVR_Actions._default.GrabGrip.GetStateDown(_shieldHand)))
+        {
+            AddEXP(100);
+        }
+        #endif
 
         if (_currentCharge >= _maxBatonCharge)
         {
@@ -100,7 +115,7 @@ public class PlayerManager : MonoBehaviour
         if (_currentCharge < _maxBatonCharge)
         {
             var remappedValue = UtilitiesER.Remap(0, _maxBatonCharge, 0, 1, _currentCharge);
-            _batonRenderer.material.SetColor("_EmissionColor", new Color(remappedValue, remappedValue, remappedValue, 1.0f) * (remappedValue + 1));
+            _batonRenderer.material.SetColor("_EmissionColor", Color.Lerp(Color.black * 0, _currentEmissionColor, remappedValue));
         }
         else
         {
@@ -127,15 +142,33 @@ public class PlayerManager : MonoBehaviour
         // OnAnimationEnd: If levelup, ask player what they want to upgrade
         if(_currentEXP >= _expNeededForLevelUp)
         {
-            // Ask player. Spawn dialogue box?
             _currentEXP -= _expNeededForLevelUp;
+            _gameManager._levelUpDialogueBox.enabled = true;
+            _gameManager._uiManager.ChangeTextBoxVisibility(true, _gameManager._levelUpDialogueBox.transform);
+            var levelUpBoxSpawnPosition = _headTransform.position + _headTransform.forward * _gameManager._levelUpDialogueBoxOffsetFromPlayer;
+            levelUpBoxSpawnPosition.y = _headTransform.position.y;
+            _gameManager._levelUpDialogueBox.transform.position = levelUpBoxSpawnPosition;
+        }
+    }
 
-            // DEBUG: Both level up at the same time
-            LevelUp(false);
-            LevelUp(true);
+    public void LevelUp(bool batonChosen)
+    {
+        if (batonChosen)
+        {
+            if (_currentBatonLevel + 1 < _batonUpgrades._batonUpgrades.Count)
+            {
+                _currentBatonLevel++;
+            }
+        }
+        else
+        {
+            if (_currentShieldLevel + 1 < _shieldUpgrades._shieldUpgrades.Count)
+            {
+                _currentShieldLevel++;
+            }
         }
 
-        // Run animation for that upgrade
+        UpdatePlayerUpgrades();
     }
 
     public void TakeDamage()
@@ -178,26 +211,6 @@ public class PlayerManager : MonoBehaviour
         _currentCharge = 0;
         // HACK: Hacky way to quickly reset stuff
         AddCharge(0);
-    }
-
-    private void LevelUp(bool batonChosen)
-    {
-        if(batonChosen)
-        {
-            if(_currentBatonLevel + 1 < _batonUpgrades._batonUpgrades.Count)
-            {
-                _currentBatonLevel++;
-            }
-        }
-        else
-        {
-            if (_currentShieldLevel + 1 < _shieldUpgrades._shieldUpgrades.Count)
-            {
-                _currentShieldLevel++;
-            }
-        }
-
-        UpdatePlayerUpgrades();
     }
 
     private void UpdatePlayerUpgrades()

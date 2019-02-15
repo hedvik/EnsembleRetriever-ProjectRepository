@@ -148,7 +148,7 @@ public class RedirectionManagerER : RedirectionManager
     {
         _distractorIsActive = false;
         _futureVirtualWalkingDirection = Vector3.zero;
-        // TODO: Request gain decrease instead of setting them here. 
+        // TODO: Request gain decrease instead of setting them here.
         MAX_ROT_GAIN = _baseMaximumRotationGain;
         MIN_ROT_GAIN = _baseMinimumRotationGain;
         RequestAlgorithmSwitch(false);
@@ -166,6 +166,11 @@ public class RedirectionManagerER : RedirectionManager
         {
             pausable.SetPauseState(isPaused);
         }
+    }
+
+    public Transform GetUserHeadTransform()
+    {
+        return headTransform;
     }
 
     /// <summary>

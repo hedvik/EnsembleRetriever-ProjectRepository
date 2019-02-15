@@ -10,14 +10,24 @@ public class GameManager : MonoBehaviour
     public GameObject _startGameTextBox;
     public AnimatedCharacterInterface _tutorialInstrument;
     public bool _skipTutorial;
+    public float _levelUpDialogueBoxOffsetFromPlayer = 5f;
+
+    [SerializeField]
+    private GameObject _levelUpDialoguePrefab;
 
     [HideInInspector]
     public bool _gameStarted = false;
 
-    private UIManager _uiManager;
+    [HideInInspector]
+    public LevelUpBox _levelUpDialogueBox;
+
+    [HideInInspector]
+    public UIManager _uiManager;
+    [HideInInspector]
+    public RedirectionManagerER _redirectionManager;
+
     private Queue<DialogueSnippet> _startGameDialogue;
     private Queue<DialogueSnippet> _tutorialDialogue;
-    private RedirectionManagerER _redirectionManager;
 
     private bool _shieldEventTriggered = false;
     private bool _resetEventTriggered = false;
@@ -40,6 +50,10 @@ public class GameManager : MonoBehaviour
         // Setting curvature radius to 1000 is a rather hacky way of disabling it.
         // Curvature gains are technically disabled at infinite radius, 1000 is just an "approximation" of that.
         _redirectionManager.CURVATURE_RADIUS = 1000f;
+
+        _levelUpDialogueBox = Instantiate(_levelUpDialoguePrefab).GetComponent<LevelUpBox>();
+        _levelUpDialogueBox.enabled = false;
+        _levelUpDialogueBox.transform.localScale = Vector3.zero;
     }
 
     public void StartTutorial()
