@@ -12,6 +12,7 @@ public class HintGiver : Pausable
     private Animator _animator;
     private float _triggerTimer = 0f;
     private float _randomTimeTarget;
+    private SphereCollider _collider;
 
     private void Start()
     {
@@ -20,6 +21,7 @@ public class HintGiver : Pausable
         _textBoxObject.transform.localScale = Vector3.zero;
         _animator = GetComponentInChildren<Animator>();
         _animator.Play("Idle", -1, Random.Range(0f, 1f));
+        _collider = GetComponent<SphereCollider>();
 
         _randomTimeTarget = Random.Range(_randomAnimationTriggerCooldown - _randomAnimationTriggerNoise, _randomAnimationTriggerCooldown + _randomAnimationTriggerNoise);
     }
@@ -34,6 +36,20 @@ public class HintGiver : Pausable
             _randomTimeTarget = Random.Range(_randomAnimationTriggerCooldown - _randomAnimationTriggerNoise, _randomAnimationTriggerCooldown + _randomAnimationTriggerNoise);
             _animator.SetTrigger("Break" + Random.Range(1, 4).ToString());
         }
+    }
+
+    // TODO: Fireflies should stay away when a distractor is active. Try to add some sort of subscription callback for when distractors are triggered
+    public void OnDistractorStart()
+    {
+        // _animator.SetTrigger("Despawn");
+        _gameManager._uiManager.ChangeTextBoxVisibility(false, _textBoxObject.transform);
+        _collider.enabled = false;
+    }
+
+    public void OnDistractorEnd()
+    {
+        // _animator.SetTrigger("Respawn");
+        _collider.enabled = true;
     }
 
     private void OnTriggerEnter(Collider other)
