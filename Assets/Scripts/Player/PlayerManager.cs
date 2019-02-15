@@ -45,6 +45,8 @@ public class PlayerManager : MonoBehaviour
     private PlayerShield _playerShield;
     private GameManager _gameManager;
     private Transform _headTransform;
+    private int _maxLevel = 0;
+    private int _currentLevel = 0;
 
     private void Awake()
     {
@@ -66,6 +68,8 @@ public class PlayerManager : MonoBehaviour
 
         _shieldUpgrades = Resources.Load<ShieldUpgrades>("ScriptableObjects/PlayerUpgrades/ShieldUpgrades");
         _batonUpgrades = Resources.Load<BatonUpgrades>("ScriptableObjects/PlayerUpgrades/BatonUpgrades");
+
+        _maxLevel = _shieldUpgrades._shieldUpgrades.Count + _batonUpgrades._batonUpgrades.Count - 2;
 
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
@@ -137,13 +141,16 @@ public class PlayerManager : MonoBehaviour
     {
         var oldExp = _currentEXP;
         _currentEXP += value;
-        // Play exp animation
+        // POLISH: Play exp animation
+        // POLISH: OnAnimationEnd: If levelup, ask player what they want to upgrade
 
-        // OnAnimationEnd: If levelup, ask player what they want to upgrade
-        if(_currentEXP >= _expNeededForLevelUp)
+        if (_currentEXP >= _expNeededForLevelUp && _currentLevel < _maxLevel)
         {
             _currentEXP -= _expNeededForLevelUp;
+            _currentLevel++;
             _gameManager._levelUpDialogueBox.enabled = true;
+            _gameManager._levelUpDialogueBox.UpdateAvailableUpgradeOptions((_currentBatonLevel + 1 < _batonUpgrades._batonUpgrades.Count), (_currentShieldLevel + 1 < _shieldUpgrades._shieldUpgrades.Count));
+
             _gameManager._uiManager.ChangeTextBoxVisibility(true, _gameManager._levelUpDialogueBox.transform);
             var levelUpBoxSpawnPosition = _headTransform.position + _headTransform.forward * _gameManager._levelUpDialogueBoxOffsetFromPlayer;
             levelUpBoxSpawnPosition.y = _headTransform.position.y;

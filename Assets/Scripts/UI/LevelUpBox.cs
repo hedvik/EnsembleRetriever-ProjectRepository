@@ -5,9 +5,14 @@ using Valve.VR;
 
 public class LevelUpBox : MonoBehaviour
 {
+    public GameObject _shieldOption;
+    public GameObject _batonOption;
+
     private PlayerManager _playerManager;
     private GameManager _gameManager;
     private Transform _playerHeadTransform;
+    private bool _batonUpgradeAvailable = true;
+    private bool _shieldUpgradeAvailable = true;
 
     // Start is called before the first frame update
     void Start()
@@ -23,28 +28,37 @@ public class LevelUpBox : MonoBehaviour
         transform.LookAt(_playerHeadTransform);
 
         #if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.L))
+        if (_batonUpgradeAvailable && Input.GetKeyDown(KeyCode.L))
         {
             _playerManager.LevelUp(true);
             Cleanup();
         }
-        else if (Input.GetKeyDown(KeyCode.K))
+        else if (_shieldUpgradeAvailable && Input.GetKeyDown(KeyCode.K))
         {
             _playerManager.LevelUp(false);
             Cleanup();
         }
         #endif
 
-        if (SteamVR.active && SteamVR_Actions._default.Teleport.GetStateDown(_playerManager._batonHand))
+        if (SteamVR.active && _batonUpgradeAvailable && SteamVR_Actions._default.Teleport.GetStateDown(_playerManager._batonHand))
         {
             _playerManager.LevelUp(true);
             Cleanup();
         }
-        else if (SteamVR.active && SteamVR_Actions._default.Teleport.GetStateDown(_playerManager._shieldHand))
+        else if (SteamVR.active && _shieldUpgradeAvailable && SteamVR_Actions._default.Teleport.GetStateDown(_playerManager._shieldHand))
         {
             _playerManager.LevelUp(false);
             Cleanup();
         }
+    }
+
+    public void UpdateAvailableUpgradeOptions(bool batonUpgradeAvailable, bool shieldUpgradeAvailable)
+    {
+        _batonUpgradeAvailable = batonUpgradeAvailable;
+        _shieldUpgradeAvailable = shieldUpgradeAvailable;
+
+        _batonOption.SetActive(batonUpgradeAvailable);
+        _shieldOption.SetActive(shieldUpgradeAvailable);
     }
 
     private void Cleanup()

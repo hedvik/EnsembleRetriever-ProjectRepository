@@ -9271,9 +9271,13 @@ MonoBehaviour:
   _startGameTextBox: {fileID: 1995807369}
   _tutorialInstrument: {fileID: 1637816236}
   _skipTutorial: 1
+  _levelUpDialogueBoxOffsetFromPlayer: 5
   _levelUpDialoguePrefab: {fileID: 3532050167178501051, guid: 6cf30edf6f49bad45a1f36223d6ad72e,
     type: 3}
   _gameStarted: 0
+  _levelUpDialogueBox: {fileID: 0}
+  _uiManager: {fileID: 0}
+  _redirectionManager: {fileID: 0}
 --- !u!4 &1828877937
 Transform:
   m_ObjectHideFlags: 0
