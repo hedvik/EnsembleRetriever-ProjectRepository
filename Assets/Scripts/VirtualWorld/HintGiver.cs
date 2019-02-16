@@ -24,6 +24,8 @@ public class HintGiver : Pausable
         _collider = GetComponent<SphereCollider>();
 
         _randomTimeTarget = Random.Range(_randomAnimationTriggerCooldown - _randomAnimationTriggerNoise, _randomAnimationTriggerCooldown + _randomAnimationTriggerNoise);
+        _gameManager._redirectionManager.SubscribeToDistractorTriggerCallback(OnDistractorStart);
+        _gameManager._redirectionManager.SubscribeToDistractorEndCallback(OnDistractorEnd);
     }
 
     private void Update()
@@ -37,19 +39,16 @@ public class HintGiver : Pausable
             _animator.SetTrigger("Break" + Random.Range(1, 4).ToString());
         }
     }
-
-    // TODO: Fireflies should stay away when a distractor is active. Try to add some sort of subscription callback for when distractors are triggered
+    
     public void OnDistractorStart()
     {
-        // _animator.SetTrigger("Despawn");
-        _gameManager._uiManager.ChangeTextBoxVisibility(false, _textBoxObject.transform);
-        _collider.enabled = false;
+        // RATHER HACKY: The UI manager can technically scale any transform to 0. This is rather misused here.
+        _gameManager._uiManager.ChangeTextBoxVisibility(false, transform);
     }
 
     public void OnDistractorEnd()
     {
-        // _animator.SetTrigger("Respawn");
-        _collider.enabled = true;
+        _gameManager._uiManager.ChangeTextBoxVisibility(true, transform);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -488,11 +488,14 @@ MonoBehaviour:
   startTimeOfProgram: 
   _trackingSpaceFadeSpeed: 5
   _alwaysDisplayTrackingFloor: 0
+  _switchToAC2FOnDistractor: 1
   _positionSamplesPerSecond: 60
+  _alignmentThreshold: -0.9
   _distractorIsActive: 0
   _futureVirtualWalkingDirection: {x: 0, y: 0, z: 0}
   _centreToHead: {x: 0, y: 0, z: 0}
   _gameManager: {fileID: 0}
+  _playerManager: {fileID: 0}
 --- !u!114 &3331080996610345181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,6 +602,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   redirectionManager: {fileID: 0}
+  _superSmoothingEnabled: 1
+  _superSmoothSpeed: 0.5
   _lastRotationApplied: 0
 --- !u!114 &9008662366157515829
 MonoBehaviour:
@@ -1182,7 +1187,7 @@ Transform:
   m_GameObject: {fileID: 8235095472429408758}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.77, z: 0}
-  m_LocalScale: {x: 0.4999, y: 2.5, z: 0.4999}
+  m_LocalScale: {x: 0.4995, y: 2.5, z: 0.4995}
   m_Children: []
   m_Father: {fileID: 3331080996621382299}
   m_RootOrder: 4

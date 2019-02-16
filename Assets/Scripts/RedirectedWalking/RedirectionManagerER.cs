@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void OnDistractorStateChangeCallback();
+
 /// <summary>
 /// TODO: Documentation for all redirection related scripts should be in full doxygen.
 /// </summary>
@@ -51,6 +53,11 @@ public class RedirectionManagerER : RedirectionManager
 
     private CircularBuffer.CircularBuffer<Vector3> _positionSamples;
     private float _sampleTimer = 0f;
+
+    private bool _distractorsEnabled = true;
+
+    private OnDistractorStateChangeCallback _distractorTriggerCallback;
+    private OnDistractorStateChangeCallback _distractorEndCallback;
 
     protected override void Awake()
     {
@@ -125,9 +132,10 @@ public class RedirectionManagerER : RedirectionManager
 
     public void OnDistractorTrigger()
     {
-        if (_distractorIsActive || !_gameManager._gameStarted)
+        if ((_distractorIsActive || !_gameManager._gameStarted) && _distractorsEnabled)
             return;
         _distractorIsActive = true;
+        _distractorTriggerCallback?.Invoke();
 
         var _averageFuture = Vector3.zero;
         for (int i = 0; i < _positionSamples.Size; i++)
@@ -147,6 +155,7 @@ public class RedirectionManagerER : RedirectionManager
     public void OnDistractorEnd()
     {
         _distractorIsActive = false;
+        _distractorEndCallback?.Invoke();
         _futureVirtualWalkingDirection = Vector3.zero;
         // TODO: Request gain decrease instead of setting them here.
         MAX_ROT_GAIN = _baseMaximumRotationGain;
@@ -171,6 +180,21 @@ public class RedirectionManagerER : RedirectionManager
     public Transform GetUserHeadTransform()
     {
         return headTransform;
+    }
+
+    public void SetDistractorUsageState(bool state)
+    {
+        _distractorsEnabled = state;
+    }
+
+    public void SubscribeToDistractorTriggerCallback(OnDistractorStateChangeCallback function)
+    {
+        _distractorTriggerCallback += function;
+    }
+
+    public void SubscribeToDistractorEndCallback(OnDistractorStateChangeCallback function)
+    {
+        _distractorEndCallback += function;
     }
 
     /// <summary>
