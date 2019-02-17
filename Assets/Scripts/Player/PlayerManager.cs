@@ -140,7 +140,6 @@ public class PlayerManager : MonoBehaviour
         _batonRenderer.material.SetColor("_EmissionColor", new Color(remappedValue, remappedValue, remappedValue, 1.0f) * (remappedValue + 1));
     }
 
-    // TODO: Implement this
     public void AddEXP(int value)
     {
         var oldExp = _currentEXP;
@@ -197,7 +196,7 @@ public class PlayerManager : MonoBehaviour
         _audioSource.PlayOneShot(_attackSound);
         var attackEndPoint = _pointerOrigin.position + _pointerOrigin.forward * _pointerLineLength;
 
-        // We do not want to potentially hit the distractor or reset colliders so we only raycast objects in the virtual world.
+        // We do not want to potentially hit the distractor/reset colliders so we only raycast objects in the virtual world.
         // Layer 9 is in this case the VirtualWorld layer.
         var layerMask = 1 << 9;
 

@@ -47,6 +47,10 @@ public class Teleporter : MonoBehaviour
             var angleBetweenVectors = Vector3.Angle(headToTarget, centreToHead);
             _gameManager._redirectionManager.transform.rotation = Quaternion.AngleAxis(180 - angleBetweenVectors, Vector3.up);
 
+            // At this stage in the game, there is no point in redirecting anymore.
+            _gameManager._redirectionManager.MAX_ROT_GAIN = 0;
+            _gameManager._redirectionManager.MIN_ROT_GAIN = 0;
+
             _playerInTeleporter = false;
             _timer = 0f;
             _onEnterParticles.Stop();
