@@ -18,7 +18,10 @@ public class PlayerManager : MonoBehaviour
     public AudioClip _attackSound;
     public AudioClip _absorbSound;
     public AudioClip _takeDamageSound;
-    [HideInInspector] public AudioSource _audioSource;
+    public AudioClip _batonChargedSound;
+
+    [HideInInspector]
+    public AudioSource _audioSource;
 
     [Header("VR")]
     public SteamVR_Input_Sources _batonHand;
@@ -125,6 +128,7 @@ public class PlayerManager : MonoBehaviour
         {
             _chargedAnimationTimer = 0f;
             _batonLineRenderer.enabled = true;
+            _audioSource.PlayOneShot(_batonChargedSound, 0.7f);
         }
     }
 
