@@ -191,7 +191,8 @@ public class RedirectionManager : MonoBehaviour {
 
         UpdatePreviousUserState();
 
-        UpdateBodyPose();
+        // DISABLED: What is the point of this function? Headfollower already does this
+        //UpdateBodyPose();
     }
 
     public float GetDeltaTime()

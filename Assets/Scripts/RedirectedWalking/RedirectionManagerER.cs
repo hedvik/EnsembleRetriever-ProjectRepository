@@ -132,7 +132,9 @@ public class RedirectionManagerER : RedirectionManager
 
     public void OnDistractorTrigger()
     {
-        if ((_distractorIsActive || !_gameManager._gameStarted) && _distractorsEnabled)
+        if (!_distractorsEnabled)
+            return;
+        if (_distractorIsActive || !_gameManager._gameStarted)
             return;
         _distractorIsActive = true;
         _distractorTriggerCallback?.Invoke();
