@@ -24,9 +24,6 @@ public class RedirectionManagerER : RedirectionManager
     public Vector3 _futureVirtualWalkingDirection = Vector3.zero;
 
     [HideInInspector]
-    public Vector3 _centreToHead = Vector3.zero;
-
-    [HideInInspector]
     public GameManager _gameManager;
 
     [HideInInspector]
@@ -58,6 +55,9 @@ public class RedirectionManagerER : RedirectionManager
 
     private OnDistractorStateChangeCallback _distractorTriggerCallback;
     private OnDistractorStateChangeCallback _distractorEndCallback;
+
+    [HideInInspector]
+    public Vector3 _centreToHead = Vector3.zero;
 
     protected override void Awake()
     {
@@ -109,6 +109,8 @@ public class RedirectionManagerER : RedirectionManager
     protected override void LateUpdate()
     {
         base.LateUpdate();
+
+        _centreToHead = Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position);
 
         if (_distractorIsActive && FutureDirectionIsAlignedToCentre() && !inReset)
         {
@@ -250,10 +252,7 @@ public class RedirectionManagerER : RedirectionManager
     /// <returns></returns>
     private bool FutureDirectionIsAlignedToCentre()
     {
-        // TODO: Might refactor updating centreToHead away if necessary later as it wont change much.
-        _centreToHead = Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position);
         var dotProduct = Vector3.Dot(_centreToHead, _futureVirtualWalkingDirection);
-
         return dotProduct <= _alignmentThreshold;
     }
 
