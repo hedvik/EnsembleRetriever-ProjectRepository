@@ -23,10 +23,12 @@ public class AC2FRedirector : Redirector
 
     // User Experience Improvement Parameters
     // A rotation has to exceed this threshold in degrees per second for gains to be applied
-    public const float _ROTATION_THRESHOLD = 5f;
+    public const float _ROTATION_THRESHOLD = 7f;
     // The maximum gain in degrees per second that can be applied on head movement
-    private const float _ROTATION_GAIN_CAP_DEGREES_PER_SECOND = 30;  
-    // Auxiliary Parameters
+    private const float _ROTATION_GAIN_CAP_DEGREES_PER_SECOND = 30;
+    // Smoothing factor for Azmandian et al.'s smoothing method
+    private const float SMOOTHING_FACTOR = 0.125f;
+
     private float _rotationFromRotationGain; // Proposed rotation gain based on head's yaw
 
     private bool _transitioningBetweenGains = false;
@@ -109,9 +111,12 @@ public class AC2FRedirector : Redirector
         }
         else
         {
-            _smoothedRotation = rotationProposed;
+            _smoothedRotation = (1.0f - SMOOTHING_FACTOR) * _lastRotationApplied + SMOOTHING_FACTOR * _smoothedRotation;
         }
-        
+
+        // Azmandian et al.'s smoothing method 
+        //_smoothedRotation = (1.0f - SMOOTHING_FACTOR) * _lastRotationApplied + SMOOTHING_FACTOR * _smoothedRotation;
+
         _lastRotationApplied = _smoothedRotation;
         _previousRotationGainType = currentGainType;
         InjectRotation(_smoothedRotation);

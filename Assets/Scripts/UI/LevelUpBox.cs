@@ -59,7 +59,6 @@ public class LevelUpBox : MonoBehaviour
 
     private void Cleanup()
     {
-        enabled = false;
         _gameManager._uiManager.ChangeTextBoxVisibility(false, transform);
     }
 }
