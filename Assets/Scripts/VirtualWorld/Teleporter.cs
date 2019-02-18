@@ -67,6 +67,10 @@ public class Teleporter : MonoBehaviour
 
             // It would not make sense to spawn a distractor while inside the teleporter.
             _gameManager._redirectionManager.SetDistractorUsageState(false);
+            if(_gameManager._redirectionManager._distractorIsActive)
+            {
+                _gameManager._redirectionManager.OnDistractorEnd();
+            }
         }
     }
 

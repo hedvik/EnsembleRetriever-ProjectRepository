@@ -23,7 +23,7 @@ public class AC2FRedirector : Redirector
 
     // User Experience Improvement Parameters
     // A rotation has to exceed this threshold in degrees per second for gains to be applied
-    public const float _ROTATION_THRESHOLD = 4f;
+    public const float _ROTATION_THRESHOLD = 5f;
     // The maximum gain in degrees per second that can be applied on head movement
     private const float _ROTATION_GAIN_CAP_DEGREES_PER_SECOND = 30;  
     // Auxiliary Parameters
