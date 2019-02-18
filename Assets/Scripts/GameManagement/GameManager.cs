@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         _redirectionManager.CURVATURE_RADIUS = 1000f;
 
         _levelUpDialogueBox = Instantiate(_levelUpDialoguePrefab).GetComponent<LevelUpBox>();
-        _levelUpDialogueBox.enabled = false;
+        _levelUpDialogueBox.gameObject.SetActive(false);
         _levelUpDialogueBox.transform.localScale = Vector3.zero;
     }
 

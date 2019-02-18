@@ -105,9 +105,15 @@ public class UIManager : MonoBehaviour
         var startScale = currentScale.y;
         var targetScale = displaying ? 1f : 0f;
 
+
         if (Mathf.Approximately(startScale, targetScale))
         {
             yield break;
+        }
+
+        if (displaying)
+        {
+            _currentlyActiveTextBox.SetActive(true);
         }
 
         while (lerpTimer <= 1f)
@@ -134,6 +140,11 @@ public class UIManager : MonoBehaviour
         var startScale = currentScale;
         var targetScale = displaying ? Vector3.one : Vector3.zero;
 
+        if(displaying)
+        {
+            target.gameObject.SetActive(true);
+        }
+
         while (lerpTimer <= 1f)
         {
             lerpTimer += Time.deltaTime * _menuDisplaySpeed;
@@ -141,6 +152,11 @@ public class UIManager : MonoBehaviour
 
             target.localScale = currentScale;
             yield return null;
+        }
+
+        if(!displaying)
+        {
+            target.gameObject.SetActive(false);
         }
     }
 
@@ -170,6 +186,7 @@ public class UIManager : MonoBehaviour
 
     private void Cleanup()
     {
+        _currentlyActiveTextBox.SetActive(false);
         _currentlyActiveTextBox = null;
         _currentDialogueList = null;
         _currentlyActiveText = null;

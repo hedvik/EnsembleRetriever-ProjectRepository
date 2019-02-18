@@ -151,7 +151,7 @@ public class PlayerManager : MonoBehaviour
         {
             _currentEXP -= _expNeededForLevelUp;
             _currentLevel++;
-            _gameManager._levelUpDialogueBox.enabled = true;
+            _gameManager._levelUpDialogueBox.gameObject.SetActive(true);
             _gameManager._levelUpDialogueBox.UpdateAvailableUpgradeOptions((_currentBatonLevel + 1 < _batonUpgrades._batonUpgrades.Count), (_currentShieldLevel + 1 < _shieldUpgrades._shieldUpgrades.Count));
 
             _gameManager._uiManager.ChangeTextBoxVisibility(true, _gameManager._levelUpDialogueBox.transform);
