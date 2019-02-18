@@ -22,10 +22,10 @@ public class AC2FRedirector : Redirector
     protected RedirectionManagerER _redirectionManagerER;
 
     // User Experience Improvement Parameters
-    public const float _ROTATION_THRESHOLD = 1.5f; // degrees per second
-    private const float _ROTATION_GAIN_CAP_DEGREES_PER_SECOND = 30;  // degrees per second
-    private const float _SMOOTHING_FACTOR = 0.125f; // Smoothing factor for redirection rotations
-
+    // A rotation has to exceed this threshold in degrees per second for gains to be applied
+    public const float _ROTATION_THRESHOLD = 4f;
+    // The maximum gain in degrees per second that can be applied on head movement
+    private const float _ROTATION_GAIN_CAP_DEGREES_PER_SECOND = 30;  
     // Auxiliary Parameters
     private float _rotationFromRotationGain; // Proposed rotation gain based on head's yaw
 

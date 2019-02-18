@@ -278,12 +278,10 @@ public class RedirectionManagerER : RedirectionManager
         {
             redirector = _AC2FRedirector;
             _AC2FRedirector.OnRedirectionMethodSwitch();
-            _AC2FRedirector._lastRotationApplied = _S2CRedirector._lastRotationApplied;
         }
         else
         {
             redirector = _S2CRedirector;
-            _S2CRedirector._lastRotationApplied = _AC2FRedirector._lastRotationApplied;
         }
     }
 }
