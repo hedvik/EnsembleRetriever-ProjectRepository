@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1099a5c27efc18f4eace95cee5a4e6a4, type: 3}
+  m_Name: Quiz
+  m_EditorClassIdentifier: 
+  _startQuizText: Welcome to the hall of the <color=#800080>Mountain King</color>!
+    Please answer this quiz before continuing. You can start by standing on the platform
+    below. Answers are given by shooting your choice with your baton!
+  _endQuizAllCorrectText: "Congratulations! It seems like all your answers were correct!
+    \nThe <color=#800080>Mountain King</color> is awaiting your arrival."
+  _endQuizSomeCorrectText: 'It seems like some of your answers were incorrect...
+
+    Oh well, it should not matter much. The <color=#800080>Mountain King</color> is
+    awaiting your arrival.'
+  _endQuizNoCorrectText: 'Oof! It seems like none of your answers were correct!
+
+    The <color=#800080>Mountain King</color> will most likely not be pleased with
+    this!'
+  _questions:
+  - _questionText: What has the <color=#800080>Mountain King</color> been up to lately?
+    _answers:
+    - _text: Planning to take over the world!
+    - _text: Trying to get rich by selling other instruments!
+    - _text: Working on a new musical masterpiece!
+    - _text: Playing video games all day!
+    _correctAnswerID: 2
+  - _questionText: What is the <color=#800080>Mountain King</color> a big fan of?
+    _answers:
+    - _text: Trolls!
+    - _text: Ice Cream!
+    - _text: Video Games!
+    - _text: Fairies!
+    _correctAnswerID: 0
+  - _questionText: The <color=#800080>Mountain King</color> is fairly popular amongst
+      certain groups. Which group has a fan club that is dedicated to the <color=#800080>Mountain
+      King</color>?
+    _answers:
+    - _text: The Trolls!
+    - _text: The Conductors!
+    - _text: The Pixies!
+    - _text: The Fireflies!
+    _correctAnswerID: 3
+  _correctAnswerIcon: {fileID: 21300000, guid: 056ecee28529efb409838d8d084e64e4, type: 3}
+  _wrongAnswerIcon: {fileID: 21300000, guid: 98081c9cb2c254a4cade181c9b8114a7, type: 3}

@@ -5613,6 +5613,11 @@ PrefabInstance:
       propertyPath: m_FontData.m_AlignByGeometry
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7150941803739728020, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46d7fb483220b7a4786f40e8aaade7ea, type: 3}
 --- !u!4 &272593227 stripped
@@ -15860,6 +15865,11 @@ PrefabInstance:
       propertyPath: m_FontData.m_AlignByGeometry
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7150941803739728020, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46d7fb483220b7a4786f40e8aaade7ea, type: 3}
 --- !u!4 &1861006864 stripped
@@ -21569,6 +21579,11 @@ PrefabInstance:
 
 
 '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7150941803739728020, guid: 46d7fb483220b7a4786f40e8aaade7ea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46d7fb483220b7a4786f40e8aaade7ea, type: 3}
