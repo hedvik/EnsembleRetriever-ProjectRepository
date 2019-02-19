@@ -17,8 +17,12 @@ public class HintGiver : Pausable
     private void Start()
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        _textBoxObject = transform.Find("TextBox").gameObject;
-        _textBoxObject.transform.localScale = Vector3.zero;
+        _textBoxObject = transform.Find("TextBox")?.gameObject;
+
+        if (_textBoxObject != null)
+        {
+            _textBoxObject.transform.localScale = Vector3.zero;
+        }
         _animator = GetComponentInChildren<Animator>();
         _animator.Play("Idle", -1, Random.Range(0f, 1f));
         _collider = GetComponent<SphereCollider>();

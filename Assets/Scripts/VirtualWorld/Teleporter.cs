@@ -19,10 +19,13 @@ public class Teleporter : MonoBehaviour
     private bool _playerInTeleporter = false;
     private float _timer = 0f;
 
+    private CaveQuizManager _quizManager;
+
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _quizManager = GameObject.Find("CaveQuizManager").GetComponent<CaveQuizManager>();
     }
 
     private void Update()
@@ -54,6 +57,8 @@ public class Teleporter : MonoBehaviour
             _playerInTeleporter = false;
             _timer = 0f;
             _onEnterParticles.Stop();
+
+            _quizManager.SetVisibilityState(true);
         }
     }
 

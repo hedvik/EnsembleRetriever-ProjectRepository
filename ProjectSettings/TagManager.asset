@@ -8,6 +8,7 @@ TagManager:
   - projectile
   - RedirectionManager
   - Enemy
+  - AnswerBox
   layers:
   - Default
   - TransparentFX

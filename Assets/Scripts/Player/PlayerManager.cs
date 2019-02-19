@@ -50,6 +50,7 @@ public class PlayerManager : MonoBehaviour
     private Transform _headTransform;
     private int _maxLevel = 0;
     private int _currentLevel = 0;
+    private CaveQuizManager _quizManager;
 
     private void Awake()
     {
@@ -75,6 +76,7 @@ public class PlayerManager : MonoBehaviour
         _maxLevel = _shieldUpgrades._shieldUpgrades.Count + _batonUpgrades._batonUpgrades.Count - 2;
 
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _quizManager = GameObject.Find("CaveQuizManager").GetComponent<CaveQuizManager>();
 
         UpdatePlayerUpgrades();
 
@@ -116,7 +118,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void AddCharge(float amount)
+    public void AddCharge(float amount, bool playAudio = true)
     {
         _currentCharge = Mathf.Clamp(amount + _currentCharge, 0, _maxBatonCharge);
         if (_currentCharge < _maxBatonCharge)
@@ -128,7 +130,11 @@ public class PlayerManager : MonoBehaviour
         {
             _chargedAnimationTimer = 0f;
             _batonLineRenderer.enabled = true;
-            _audioSource.PlayOneShot(_batonChargedSound, 0.7f);
+
+            if (playAudio)
+            {
+                _audioSource.PlayOneShot(_batonChargedSound, 0.7f);
+            }
         }
     }
 
@@ -207,6 +213,10 @@ public class PlayerManager : MonoBehaviour
             {
                 hit.collider.gameObject.GetComponent<DistractorEnemy>().TakeDamage(_currentShotDamage);
                 attackEndPoint = hit.point;
+            }
+            else if (hit.collider.CompareTag("AnswerBox"))
+            {
+                _quizManager.GiveQuizAnswer(hit.collider);
             }
         }
 

@@ -13,18 +13,25 @@ MonoBehaviour:
   m_Name: Quiz
   m_EditorClassIdentifier: 
   _startQuizText: Welcome to the hall of the <color=#800080>Mountain King</color>!
-    Please answer this quiz before continuing. You can start by standing on the platform
-    below. Answers are given by shooting your choice with your baton!
+    Please answer this quiz before continuing. You can start by standing on the nearby
+    <color=#00FF00>platform</color>. Answers are given by shooting your choice with
+    your <color=#ffa500ff>baton</color>!
   _endQuizAllCorrectText: "Congratulations! It seems like all your answers were correct!
     \nThe <color=#800080>Mountain King</color> is awaiting your arrival."
+  _endQuizAllCorrectAudio: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba,
+    type: 3}
   _endQuizSomeCorrectText: 'It seems like some of your answers were incorrect...
 
     Oh well, it should not matter much. The <color=#800080>Mountain King</color> is
     awaiting your arrival.'
+  _endQuizSomeCorrectAudio: {fileID: 8300000, guid: 7478151cf36724a7dada558f746c3633,
+    type: 3}
   _endQuizNoCorrectText: 'Oof! It seems like none of your answers were correct!
 
     The <color=#800080>Mountain King</color> will most likely not be pleased with
     this!'
+  _endQuizNoCorrectAudio: {fileID: 8300000, guid: 72127805eb2bc4e7fbf2e02eca266cfa,
+    type: 3}
   _questions:
   - _questionText: What has the <color=#800080>Mountain King</color> been up to lately?
     _answers:

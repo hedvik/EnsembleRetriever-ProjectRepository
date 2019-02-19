@@ -11,12 +11,15 @@ public class MultipleChoiceQuiz : ScriptableObject
 
     [TextArea]
     public string _endQuizAllCorrectText;
+    public AudioClip _endQuizAllCorrectAudio;
 
     [TextArea]
     public string _endQuizSomeCorrectText;
+    public AudioClip _endQuizSomeCorrectAudio;
 
     [TextArea]
     public string _endQuizNoCorrectText;
+    public AudioClip _endQuizNoCorrectAudio;
 
     public List<Question> _questions = new List<Question>();
     public Sprite _correctAnswerIcon;
