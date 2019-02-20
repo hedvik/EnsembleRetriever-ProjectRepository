@@ -83,6 +83,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void StartFinalBoss()
+    {
+        // Stop music
+        // Have the mountain king be surprised and see that the player has arrived
+        // His ensemble should become idle as well
+        // Run some prefight animation
+        // animationTrigger("Jumps") on the ensemble
+        // Position Mountain King in a reasonable place
+        // Start music again
+        // Activate final boss fight
+    }
+
     public void ResetEventTriggerDialogue()
     {
         if (!_resetEventTriggered)

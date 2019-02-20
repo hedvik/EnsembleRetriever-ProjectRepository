@@ -129,7 +129,7 @@ public class AnimatedCharacterInterface : Pausable
     public void StartTutorialAttacks()
     {
         var tutorialNPC = GetComponent<TutorialNPC>();
-        tutorialNPC.InitialiseDistractor(_redirectionManager);
+        tutorialNPC.InitialiseDistractor(_redirectionManager, false);
         tutorialNPC.StartTutorialAttacks();
     }
 

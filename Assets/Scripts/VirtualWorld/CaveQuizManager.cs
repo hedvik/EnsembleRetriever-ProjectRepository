@@ -31,7 +31,7 @@ public class CaveQuizManager : MonoBehaviour
     private int _currentQuestionIndex = 0;
     private int _numberOfCorrectAnswers = 0;
 
-    private AudioSource _concertAudioSource;
+    private AudioSource _quizAudioSource;
 
     private void Start()
     {
@@ -44,7 +44,7 @@ public class CaveQuizManager : MonoBehaviour
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _playerManager = _gameManager.GetCurrentPlayerManager();
 
-        _concertAudioSource = _quizNPC.GetComponent<AudioSource>();
+        _quizAudioSource = _quizNPC.GetComponent<AudioSource>();
 
         _gameManager._uiManager.ChangeTextBoxVisibility(false, _answerBoxes[0].transform.parent.parent);
     }
@@ -79,17 +79,17 @@ public class CaveQuizManager : MonoBehaviour
         if (_numberOfCorrectAnswers == _quizData._questions.Count)
         {
             _quizTextBox.text = _quizData._endQuizAllCorrectText;
-            _concertAudioSource.PlayOneShot(_quizData._endQuizAllCorrectAudio);
+            _quizAudioSource.PlayOneShot(_quizData._endQuizAllCorrectAudio);
         } 
         else if (_numberOfCorrectAnswers == 0)
         {
             _quizTextBox.text = _quizData._endQuizNoCorrectText;
-            _concertAudioSource.PlayOneShot(_quizData._endQuizNoCorrectAudio);
+            _quizAudioSource.PlayOneShot(_quizData._endQuizNoCorrectAudio);
         }
         else
         {
             _quizTextBox.text = _quizData._endQuizSomeCorrectText;
-            _concertAudioSource.PlayOneShot(_quizData._endQuizSomeCorrectAudio);
+            _quizAudioSource.PlayOneShot(_quizData._endQuizSomeCorrectAudio);
         }
 
         StartCoroutine(FinishWaiting());
@@ -165,6 +165,7 @@ public class CaveQuizManager : MonoBehaviour
         }
 
         _stageMovementParticles.SetActive(false);
+        _gameManager.StartFinalBoss();
     }
 
     private IEnumerator AnswerGivenAnimation(Transform answerTransform)
