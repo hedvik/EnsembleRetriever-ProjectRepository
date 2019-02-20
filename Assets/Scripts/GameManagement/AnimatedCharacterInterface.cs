@@ -16,6 +16,7 @@ public class AnimatedCharacterInterface : Pausable
     public AudioClip _groundCrashSound;
     public AudioClip _deathExplosionSound;
     public AudioClip _phaseTransitionSound;
+    public string _animationTriggerOnStart;
 
     [HideInInspector]
     public AudioSource _audioSource;
@@ -36,6 +37,11 @@ public class AnimatedCharacterInterface : Pausable
         _redirectionManager = GameObject.FindGameObjectWithTag("RedirectionManager").GetComponent<RedirectionManagerER>();
         _collider = GetComponent<BoxCollider>();
         _trailRenderer = GetComponent<TrailRenderer>();
+
+        if(!string.IsNullOrEmpty(_animationTriggerOnStart))
+        {
+            AnimationTrigger(_animationTriggerOnStart);
+        }
     }
 
     protected override void PauseStateChange()

@@ -6,6 +6,7 @@ public class HintGiver : Pausable
 {
     public float _randomAnimationTriggerCooldown = 4f;
     public float _randomAnimationTriggerNoise = 2f;
+    public bool _hideWhenDistractorActivates = true;
 
     private GameManager _gameManager;
     private GameObject _textBoxObject;
@@ -46,13 +47,19 @@ public class HintGiver : Pausable
     
     public void OnDistractorStart()
     {
-        // RATHER HACKY: The UI manager can technically scale any transform to 0. This is rather misused here.
-        _gameManager._uiManager.ChangeTextBoxVisibility(false, transform);
+        if (_hideWhenDistractorActivates)
+        {
+            // RATHER HACKY: The UI manager can technically scale any transform to 0. This is rather misused here.
+            _gameManager._uiManager.ChangeTextBoxVisibility(false, transform);
+        }
     }
 
     public void OnDistractorEnd()
     {
-        _gameManager._uiManager.ChangeTextBoxVisibility(true, transform);
+        if (_hideWhenDistractorActivates)
+        {
+            _gameManager._uiManager.ChangeTextBoxVisibility(true, transform);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class DebugDistractor : DistractorEnemy
 {
-    public float _forwardOffsetFromPlayer;
     public ParticleSystem _spawnParticles;
     public float _lifeTime = 5f;
     public float _rotationSpeed = 5f;
 
-    public override void InitialiseDistractor(RedirectionManagerER redirectionManager)
+    public override void InitialiseDistractor(RedirectionManagerER redirectionManager, bool findSpawnPosition = true)
     {
         base.InitialiseDistractor(redirectionManager);
 

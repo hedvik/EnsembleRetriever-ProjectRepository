@@ -11,6 +11,9 @@ public class DistractorEnemy : Pausable
     public AnimationCurve _healthBarScaleDuringAnimation;
     public int _awardedEXP = 50;
 
+    public float _forwardOffsetFromPlayer = 10f;
+    public float _timeUntilStartAfterSpawn = 2f;
+
     protected RedirectionManagerER _redirectionManager;
     protected AnimatedCharacterInterface _animatedInterface;
 
@@ -30,7 +33,7 @@ public class DistractorEnemy : Pausable
     protected AudioClip[] _uniqueTelegraphAudioClips;
     protected AudioClip[] _speedTelegraphAudioClips;
 
-    public virtual void InitialiseDistractor(RedirectionManagerER redirectionManager)
+    public virtual void InitialiseDistractor(RedirectionManagerER redirectionManager, bool findSpawnPosition = true)
     {
         _maxHealth = _health;
 
@@ -43,6 +46,14 @@ public class DistractorEnemy : Pausable
 
         _uniqueTelegraphAudioClips = Resources.LoadAll<AudioClip>("Audio/InstrumentTelegraphAudio/");
         _speedTelegraphAudioClips = Resources.LoadAll<AudioClip>("Audio/SpeedTelegraphAudio/");
+
+        if (findSpawnPosition)
+        {
+            var spawnPosition = _redirectionManager.headTransform.position + _redirectionManager.headTransform.forward * _forwardOffsetFromPlayer;
+            spawnPosition.y = _redirectionManager.headTransform.position.y;
+            _animatedInterface.TeleportToPosition(spawnPosition);
+            transform.LookAt(_redirectionManager.headTransform.position);
+        }
     }
 
     public virtual void FinaliseDistractor()

@@ -75,9 +75,11 @@ public class RedirectionManagerER : RedirectionManager
 
         _S2CRedirector = GetComponent<S2CRedirectorER>();
 
-        // By setting _ZWrite to 1 we avoid some sorting issues
+        // By setting _ZWrite to 1 we avoid some sorting issues.
+        // Setting the render queue a bit higher than normal should help with some transparency issues between the chaperone and fade cube too.
         _trackingSpaceFloorVisuals.material.SetInt("_ZWrite", 1);
         _chaperoneVisuals.material.SetInt("_ZWrite", 1);
+        _chaperoneVisuals.material.renderQueue = 4000;
 
         _distractorTrigger = trackedSpace.GetComponentInChildren<DistractorTrigger>();
         _distractorTrigger._bodyCollider = body.GetComponentInChildren<CapsuleCollider>();

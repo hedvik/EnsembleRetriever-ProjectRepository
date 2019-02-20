@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public AnimatedCharacterInterface _tutorialInstrument;
     public bool _skipTutorial;
     public float _levelUpDialogueBoxOffsetFromPlayer = 5f;
+    public MountainKing _mountainKing;
 
     [SerializeField]
     private GameObject _levelUpDialoguePrefab = null;
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
         _levelUpDialogueBox = Instantiate(_levelUpDialoguePrefab).GetComponent<LevelUpBox>();
         _levelUpDialogueBox.gameObject.SetActive(false);
         _levelUpDialogueBox.transform.localScale = Vector3.zero;
+        _mountainKing.InitialiseDistractor(_redirectionManager);
     }
 
     public void StartTutorial()
