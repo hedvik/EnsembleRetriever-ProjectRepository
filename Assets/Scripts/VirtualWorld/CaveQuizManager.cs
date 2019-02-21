@@ -165,7 +165,7 @@ public class CaveQuizManager : MonoBehaviour
         }
 
         _stageMovementParticles.SetActive(false);
-        _gameManager.StartFinalBoss();
+        _gameManager.StartFinalBossAnimations();
     }
 
     private IEnumerator AnswerGivenAnimation(Transform answerTransform)

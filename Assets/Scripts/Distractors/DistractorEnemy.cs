@@ -97,7 +97,7 @@ public class DistractorEnemy : Pausable
         }
     }
 
-    public void Die()
+    public virtual void Die()
     {
         _redirectionManager._playerManager.ResetCharge();
         _animatedInterface.AnimationTriggerWithCallback("Death", AwardEXPAndFinish);

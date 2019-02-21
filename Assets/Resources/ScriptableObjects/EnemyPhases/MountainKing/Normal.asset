@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc236ad86ba6c24e909e3b18befea47, type: 3}
+  m_Name: Normal
+  m_EditorClassIdentifier: 
+  _attackCooldown: 7
+  _containsMovement: 1
+  _activeInHealthPercentage: {x: 0, y: 80}
+  _usesPhaseTransitionAnimation: 1
+  _enemyAttacks:
+  - {fileID: 11400000, guid: 029151bf496041b4ca203d2b58a39df9, type: 2}
+  - {fileID: 11400000, guid: 38a11bcd42cb3cc44b9c23a0bc799a94, type: 2}
+  - {fileID: 11400000, guid: c3459e157d57f9c45841fb86f3b03f56, type: 2}
+  _randomAttackOrder: 0
+  _attackOrder:
+  - {fileID: 11400000, guid: 029151bf496041b4ca203d2b58a39df9, type: 2}
+  - {fileID: 11400000, guid: 38a11bcd42cb3cc44b9c23a0bc799a94, type: 2}
+  - {fileID: 11400000, guid: c3459e157d57f9c45841fb86f3b03f56, type: 2}

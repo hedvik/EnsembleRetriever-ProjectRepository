@@ -9,14 +9,17 @@ using UnityEngine;
 /// </summary>
 public class AnimatedCharacterInterface : Pausable
 {
-    public float _movementSpeed = 5f;
+    public float _movementSpeed = 100f;
+    public float _rotationSpeed = 5f;
     public ParticleSystem _teleportParticles;
     public ParticleSystem _sweatParticles;
     public AudioClip _teleportSound;
     public AudioClip _groundCrashSound;
     public AudioClip _deathExplosionSound;
     public AudioClip _phaseTransitionSound;
+    public AudioClip _surprisedSound;
     public string _animationTriggerOnStart;
+    public MeshRenderer _eyeRenderer;
 
     [HideInInspector]
     public AudioSource _audioSource;
@@ -150,7 +153,12 @@ public class AnimatedCharacterInterface : Pausable
 
     public void PlayPhaseTransitionSound()
     {
-        _audioSource.PlayOneShot(_phaseTransitionSound, 1f);
+        _audioSource.PlayOneShot(_phaseTransitionSound);
+    }
+
+    public void PlaySurprisedSound()
+    {
+        _audioSource.PlayOneShot(_surprisedSound);
     }
 
     public void SetSweatState(bool state)
@@ -231,7 +239,7 @@ public class AnimatedCharacterInterface : Pausable
         var lerpTimer = 0f;
         while(lerpTimer <= 1)
         {
-            lerpTimer += Time.deltaTime * _movementSpeed;
+            lerpTimer += Time.deltaTime * _rotationSpeed;
 
             transform.rotation = Quaternion.Lerp(oldRotation, newRotation, lerpTimer);
 

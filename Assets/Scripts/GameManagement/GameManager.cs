@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public bool _skipTutorial;
     public float _levelUpDialogueBoxOffsetFromPlayer = 5f;
     public MountainKing _mountainKing;
+    public GameObject _mountainKingEnsembleContainer;
+    public AudioSource _mountainKingAudioSource;
 
     [SerializeField]
     private GameObject _levelUpDialoguePrefab = null;
@@ -33,6 +35,8 @@ public class GameManager : MonoBehaviour
     private bool _shieldEventTriggered = false;
     private bool _resetEventTriggered = false;
     private bool _attackEventTriggered = false;
+    private AnimatedCharacterInterface _mountainKingAnimatedInterface;
+    private AnimatedCharacterInterface[] _ensembleInstruments;
 
     private void Awake()
     {
@@ -56,6 +60,8 @@ public class GameManager : MonoBehaviour
         _levelUpDialogueBox.gameObject.SetActive(false);
         _levelUpDialogueBox.transform.localScale = Vector3.zero;
         _mountainKing.InitialiseDistractor(_redirectionManager);
+        _mountainKingAnimatedInterface = _mountainKing.GetComponent<AnimatedCharacterInterface>();
+        _ensembleInstruments = _mountainKingEnsembleContainer.GetComponentsInChildren<AnimatedCharacterInterface>();
     }
 
     public void StartTutorial()
@@ -82,17 +88,43 @@ public class GameManager : MonoBehaviour
             _tutorialInstrument.GetComponent<TutorialNPC>().FinishTutorial();
         }
     }
+    
+    public void StartFinalBossAnimations()
+    {
+        _mountainKingAudioSource.Stop();
+        _mountainKingAnimatedInterface.LookAtPosition(_redirectionManager.GetUserHeadTransform().position);
+        foreach(var instrument in _ensembleInstruments)
+        {
+            instrument.AnimationTrigger("Idle");
+            instrument.LookAtPosition(_redirectionManager.GetUserHeadTransform().position);
+        }
+
+        _mountainKingAnimatedInterface.AnimationTriggerWithCallback("Surprised", FinaliseFinalBossAnimations);
+    }
+
+    public void FinaliseFinalBossAnimations()
+    {
+        foreach (var instrument in _ensembleInstruments)
+        {
+            instrument.AnimationTrigger("Jumps");
+        }
+        _mountainKingAnimatedInterface.AnimationTriggerWithCallback("PhaseTransition", StartFinalBoss);
+    }
 
     public void StartFinalBoss()
     {
-        // Stop music
-        // Have the mountain king be surprised and see that the player has arrived
-        // His ensemble should become idle as well
-        // Run some prefight animation
-        // animationTrigger("Jumps") on the ensemble
-        // Position Mountain King in a reasonable place
-        // Start music again
-        // Activate final boss fight
+        _mountainKingAudioSource.Play();
+        _mountainKing.StartMountainKing();
+    }
+
+    public void EndGame()
+    {
+        foreach(var instrument in _ensembleInstruments)
+        {
+            instrument._eyeRenderer.material = _mountainKing._normalEyes;
+        }
+        // TODO: Display Score
+        // TODO: Record data
     }
 
     public void ResetEventTriggerDialogue()
