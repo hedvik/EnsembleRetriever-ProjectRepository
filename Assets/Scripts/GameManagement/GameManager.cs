@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 {
     public bool _skipTutorial;
     public float _levelUpDialogueBoxOffsetFromPlayer = 5f;
+    public AudioClip _battleTheme;
+    public AudioClip _ambientTheme;
 
     [Header("References")]
     public GameObject _startGameTextBox;
@@ -56,6 +58,8 @@ public class GameManager : MonoBehaviour
     private int _scoreQuizAnswers = 0;
     private float _startTime;
 
+    private AudioSource _playerAudioSource;
+
     private void Awake()
     {
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
@@ -85,6 +89,9 @@ public class GameManager : MonoBehaviour
 
         _uiManager.ChangeTextBoxVisibility(false, _scoreText.transform.parent.parent.parent);
         _uiManager.ChangeTextBoxVisibility(false, _leaderboardText.transform.parent.parent.parent);
+        _playerAudioSource = GetCurrentPlayerManager().GetComponent<AudioSource>();
+        _playerAudioSource.loop = true;
+        _playerAudioSource.volume = 0.1f;
     }
 
     public void StartTutorial()
@@ -178,6 +185,17 @@ public class GameManager : MonoBehaviour
             _uiManager.EventTriggerSnippet();
             _attackEventTriggered = true;
         }
+    }
+
+    public void PlayBattleTheme()
+    {
+        _playerAudioSource.clip = _battleTheme;
+        _playerAudioSource.Play();
+    }
+
+    public void StopBattleTheme()
+    {
+        _playerAudioSource.Stop();
     }
 
     public PlayerManager GetCurrentPlayerManager()

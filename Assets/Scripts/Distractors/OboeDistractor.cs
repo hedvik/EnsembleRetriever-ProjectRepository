@@ -10,5 +10,16 @@ public class OboeDistractor : DistractorEnemy
         _animatedInterface.AnimationTrigger("Jumps");
         InitialisePhases("ScriptableObjects/EnemyPhases/AngryOboe");
         StartCoroutine(BeginCombat(_timeUntilStartAfterSpawn));
+        _redirectionManager._gameManager.PlayBattleTheme();
+    }
+
+    public override void TakeDamage(float damageValue)
+    {
+        base.TakeDamage(damageValue);
+
+        if(_health == 0)
+        {
+            _redirectionManager._gameManager.StopBattleTheme();
+        }
     }
 }

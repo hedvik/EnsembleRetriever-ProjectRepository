@@ -17211,6 +17211,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skipTutorial: 1
   _levelUpDialogueBoxOffsetFromPlayer: 5
+  _battleTheme: {fileID: 8300000, guid: 60543dbc06e5e464993f7e35015a7d3d, type: 3}
+  _ambientTheme: {fileID: 0}
   _startGameTextBox: {fileID: 1995807369}
   _tutorialInstrument: {fileID: 1637816236}
   _mountainKing: {fileID: 1225670024}
