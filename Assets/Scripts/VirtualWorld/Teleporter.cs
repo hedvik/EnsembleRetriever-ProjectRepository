@@ -86,9 +86,6 @@ public class Teleporter : MonoBehaviour
             _playerInTeleporter = false;
             _timer = 0f;
             _onEnterParticles.Stop();
-
-            // TODO: Figure our whether it is fine to disable distractors or not at this point in the game
-            //_gameManager._redirectionManager.SetDistractorUsageState(true);
         }
     }
 }

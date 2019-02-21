@@ -4,16 +4,28 @@ using UnityEngine;
 using System.Reflection;
 using UnityEngine.XR;
 using System.Linq;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject _startGameTextBox;
-    public AnimatedCharacterInterface _tutorialInstrument;
     public bool _skipTutorial;
     public float _levelUpDialogueBoxOffsetFromPlayer = 5f;
+
+    [Header("References")]
+    public GameObject _startGameTextBox;
+    public AnimatedCharacterInterface _tutorialInstrument;
     public MountainKing _mountainKing;
     public GameObject _mountainKingEnsembleContainer;
     public AudioSource _mountainKingAudioSource;
+    public Text _scoreText;
+    public Text _leaderboardText;
+
+    [Header("Scoring Parameters")]
+    public int _scorePotentialDamageTaken = 1000;
+    public int _scoreLossPerDamageTaken = 50;
+    public int _scorePotentialQuizAnswers = 500;
+    public int _scorePotentialTime = 1000;
+    public int _maximumTimeInMinutes = 30;
 
     [SerializeField]
     private GameObject _levelUpDialoguePrefab = null;
@@ -37,6 +49,12 @@ public class GameManager : MonoBehaviour
     private bool _attackEventTriggered = false;
     private AnimatedCharacterInterface _mountainKingAnimatedInterface;
     private AnimatedCharacterInterface[] _ensembleInstruments;
+    private CaveQuizManager _quizManager;
+
+    private int _scoreTime = 0;
+    private int _scoreDamageTaken = 0;
+    private int _scoreQuizAnswers = 0;
+    private float _startTime;
 
     private void Awake()
     {
@@ -62,6 +80,11 @@ public class GameManager : MonoBehaviour
         _mountainKing.InitialiseDistractor(_redirectionManager);
         _mountainKingAnimatedInterface = _mountainKing.GetComponent<AnimatedCharacterInterface>();
         _ensembleInstruments = _mountainKingEnsembleContainer.GetComponentsInChildren<AnimatedCharacterInterface>();
+
+        _quizManager = GameObject.Find("CaveQuizManager").GetComponent<CaveQuizManager>();
+
+        _uiManager.ChangeTextBoxVisibility(false, _scoreText.transform.parent.parent.parent);
+        _uiManager.ChangeTextBoxVisibility(false, _leaderboardText.transform.parent.parent.parent);
     }
 
     public void StartTutorial()
@@ -82,6 +105,7 @@ public class GameManager : MonoBehaviour
     {
         _gameStarted = true;
         _redirectionManager.ActivateRotationAndCurvatureGains();
+        _startTime = Time.realtimeSinceStartup;
 
         if (!_skipTutorial)
         {
@@ -123,7 +147,9 @@ public class GameManager : MonoBehaviour
         {
             instrument._eyeRenderer.material = _mountainKing._normalEyes;
         }
-        // TODO: Display Score
+        FetchScores();
+        _uiManager.ChangeTextBoxVisibility(true, _scoreText.transform.parent.parent.parent);
+        _uiManager.ChangeTextBoxVisibility(true, _leaderboardText.transform.parent.parent.parent);
         // TODO: Record data
     }
 
@@ -157,5 +183,24 @@ public class GameManager : MonoBehaviour
     public PlayerManager GetCurrentPlayerManager()
     {
         return _redirectionManager.GetComponentInChildren<PlayerManager>();
+    }
+
+    private void FetchScores()
+    {
+        var currentTime = Time.realtimeSinceStartup;
+
+        _scoreDamageTaken = Mathf.Clamp(_scorePotentialDamageTaken - (_redirectionManager._playerManager._numberOfHitsTaken * _scoreLossPerDamageTaken), 0, _scorePotentialDamageTaken);
+        _scoreQuizAnswers = Mathf.Clamp(_quizManager._numberOfCorrectAnswers * (_scorePotentialQuizAnswers / _quizManager._correctnessDisplays.Count), 0, _scorePotentialQuizAnswers);
+        _scoreTime = Mathf.Clamp(_scorePotentialTime - (int)UtilitiesER.Remap(0, _maximumTimeInMinutes * 60f, 0, _scorePotentialTime, currentTime - _startTime), 0, _scorePotentialTime);
+        var finalScore = _scoreDamageTaken + _scoreTime + _scoreQuizAnswers;
+
+        _scoreText.text = "Score(<color=#00ff00ff>Time Taken</color>):\n" + _scoreTime + "\n" +
+                          "Score(<color=#ff0000ff>Damage Taken</color>):\n" + _scoreDamageTaken + "\n" +
+                          "Score(<color=#a52a2aff>Quiz Answers</color>):\n" + _scoreQuizAnswers + "\n" +
+                          "Score(<color=#ffa500ff>Total</color>):\n" + finalScore;
+
+        // TODO: Add participant ID from current experiment
+        // TODO: Write/Read scores for leaderboard
+        _leaderboardText.text = "Participant ID:\nDEBUG\nScore Placement:\n1/100";
     }
 }

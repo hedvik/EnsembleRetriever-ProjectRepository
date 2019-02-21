@@ -10,7 +10,6 @@ public class S2CRedirectorER : SteerToRedirectorER
     private const float _S2C_BEARING_ANGLE_THRESHOLD_IN_DEGREE = 160;
     private const float _S2C_TEMP_TARGET_DISTANCE = 4;
 
-    // TODO: Need to change the redirection target somehow here? The goal is technically not to steer the current heading towards the centre, but to align the future heading with it. 
     public override void PickRedirectionTarget()
     {
         var trackingAreaPosition = Utilities.FlattenedPos3D(redirectionManager.trackedSpace.position);

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tut14
   m_EditorClassIdentifier: 
   _text: I would recommend that you gather <color=#00FF00>3 shiny clues</color> before
-    entering though. Otherwise you might not be able to decipher the <color=#a52a2aff>password</color>
+    entering though. Otherwise you might not be able to answer the <color=#a52a2aff>quiz</color>
     to enter his lair!
   _voiceLine: {fileID: 0}
   _functionTriggerStart: AnimationTrigger

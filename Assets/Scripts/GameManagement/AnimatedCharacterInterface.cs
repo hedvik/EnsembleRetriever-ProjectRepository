@@ -203,10 +203,10 @@ public class AnimatedCharacterInterface : Pausable
         transform.position += Vector3.down * 0.5f;
         _audioSource.PlayOneShot(_groundCrashSound);
 
+        _animator.SetFloat("speed", 1f);
+
         // HACK: Could have waited for the length of the animation somehow, but that is tedious to find
         yield return new WaitForSeconds(3);
-
-        _animator.SetFloat("speed", 1f);
 
         if (returnToStartPositionAfterEnd)
         {

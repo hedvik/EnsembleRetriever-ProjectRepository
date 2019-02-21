@@ -23,6 +23,9 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector]
     public AudioSource _audioSource;
 
+    [HideInInspector]
+    public int _numberOfHitsTaken = 0;
+
     [Header("VR")]
     public SteamVR_Input_Sources _batonHand;
     public SteamVR_Input_Sources _shieldHand;
@@ -189,7 +192,7 @@ public class PlayerManager : MonoBehaviour
 
     public void TakeDamage()
     {
-        // TODO: recordedNumberOfPlayerhits++
+        _numberOfHitsTaken++;
         if (_takeDamageRoutine != null)
         {
             StopCoroutine(_takeDamageRoutine);

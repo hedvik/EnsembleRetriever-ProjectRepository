@@ -17,7 +17,6 @@ public class PlayerShield : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // TODO: If in tutorial, trigger box as well
         if (other.CompareTag("projectile"))
         {
             var projectile = other.gameObject.GetComponent<ProjectileAttack>();

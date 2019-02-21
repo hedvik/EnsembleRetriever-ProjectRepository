@@ -22,6 +22,9 @@ public class CaveQuizManager : MonoBehaviour
     public float _stageShakeAmount = 1f;
     public float _stageMovementYOffset = -2f;
 
+    [HideInInspector]
+    public int _numberOfCorrectAnswers = 0;
+
     private MultipleChoiceQuiz _quizData;
     private GameObject _quizContainer;
     private GameManager _gameManager;
@@ -29,7 +32,6 @@ public class CaveQuizManager : MonoBehaviour
     private bool _quizActive = false;
     private float _quizTimer = 0f;
     private int _currentQuestionIndex = 0;
-    private int _numberOfCorrectAnswers = 0;
 
     private AudioSource _quizAudioSource;
 
