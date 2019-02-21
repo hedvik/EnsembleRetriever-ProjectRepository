@@ -58,6 +58,8 @@ public class Teleporter : MonoBehaviour
             _timer = 0f;
             _onEnterParticles.Stop();
 
+            _gameManager.GetCurrentPlayerManager().GetComponentInChildren<ObjectivePointer>().Disable();
+
             _quizManager.SetVisibilityState(true);
         }
     }

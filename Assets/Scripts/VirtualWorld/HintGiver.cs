@@ -67,6 +67,7 @@ public class HintGiver : Pausable
         if (other.CompareTag("Player"))
         {
             _gameManager._uiManager.ChangeTextBoxVisibility(true, _textBoxObject.transform);
+            other.GetComponentInChildren<ObjectivePointer>().RemoveObjectiveFromList(transform);
         }
     }
 
