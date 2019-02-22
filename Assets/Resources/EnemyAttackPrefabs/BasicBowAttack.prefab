@@ -59,7 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046bc78ed7589ce4ab109bbc23fff3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainMeshRenderer: {fileID: 23374491872278718}
+  _mainMeshRenderers:
+  - {fileID: 23374491872278718}
   _destructionSpeed: 5
   _movementSpeed: 1
   _chargeValue: 10

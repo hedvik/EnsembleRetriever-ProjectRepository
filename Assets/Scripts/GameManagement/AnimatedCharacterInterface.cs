@@ -41,7 +41,7 @@ public class AnimatedCharacterInterface : Pausable
         _collider = GetComponent<BoxCollider>();
         _trailRenderer = GetComponent<TrailRenderer>();
 
-        if(!string.IsNullOrEmpty(_animationTriggerOnStart))
+        if (!string.IsNullOrEmpty(_animationTriggerOnStart))
         {
             AnimationTrigger(_animationTriggerOnStart);
         }
@@ -62,7 +62,7 @@ public class AnimatedCharacterInterface : Pausable
         if (_currentAnimation == trigger)
             return;
 
-        if(_currentAnimation != null)
+        if (_currentAnimation != null)
         {
             _animator.ResetTrigger(_currentAnimation);
         }
@@ -73,7 +73,15 @@ public class AnimatedCharacterInterface : Pausable
     public void AnimationTriggerWithCallback(string trigger, System.Action callback)
     {
         AnimationTrigger(trigger);
-        _onAnimationEndCallbacks.Add(trigger, callback);
+
+        if (!_onAnimationEndCallbacks.ContainsKey(trigger))
+        {
+            _onAnimationEndCallbacks.Add(trigger, callback);
+        }
+        else
+        {
+            Debug.LogError("Attempted to add " + trigger + ", but it was already in the callback list!");
+        }
     }
 
     public void OnAnimationEnd(string trigger)
@@ -222,7 +230,7 @@ public class AnimatedCharacterInterface : Pausable
         var startPosition = transform.position;
         var lerpTimer = 0f;
 
-        while(lerpTimer <= 1)
+        while (lerpTimer <= 1)
         {
             lerpTimer += Time.deltaTime * _movementSpeed;
             transform.position = Vector3.Lerp(startPosition, position, lerpTimer);
@@ -237,7 +245,7 @@ public class AnimatedCharacterInterface : Pausable
         var newRotation = transform.rotation;
 
         var lerpTimer = 0f;
-        while(lerpTimer <= 1)
+        while (lerpTimer <= 1)
         {
             lerpTimer += Time.deltaTime * _rotationSpeed;
 
@@ -251,18 +259,18 @@ public class AnimatedCharacterInterface : Pausable
     {
         var currentlyRotatedAngle = 0f;
         var finishedRotating = false;
-        while(!finishedRotating)
+        while (!finishedRotating)
         {
             var deltaAngle = Time.deltaTime * _movementSpeed * Mathf.Sign(angleToRotate);
             transform.position = UtilitiesER.RotatePointAroundPivot(transform.position, pivot, Quaternion.AngleAxis(deltaAngle, Vector3.up));
             currentlyRotatedAngle += deltaAngle;
             transform.LookAt(pivot);
 
-            if(angleToRotate > 0 && currentlyRotatedAngle >= angleToRotate)
+            if (angleToRotate > 0 && currentlyRotatedAngle >= angleToRotate)
             {
                 finishedRotating = true;
             }
-            else if(angleToRotate < 0 && currentlyRotatedAngle <= angleToRotate)
+            else if (angleToRotate < 0 && currentlyRotatedAngle <= angleToRotate)
             {
                 finishedRotating = true;
             }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProjectileAttack : Pausable
 {
-    public MeshRenderer _mainMeshRenderer;
+    public List<MeshRenderer> _mainMeshRenderers = new List<MeshRenderer>();
     public float _destructionSpeed = 5;
 
     [HideInInspector]
@@ -16,9 +16,11 @@ public class ProjectileAttack : Pausable
 
     protected bool _translating;
     protected BoxCollider _collider;
+    protected EnemyAttack _attackSettings;
 
     public virtual void Initialise(EnemyAttack attack, Transform target)
     {
+        _attackSettings = attack;
         _movementSpeed = attack._attackSpeed;
         _chargeValue = attack._attackChargeAmount;
         transform.localScale = attack._visualsScale;
@@ -26,9 +28,12 @@ public class ProjectileAttack : Pausable
 
         if(attack._attackMaterial != null)
         {
-            var materials = _mainMeshRenderer.materials;
-            materials[0] = attack._attackMaterial;
-            _mainMeshRenderer.materials = materials;
+            foreach (var renderer in _mainMeshRenderers)
+            {
+                var materials = renderer.materials;
+                materials[0] = attack._attackMaterial;
+                renderer.materials = materials;
+            }
         }
 
         _translating = true;
@@ -38,7 +43,11 @@ public class ProjectileAttack : Pausable
     public void Destroy()
     {
         _translating = false;
-        _collider.enabled = false;
+
+        if (_collider != null)
+        {
+            _collider.enabled = false;
+        }
         StartCoroutine(DestructionAnimation());
     }
 

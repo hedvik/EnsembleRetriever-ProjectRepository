@@ -46,7 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe6b906d8f652ac468b76376a71a4150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainMeshRenderer: {fileID: 3913893508376967644}
+  _mainMeshRenderers:
+  - {fileID: 3913893508376967644}
   _destructionSpeed: 5
   _movementSpeed: 1
   _chargeValue: 10
@@ -237,15 +238,15 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
       propertyPath: m_Name
       value: oboeanimation
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 3d4d537bbd5810541b21ec01eedf0da8, type: 3}
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}

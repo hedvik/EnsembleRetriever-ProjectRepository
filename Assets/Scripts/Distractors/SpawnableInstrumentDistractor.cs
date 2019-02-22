@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OboeDistractor : DistractorEnemy
+public class SpawnableInstrumentDistractor : DistractorEnemy
 {
+    public string _distractorName = "AngryOboe";
+
     public override void InitialiseDistractor(RedirectionManagerER redirectionManager, bool findSpawnPosition = true)
     {
         base.InitialiseDistractor(redirectionManager);
         _animatedInterface.AnimationTrigger("Jumps");
-        InitialisePhases("ScriptableObjects/EnemyPhases/AngryOboe");
+        InitialisePhases("ScriptableObjects/EnemyPhases/" + _distractorName);
         StartCoroutine(BeginCombat(_timeUntilStartAfterSpawn));
         _redirectionManager._gameManager.PlayBattleTheme();
     }
