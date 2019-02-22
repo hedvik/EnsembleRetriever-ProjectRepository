@@ -33,6 +33,8 @@ public class DistractorEnemy : Pausable
     protected AudioClip[] _uniqueTelegraphAudioClips;
     protected AudioClip[] _speedTelegraphAudioClips;
 
+    protected List<GameObject> _attackObjects = new List<GameObject>();
+
     public virtual void InitialiseDistractor(RedirectionManagerER redirectionManager, bool findSpawnPosition = true)
     {
         _maxHealth = _health;
@@ -101,6 +103,14 @@ public class DistractorEnemy : Pausable
     {
         _redirectionManager._playerManager.ResetCharge();
         _animatedInterface.AnimationTriggerWithCallback("Death", AwardEXPAndFinish);
+
+        foreach(var attackObject in _attackObjects)
+        {
+            if(attackObject != null)
+            {
+                attackObject.GetComponent<ProjectileAttack>().Destroy();
+            }
+        }
     }
 
     public void AwardEXPAndFinish()
@@ -184,6 +194,7 @@ public class DistractorEnemy : Pausable
         newProjectile.Initialise(_queuedAttack, _redirectionManager.headTransform);
         _animatedInterface._audioSource.PlayOneShot(_queuedAttack._spawnAudio, _queuedAttack._spawnAudioScale);
         _queuedAttack = null;
+        _attackObjects.Add(newProjectile.gameObject);
 
         if (_currentPhase._containsMovement)
         {

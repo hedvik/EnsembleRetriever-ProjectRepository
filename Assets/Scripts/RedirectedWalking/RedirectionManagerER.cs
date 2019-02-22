@@ -17,6 +17,9 @@ public class RedirectionManagerER : RedirectionManager
     [Range(-1, 0)]
     public float _alignmentThreshold = -0.9f;
 
+    [Tooltip("Should be null for normal behaviour or a specific distractor if you wish to always spawn that one")]
+    public GameObject _debugDistractor;
+
     [HideInInspector]
     public bool _distractorIsActive = false;
 
@@ -154,7 +157,14 @@ public class RedirectionManagerER : RedirectionManager
         _baseMinimumRotationGain = MIN_ROT_GAIN;
         RequestAlgorithmSwitch(true);
         // TODO: Request gain increase
-        _currentActiveDistractor = Instantiate(_distractorPrefabPool[Random.Range(0, _distractorPrefabPool.Count)]).GetComponent<DistractorEnemy>();
+        if (_debugDistractor != null)
+        {
+            _currentActiveDistractor = Instantiate(_debugDistractor).GetComponent<DistractorEnemy>();
+        }
+        else
+        {
+            _currentActiveDistractor = Instantiate(_distractorPrefabPool[Random.Range(0, _distractorPrefabPool.Count)]).GetComponent<DistractorEnemy>();
+        }
         _currentActiveDistractor.InitialiseDistractor(this);
     }
 

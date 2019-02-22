@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc236ad86ba6c24e909e3b18befea47, type: 3}
+  m_Name: Tutorial
+  m_EditorClassIdentifier: 
+  _attackCooldown: 5
+  _containsMovement: 0
+  _sweatState: 0
+  _activeInHealthPercentage: {x: 81, y: 100}
+  _usesPhaseTransitionAnimation: 0
+  _enemyAttacks:
+  - {fileID: 11400000, guid: 5156de93c3527a6479446192c4ffb733, type: 2}
+  - {fileID: 11400000, guid: 4e7de4190f06d5a4c81f630271bdee71, type: 2}
+  - {fileID: 11400000, guid: 91fa75101596cc842a6617f187e4915d, type: 2}
+  _randomAttackOrder: 0
+  _attackOrder:
+  - {fileID: 11400000, guid: 5156de93c3527a6479446192c4ffb733, type: 2}
+  - {fileID: 11400000, guid: 4e7de4190f06d5a4c81f630271bdee71, type: 2}
+  - {fileID: 11400000, guid: 91fa75101596cc842a6617f187e4915d, type: 2}

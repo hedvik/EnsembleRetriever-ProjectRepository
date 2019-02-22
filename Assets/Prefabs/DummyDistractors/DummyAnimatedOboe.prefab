@@ -116,7 +116,7 @@ MonoBehaviour:
   _phaseTransitionSound: {fileID: 8300000, guid: 357fd8e83aadfb24f9838db0c50cdc1b,
     type: 3}
   _surprisedSound: {fileID: 0}
-  _animationTriggerOnStart: Jumps
+  _animationTriggerOnStart: MediumAttackTelegraph
   _eyeRenderer: {fileID: 5646779020410976842}
   _audioSource: {fileID: 0}
 --- !u!82 &2849696706442311637
