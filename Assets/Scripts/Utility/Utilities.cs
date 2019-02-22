@@ -8,6 +8,25 @@ public static class UtilitiesER
         return Mathf.Lerp(yMin, yMax, Mathf.InverseLerp(xMin, xMax, value));
     }
 
+    // https://denisrizov.com/2016/06/02/bezier-curves-unity-package-included/
+    public static Vector3 GetPointOnBezierCurve(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
+    {
+        t = Mathf.Clamp01(t);
+        float u = 1f - t;
+        float t2 = t * t;
+        float u2 = u * u;
+        float u3 = u2 * u;
+        float t3 = t2 * t;
+
+        Vector3 result =
+            (u3) * p0 +
+            (3f * u2 * t) * p1 +
+            (3f * u * t2) * p2 +
+            (t3) * p3;
+
+        return result;
+    }
+
     // https://answers.unity.com/questions/532297/rotate-a-vector-around-a-certain-point.html
     public static Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Quaternion rotation)
     {
