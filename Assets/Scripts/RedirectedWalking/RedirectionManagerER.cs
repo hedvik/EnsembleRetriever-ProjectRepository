@@ -32,9 +32,8 @@ public class RedirectionManagerER : RedirectionManager
     [HideInInspector]
     public PlayerManager _playerManager;
 
-    // TODO: The choice of distractor can probably be semi random by using a stack or queue. Pick one randomly, remove it from the container, pick next one randomly etc
-    //       This container is then reset once everything has been picked once.
     private List<GameObject> _distractorPrefabPool = new List<GameObject>();
+    private List<GameObject> _randomDistractorPoolList = new List<GameObject>();
     private DistractorEnemy _currentActiveDistractor = null;
     private float _baseMinimumRotationGain = 0f;
     private float _baseMaximumRotationGain = 0f;
@@ -106,6 +105,8 @@ public class RedirectionManagerER : RedirectionManager
         _trackingSpaceFloorVisuals.material.color = floorColour;
 
         _playerManager = GetComponentInChildren<PlayerManager>();
+
+        RepopulateRandomDistractorList();
     }
 
     /// <summary>
@@ -163,7 +164,16 @@ public class RedirectionManagerER : RedirectionManager
         }
         else
         {
-            _currentActiveDistractor = Instantiate(_distractorPrefabPool[Random.Range(0, _distractorPrefabPool.Count)]).GetComponent<DistractorEnemy>();
+            // This approach should allow for semi random distractor choices, which mostly avoids repeats of the same one.
+            var chosenPrefab = _randomDistractorPoolList[Random.Range(0, _randomDistractorPoolList.Count)];
+            var newDistractor = Instantiate(chosenPrefab).GetComponent<DistractorEnemy>();
+            _currentActiveDistractor = newDistractor;
+            _randomDistractorPoolList.Remove(chosenPrefab);
+
+            if(_randomDistractorPoolList.Count == 0)
+            {
+                RepopulateRandomDistractorList();
+            }
         }
         _currentActiveDistractor.InitialiseDistractor(this);
     }
@@ -179,6 +189,7 @@ public class RedirectionManagerER : RedirectionManager
         RequestAlgorithmSwitch(false);
         _currentActiveDistractor.FinaliseDistractor();
         _currentActiveDistractor = null;
+        _gameManager.StopBattleTheme();
     }
 
     public void SetWorldPauseState(bool isPaused)
@@ -297,6 +308,14 @@ public class RedirectionManagerER : RedirectionManager
         {
             redirector = _S2CRedirector;
             //_S2CRedirector._lastRotationApplied = _AC2FRedirector._lastRotationApplied;
+        }
+    }
+
+    private void RepopulateRandomDistractorList()
+    {
+        foreach(var element in _distractorPrefabPool)
+        {
+            _randomDistractorPoolList.Add(element);
         }
     }
 }

@@ -269,6 +269,11 @@ PrefabInstance:
       propertyPath: _debugDistractor
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5163990942235738769, guid: a2145ea94da7f57408cc0bcf2ad577ac,
+        type: 3}
+      propertyPath: _alwaysDisplayTrackingFloor
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2145ea94da7f57408cc0bcf2ad577ac, type: 3}
 --- !u!1 &129192992
@@ -22878,6 +22883,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2087955005}
   m_Mesh: {fileID: 4300104, guid: 11e637a3054395e4f8202dfcb29d8b9a, type: 3}
+--- !u!1 &2091363288 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 101016, guid: 780fb730b245d784f8358350b3087411,
+    type: 3}
+  m_PrefabInstance: {fileID: 1320021261}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2091363289
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091363288}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 29.489683, y: 29.762241, z: 2.7221677}
+  m_Center: {x: -0.35679144, y: -0.1136308, z: -0.15291095}
 --- !u!1 &2143901690
 GameObject:
   m_ObjectHideFlags: 0

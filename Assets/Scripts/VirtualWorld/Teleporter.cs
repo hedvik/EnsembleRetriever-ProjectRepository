@@ -38,13 +38,13 @@ public class Teleporter : MonoBehaviour
         _timer += Time.deltaTime;
         if (_timer >= _timeInsideTeleporterUntilTeleport)
         {
-            // This way the teleporting particles stay with the player as they are teleporting to create a more natural transition. 
+            // This way the teleporting particles stay with the player as they are teleporting to create a more natural transition.
             _onEnterParticles.transform.parent = _gameManager._redirectionManager.body;
             _gameManager._redirectionManager.transform.position = _teleportTargetTransform.position;
 
             // Whenever the player is teleported, they are reoriented so the path to the centre is aligned with the future direction they are expected to go.
-            // For this game in particular, it would be preferable to not fight the mountain king at the physical room edge 
-            // so the player needs to walk a little bit inwards into the cave after the teleport to get closer to the middle. 
+            // For this game in particular, it would be preferable to not fight the mountain king at the physical room edge
+            // so the player needs to walk a little bit inwards into the cave after the teleport to get closer to the middle.
             var centreToHead = _gameManager._redirectionManager._centreToHead;
             var headToTarget = Utilities.FlattenedDir3D(_alignmentTargetOnTeleport.position - _gameManager._redirectionManager.GetUserHeadTransform().position);
             var angleBetweenVectors = Vector3.Angle(headToTarget, centreToHead);
@@ -53,6 +53,7 @@ public class Teleporter : MonoBehaviour
             // At this stage in the game, there is no point in redirecting anymore.
             _gameManager._redirectionManager.MAX_ROT_GAIN = 0;
             _gameManager._redirectionManager.MIN_ROT_GAIN = 0;
+            _gameManager._redirectionManager.CURVATURE_RADIUS = 1000;
 
             _playerInTeleporter = false;
             _timer = 0f;
