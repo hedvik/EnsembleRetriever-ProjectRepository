@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc236ad86ba6c24e909e3b18befea47, type: 3}
+  m_Name: Phase4
+  m_EditorClassIdentifier: 
+  _attackCooldown: 7
+  _containsMovement: 1
+  _sweatState: 1
+  _activeInHealthPercentage: {x: 21, y: 40}
+  _usesPhaseTransitionAnimation: 1
+  _enemyAttacks: []
+  _randomAttackOrder: 0
+  _attackOrder:
+  - {fileID: 11400000, guid: 7d84afe0b75934a4691c00d7150e32de, type: 2}
+  - {fileID: 11400000, guid: 35a5621f5fa8d58468218465ee341bef, type: 2}
+  - {fileID: 11400000, guid: 6bac307e16480864c960fac436152ed5, type: 2}

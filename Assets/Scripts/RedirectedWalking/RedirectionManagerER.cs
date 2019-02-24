@@ -235,6 +235,16 @@ public class RedirectionManagerER : RedirectionManager
     }
 
     /// <summary>
+    /// In cases where you want to do some reorientation and check centreToHead after some changes within the same frame you can use this function
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetUpdatedCentreToHead()
+    {
+        _centreToHead = Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position);
+        return _centreToHead;
+    }
+
+    /// <summary>
     /// Interpolates the alpha values for the physical tracking space.
     /// </summary>
     /// <param name="environmentAlphaTarget"></param>

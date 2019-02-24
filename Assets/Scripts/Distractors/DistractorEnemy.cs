@@ -213,6 +213,7 @@ public class DistractorEnemy : Pausable
             {
                 _currentPhase = phase;
                 _attackOrderIndex = 0;
+                _attackTimer = 0f;
                 if (_currentPhase._usesPhaseTransitionAnimation)
                 {
                     _animatedInterface.AnimationTriggerWithCallback("PhaseTransition", RestartAttacking);
