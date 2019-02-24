@@ -241,7 +241,7 @@ public class AnimatedCharacterInterface : Pausable
     private IEnumerator LookTowardsPosition(Vector3 target)
     {
         var oldRotation = transform.rotation;
-        transform.LookAt(target);
+        transform.LookAt(target, transform.up);
         var newRotation = transform.rotation;
 
         var lerpTimer = 0f;

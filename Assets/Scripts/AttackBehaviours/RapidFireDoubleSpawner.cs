@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RapidFireSpawner : ProjectileAttack
+public class RapidFireDoubleSpawner : ProjectileAttack
 {
     public int _numberOfProjectiles = 5;
     public float _cooldownBetweenShots = 0.5f;

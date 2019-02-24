@@ -67,6 +67,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2.539166
+      objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.035261154
+      objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4.730926
+      objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.5429375
+      objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 1.2930993
+      objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -0.14654964
+      objectReference: {fileID: 0}
     - target: {fileID: 4595783451275030724, guid: ddc761f30bd634341bb090f85ef8c5e0,
         type: 3}
       propertyPath: _teleportParticles
@@ -155,6 +185,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3243461014352282330}
     m_Modifications:
+    - target: {fileID: 100010, guid: 7c4182d832f31a14bad31d2082bd3a8c, type: 3}
+      propertyPath: m_Name
+      value: contrabassanimation
+      objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 7c4182d832f31a14bad31d2082bd3a8c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -210,10 +244,6 @@ PrefabInstance:
     - target: {fileID: 400010, guid: 7c4182d832f31a14bad31d2082bd3a8c, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.40000045
-      objectReference: {fileID: 0}
-    - target: {fileID: 100010, guid: 7c4182d832f31a14bad31d2082bd3a8c, type: 3}
-      propertyPath: m_Name
-      value: contrabassanimation
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c4182d832f31a14bad31d2082bd3a8c, type: 3}
