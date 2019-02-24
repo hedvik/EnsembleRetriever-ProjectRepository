@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc236ad86ba6c24e909e3b18befea47, type: 3}
   m_Name: Phase2
   m_EditorClassIdentifier: 
-  _attackCooldown: 7
+  _attackCooldown: 5
   _containsMovement: 1
   _sweatState: 0
   _activeInHealthPercentage: {x: 61, y: 80}
@@ -20,6 +20,6 @@ MonoBehaviour:
   _enemyAttacks: []
   _randomAttackOrder: 0
   _attackOrder:
-  - {fileID: 11400000, guid: 7d84afe0b75934a4691c00d7150e32de, type: 2}
-  - {fileID: 11400000, guid: 35a5621f5fa8d58468218465ee341bef, type: 2}
-  - {fileID: 11400000, guid: 6bac307e16480864c960fac436152ed5, type: 2}
+  - {fileID: 11400000, guid: 029151bf496041b4ca203d2b58a39df9, type: 2}
+  - {fileID: 11400000, guid: 91fa75101596cc842a6617f187e4915d, type: 2}
+  - {fileID: 11400000, guid: 9ed63681220ce664eafcd79378ca8e63, type: 2}

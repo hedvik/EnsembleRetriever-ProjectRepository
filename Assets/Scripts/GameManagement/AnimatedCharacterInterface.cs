@@ -32,6 +32,7 @@ public class AnimatedCharacterInterface : Pausable
     private string _currentAnimation = null;
     private Dictionary<string, System.Action> _onAnimationEndCallbacks = new Dictionary<string, System.Action>();
 
+    private Coroutine _rotationMovementCoroutine = null;
 
     private void Awake()
     {
@@ -146,11 +147,15 @@ public class AnimatedCharacterInterface : Pausable
 
     public void RotateAroundPivot(float angleToRotate, Vector3 pivot)
     {
-        StartCoroutine(RotateAroundPivotAnimation(angleToRotate, pivot));
+        _rotationMovementCoroutine = StartCoroutine(RotateAroundPivotAnimation(angleToRotate, pivot));
     }
 
     public void TakeDamageAnimation(string fallingAnimationTrigger, string onGroundAnimationTrigger, float fallSpeed, System.Action callbackOnFinish, bool returnToStartPositionAfterEnd)
     {
+        if(_rotationMovementCoroutine != null)
+        {
+            StopCoroutine(_rotationMovementCoroutine);
+        }
         StartCoroutine(FallToFloorAnimation(fallingAnimationTrigger, onGroundAnimationTrigger, fallSpeed, callbackOnFinish, returnToStartPositionAfterEnd));
     }
 
@@ -277,6 +282,8 @@ public class AnimatedCharacterInterface : Pausable
 
             yield return null;
         }
+
+        _rotationMovementCoroutine = null;
     }
 
     #region Utilities
