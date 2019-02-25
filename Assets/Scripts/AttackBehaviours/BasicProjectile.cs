@@ -7,9 +7,9 @@ public class BasicProjectile : ProjectileAttack
     public float _rotationSpeed = 3;
     private Vector3 _rotationAxis;
 
-    public override void Initialise(EnemyAttack attack, Transform target)
+    public override void Initialise(EnemyAttack attack, Transform target, float speedMultiplier)
     {
-        base.Initialise(attack, target);
+        base.Initialise(attack, target, speedMultiplier);
         _rotationAxis = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)).normalized;
     }
 

@@ -11,9 +11,9 @@ public class OboeProjectile : ProjectileAttack
     private bool _targetReached = false;
     private Vector3 _orbitAxis;
 
-    public override void Initialise(EnemyAttack attack, Transform target)
+    public override void Initialise(EnemyAttack attack, Transform target, float speedMultiplier)
     {
-        base.Initialise(attack, target);
+        base.Initialise(attack, target, speedMultiplier);
         _rotationAxis = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)).normalized;
         _startPosition = transform.position;
         _orbitAxis = Vector3.Cross(_targetTransform.position - transform.position, Vector3.up);

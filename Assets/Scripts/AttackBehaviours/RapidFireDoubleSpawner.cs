@@ -15,12 +15,14 @@ public class RapidFireDoubleSpawner : ProjectileAttack
     private float _timer = 0f;
     private int _numberOfShotProjectiles = 0;
     private float _spawnAnimationTimer = 0f;
+    private float _projectileSpeedMultiplier;
 
-    public override void Initialise(EnemyAttack attack, Transform target)
+    public override void Initialise(EnemyAttack attack, Transform target, float speedMultiplier)
     {
-        base.Initialise(attack, target);
+        base.Initialise(attack, target, speedMultiplier);
         transform.LookAt(target, Vector3.up);
         _audioSource = GetComponent<AudioSource>();
+        _projectileSpeedMultiplier = speedMultiplier;
     }
 
     private void Update()
@@ -42,7 +44,7 @@ public class RapidFireDoubleSpawner : ProjectileAttack
 
             var newProjectileObject = Instantiate(_projectilePrefab, _numberOfShotProjectiles % 2 == 0 ? _spawnPositionA.position : _spawnPositionB.position, Quaternion.identity);
             var projectileSettings = newProjectileObject.GetComponent<BasicProjectile>();
-            projectileSettings.Initialise(_attackSettings, _targetTransform);
+            projectileSettings.Initialise(_attackSettings, _targetTransform, _projectileSpeedMultiplier);
             _audioSource.PlayOneShot(_attackSettings._spawnAudio, _attackSettings._spawnAudioScale);
         }
 

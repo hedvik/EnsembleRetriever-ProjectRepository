@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Phase4
   m_EditorClassIdentifier: 
   _attackCooldown: 7
+  _speedMultiplier: 0.5
   _containsMovement: 1
   _sweatState: 1
   _activeInHealthPercentage: {x: 21, y: 40}
@@ -20,6 +21,6 @@ MonoBehaviour:
   _enemyAttacks: []
   _randomAttackOrder: 0
   _attackOrder:
-  - {fileID: 11400000, guid: 7d84afe0b75934a4691c00d7150e32de, type: 2}
+  - {fileID: 11400000, guid: 5156de93c3527a6479446192c4ffb733, type: 2}
   - {fileID: 11400000, guid: 35a5621f5fa8d58468218465ee341bef, type: 2}
-  - {fileID: 11400000, guid: 6bac307e16480864c960fac436152ed5, type: 2}
+  - {fileID: 11400000, guid: d5eb6ba9cdcd7e543a33c7244dea997c, type: 2}

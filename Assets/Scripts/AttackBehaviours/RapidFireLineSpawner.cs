@@ -16,13 +16,15 @@ public class RapidFireLineSpawner : ProjectileAttack
     private float _movementTimer = 0f;
     private int _numberOfShotProjectiles = 0;
     private Vector3 _startPosition;
+    private float _projectileSpeedMultiplier = 1f;
 
-    public override void Initialise(EnemyAttack attack, Transform target)
+    public override void Initialise(EnemyAttack attack, Transform target, float speedMultiplier)
     {
-        base.Initialise(attack, target);
+        base.Initialise(attack, target, speedMultiplier);
         transform.LookAt(target, Vector3.up);
         _audioSource = GetComponent<AudioSource>();
         _startPosition = _spawnerTransform.localPosition;
+        _projectileSpeedMultiplier = speedMultiplier;
     }
 
     private void Update()
@@ -45,7 +47,7 @@ public class RapidFireLineSpawner : ProjectileAttack
 
             var newProjectileObject = Instantiate(_projectilePrefab, _spawnerTransform.position, Quaternion.identity);
             var projectileSettings = newProjectileObject.GetComponent<BasicProjectile>();
-            projectileSettings.Initialise(_attackSettings, _targetTransform);
+            projectileSettings.Initialise(_attackSettings, _targetTransform, _projectileSpeedMultiplier);
             _audioSource.PlayOneShot(_attackSettings._spawnAudio, _attackSettings._spawnAudioScale);
         }
 

@@ -18,10 +18,10 @@ public class ProjectileAttack : Pausable
     protected BoxCollider _collider;
     protected EnemyAttack _attackSettings;
 
-    public virtual void Initialise(EnemyAttack attack, Transform target)
+    public virtual void Initialise(EnemyAttack attack, Transform target, float speedMultiplier)
     {
         _attackSettings = attack;
-        _movementSpeed = attack._attackSpeed;
+        _movementSpeed = attack._attackSpeed * speedMultiplier;
         _chargeValue = attack._attackChargeAmount;
         transform.localScale = attack._visualsScale;
         _targetTransform = target;

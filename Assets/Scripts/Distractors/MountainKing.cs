@@ -37,6 +37,7 @@ public class MountainKing : DistractorEnemy
         _animatedInterface._eyeRenderer.material = _normalEyes;
         _animatedInterface._audioSource.PlayOneShot(_fanfareOnDefeatAudio);
         _animatedInterface.TeleportToPosition(_startPosition);
+        _animatedInterface.LookAtPosition(_redirectionManager.headTransform.position);
         _animatedInterface.AnimationTrigger("Idle");
         _redirectionManager._gameManager.EndGame();
     }

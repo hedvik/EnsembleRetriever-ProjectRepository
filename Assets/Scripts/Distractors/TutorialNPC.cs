@@ -44,7 +44,7 @@ public class TutorialNPC : DistractorEnemy
                 {
                     attackTimer -= tutorialPhase._attackCooldown;
                     var projectile = Instantiate(tutorialAttack._attackPrefab, transform.position + transform.forward, Quaternion.identity).GetComponent<BasicProjectile>();
-                    projectile.Initialise(tutorialAttack, _redirectionManager.headTransform);
+                    projectile.Initialise(tutorialAttack, _redirectionManager.headTransform, 1f);
                     _animatedInterface._audioSource.PlayOneShot(tutorialAttack._spawnAudio, tutorialAttack._spawnAudioScale);
                 }
             }

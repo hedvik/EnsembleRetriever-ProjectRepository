@@ -38,6 +38,7 @@ public class DistractorEnemy : Pausable
     public virtual void InitialiseDistractor(RedirectionManagerER redirectionManager, bool findSpawnPosition = true)
     {
         _maxHealth = _health;
+        _attackingPhaseActive = false;
 
         this._redirectionManager = redirectionManager;
         _animatedInterface = GetComponent<AnimatedCharacterInterface>();
@@ -143,13 +144,9 @@ public class DistractorEnemy : Pausable
         _healthBarFillImage.fillAmount = targetFill;
     }
 
-    protected virtual void StartAttackTelegraphs(bool resetTimer = true)
+    protected virtual void StartAttackTelegraphs()
     {
-        if (resetTimer)
-        {
-            _attackTimer -= _currentPhase._attackCooldown;
-        }
-
+        _attackTimer -= _currentPhase._attackCooldown;
         EnemyAttack newAttack;
         if (_currentPhase._randomAttackOrder)
         {
@@ -164,7 +161,7 @@ public class DistractorEnemy : Pausable
                 _attackOrderIndex = 0;
             }
         }
-
+        
         _queuedAttack = newAttack;
 
         if (newAttack._attackParentInstrument != AttackTypeInstrument.none)
@@ -191,7 +188,7 @@ public class DistractorEnemy : Pausable
     public virtual void Attack()
     {
         var newProjectile = Instantiate(_queuedAttack._attackPrefab, transform.position + transform.forward, Quaternion.identity).GetComponent<ProjectileAttack>();
-        newProjectile.Initialise(_queuedAttack, _redirectionManager.headTransform);
+        newProjectile.Initialise(_queuedAttack, _redirectionManager.headTransform, _currentPhase._speedMultiplier);
         _animatedInterface._audioSource.PlayOneShot(_queuedAttack._spawnAudio, _queuedAttack._spawnAudioScale);
         _queuedAttack = null;
         _attackObjects.Add(newProjectile.gameObject);
@@ -213,7 +210,7 @@ public class DistractorEnemy : Pausable
             {
                 _currentPhase = phase;
                 _attackOrderIndex = 0;
-                _attackTimer = 0f;
+                _attackTimer = _currentPhase._attackCooldown;
                 if (_currentPhase._usesPhaseTransitionAnimation)
                 {
                     _animatedInterface.AnimationTriggerWithCallback("PhaseTransition", RestartAttacking);
@@ -222,7 +219,7 @@ public class DistractorEnemy : Pausable
             }
         }
 
-        if(!phaseChanged)
+        if(!phaseChanged && _currentPhase._usesPhaseTransitionAnimation)
         {
             RestartAttacking();
         }
@@ -233,7 +230,6 @@ public class DistractorEnemy : Pausable
         yield return new WaitForSeconds(waitTime);
         _attackingPhaseActive = true;
         _animatedInterface.AnimationTrigger("Idle");
-        StartAttackTelegraphs(false);
     }
 
     protected AudioClip FindAudioClipInArray(string animationTriggerName, AudioClip[] audioClipArray)

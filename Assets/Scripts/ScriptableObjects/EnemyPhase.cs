@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyPhase : ScriptableObject
 {
     public float _attackCooldown = 5f;
+    public float _speedMultiplier = 1f;
     public bool _containsMovement;
     public bool _sweatState = false;
     public Vector2Int _activeInHealthPercentage;
