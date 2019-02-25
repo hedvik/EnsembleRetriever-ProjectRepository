@@ -15,7 +15,7 @@ MonoBehaviour:
   _text: The <color=#800080>Mountain King's</color> ensemble will most likely try
     to stop you during your adventure today so you should also learn the basics of
     <color=#800000ff>conductor combat</color>!
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: d5b8ba7031c32b340928073ce8722b44, type: 3}
   _functionTriggerStart: AnimationTrigger
   _stringParameterStart: Jumps
   _functionTriggerEnd: AnimationTrigger

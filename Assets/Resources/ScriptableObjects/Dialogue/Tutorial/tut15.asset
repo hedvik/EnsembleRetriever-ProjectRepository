@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: 'If you ever feel lost, then you can just press the <color=#00FF00>green</color>
     button on your baton controller to toggle an objective marker. '
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: c515181a612fe914c8e79bcfb30006f1, type: 3}
   _functionTriggerStart: 
   _stringParameterStart: 
   _functionTriggerEnd: 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: Great! Now you know what to do if you ever get too close to the bounds of
     your <color=#00FF00>physical tracking space</color>.
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: 3c2b903c9c0a2254fbfe04454847607c, type: 3}
   _functionTriggerStart: 
   _stringParameterStart: 
   _functionTriggerEnd: 

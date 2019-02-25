@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tut7
   m_EditorClassIdentifier: 
   _text: 'Conductor combat is fairly simple. '
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: f1a951ee090d32544ab87df36dda5d1f, type: 3}
   _functionTriggerStart: 
   _stringParameterStart: 
   _functionTriggerEnd: 

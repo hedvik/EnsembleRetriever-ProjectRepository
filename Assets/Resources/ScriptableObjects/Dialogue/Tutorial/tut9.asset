@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tut9
   m_EditorClassIdentifier: 
   _text: Try to shield yourself from my attacks!
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: 1d1508b38d625224aaaa5bdab96d04e5, type: 3}
   _functionTriggerStart: StartTutorialAttacks
   _stringParameterStart: 
   _functionTriggerEnd: 

@@ -15,7 +15,7 @@ MonoBehaviour:
   _text: Great! Shielding attacks charges up your <color=#ffa500ff>conductor baton</color>!
     Once it starts pulsating, you are able to counterattack by using the trigger button
     on the back of your controller. Try it out!
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: b3092f49d9d5bb8468d588fd9b7004e6, type: 3}
   _functionTriggerStart: AnimationTrigger
   _stringParameterStart: Jumps
   _functionTriggerEnd: AnimationTrigger

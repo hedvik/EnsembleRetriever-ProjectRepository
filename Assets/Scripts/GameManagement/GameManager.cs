@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public AudioSource _mountainKingAudioSource;
     public Text _scoreText;
     public Text _leaderboardText;
+    public AudioSource _voiceActingAudioSource;
 
     [Header("Scoring Parameters")]
     public int _scorePotentialDamageTaken = 1000;
@@ -103,7 +104,11 @@ public class GameManager : MonoBehaviour
         if (!_skipTutorial)
         {
             _tutorialInstrument.gameObject.SetActive(true);
-            _uiManager.ActivateDialogue(_tutorialInstrument, typeof(AnimatedCharacterInterface).GetTypeInfo(), _tutorialInstrument.transform.Find("TextBox").gameObject, _tutorialDialogue);
+            _uiManager.ActivateDialogue(_tutorialInstrument, 
+                                        typeof(AnimatedCharacterInterface).GetTypeInfo(), 
+                                        _tutorialInstrument.transform.Find("TextBox").gameObject, 
+                                        _tutorialDialogue, 
+                                        _voiceActingAudioSource);
             _tutorialInstrument.GetComponent<TutorialNPC>().InitialiseDistractor(_redirectionManager, false);
         }
         else

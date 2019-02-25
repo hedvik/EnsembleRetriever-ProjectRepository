@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: In one of your hands, you have a <color=#ffa500ff>contrabass shield</color>!
     You will be using it to protect yourself against enemy attacks. Lets try it out!
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: ed374435944d9ad4786e101234e8e9d0, type: 3}
   _functionTriggerStart: 
   _stringParameterStart: 
   _functionTriggerEnd: MoveByStringVector

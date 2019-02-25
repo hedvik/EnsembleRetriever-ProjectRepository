@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: But fret not, my friend. I am here to teach you the ropes so you can retrieve
     the <color=#800080>Mountain King</color> back to your ensemble!
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: 1ef92e57793b30f4a82c14866723828c, type: 3}
   _functionTriggerStart: AnimationTrigger
   _stringParameterStart: Jumps
   _functionTriggerEnd: AnimationTrigger

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: 'You will be able to find him by entering the <color=#0000a0ff>portal</color>
     that you can see over there in the distance. '
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: 6f831d2c6b9c5de4e9fcd9185f4f2032, type: 3}
   _functionTriggerStart: LookAtStringPosition
   _stringParameterStart: (0, 1, -100)
   _functionTriggerEnd: LookAtStringPosition

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tut11
   m_EditorClassIdentifier: 
   _text: 'Ouch! Well, it seems like you have a grasp of the basics now. '
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: 5e7e986dcfebe704aa3ea6e82edc284e, type: 3}
   _functionTriggerStart: MoveByStringVector
   _stringParameterStart: (0, -1, 0)
   _functionTriggerEnd: 

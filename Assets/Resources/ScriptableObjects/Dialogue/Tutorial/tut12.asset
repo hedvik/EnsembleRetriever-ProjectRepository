@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: Before I leave, it might be a good idea to tell you where you can find the
     <color=#800080>Mountain King</color>.
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: 627c6d2b0b0669749bdec049ee469796, type: 3}
   _functionTriggerStart: 
   _stringParameterStart: 
   _functionTriggerEnd: 

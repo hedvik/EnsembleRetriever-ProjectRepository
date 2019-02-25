@@ -15,11 +15,9 @@ MonoBehaviour:
   _text: Let's start with the safety measures first! I will move outside the edge
     of your <color=#00FF00>physical tracking space</color>. Try following me and see
     what happens!
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: 293f76f1a00fdc441a5def1238585981, type: 3}
   _functionTriggerStart: 
   _stringParameterStart: 
   _functionTriggerEnd: MoveByStringVector
   _stringParameterEnd: (0, 0, -4)
-  _nextBoxIsEventTrigger: 1
-  _boxStateOnEnd: 0
-  _boxStateOnStart: 1
+  _eventTriggered: 0

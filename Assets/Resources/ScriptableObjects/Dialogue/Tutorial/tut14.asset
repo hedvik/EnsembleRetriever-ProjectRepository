@@ -15,7 +15,7 @@ MonoBehaviour:
   _text: I would recommend that you gather <color=#00FF00>3 shiny clues</color> before
     entering though. Otherwise you might not be able to answer the <color=#a52a2aff>quiz</color>
     to enter his lair!
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: 8f35669674449b94a89d3e7c0da08b95, type: 3}
   _functionTriggerStart: AnimationTrigger
   _stringParameterStart: Jumps
   _functionTriggerEnd: AnimationTrigger

@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     private TypeInfo _currentTriggerReceiverType;
     private DialogueSnippet _currentDialogueSnippet;
     private PlayerManager _playerManager;
+    private AudioSource _voicePlayback;
 
     private void Start()
     {
@@ -44,9 +45,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ActivateDialogue(object triggerReceiver, TypeInfo typeInfo, GameObject dialogueBox, Queue<DialogueSnippet> textLines)
+    public void ActivateDialogue(object triggerReceiver, TypeInfo typeInfo, GameObject dialogueBox, Queue<DialogueSnippet> textLines, AudioSource audioSource = null)
     {
-        StartCoroutine(QueueDialogueSourceChange(triggerReceiver, typeInfo, dialogueBox, textLines));
+        StartCoroutine(QueueDialogueSourceChange(triggerReceiver, typeInfo, dialogueBox, textLines, audioSource));
     }
 
     public void EventTriggerSnippet()
@@ -73,6 +74,12 @@ public class UIManager : MonoBehaviour
             _currentDialogueSnippet = _currentDialogueList.Dequeue();
             _currentlyActiveText.text = _currentDialogueSnippet._text;
             CheckStartTriggers();
+            if(_voicePlayback != null)
+            {
+                _voicePlayback.Stop();
+                _voicePlayback.clip = _currentDialogueSnippet._voiceLine;
+                _voicePlayback.Play();
+            }
         }
         else
         {
@@ -160,11 +167,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private IEnumerator QueueDialogueSourceChange(object triggerReceiver, TypeInfo typeInfo, GameObject dialogueBox, Queue<DialogueSnippet> textLines)
+    private IEnumerator QueueDialogueSourceChange(object triggerReceiver, TypeInfo typeInfo, GameObject dialogueBox, Queue<DialogueSnippet> textLines, AudioSource audioSource = null)
     {
         while (_inDialogue)
         {
             yield return null;
+        }
+
+        if (audioSource != null)
+        {
+            _voicePlayback = audioSource;
         }
 
         _inDialogue = true;
@@ -193,6 +205,7 @@ public class UIManager : MonoBehaviour
         _currentTriggerReceiver = null;
         _currentTriggerReceiverType = null;
         _currentDialogueSnippet = null;
+        _voicePlayback = null;
 
         _inDialogue = false;
     }

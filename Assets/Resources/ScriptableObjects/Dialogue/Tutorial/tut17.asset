@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 882bf00422c32e541977e7f3e048f879, type: 3}
-  m_Name: tut3
+  m_Name: tut17
   m_EditorClassIdentifier: 
-  _text: 'Try to move over to me! Once you can see the physical bounds, just follow
-    the given instructions. '
-  _voiceLine: {fileID: 8300000, guid: 4a02cb5a2c0bdf1419ff1b4af18e2561, type: 3}
-  _functionTriggerStart: AnimationTrigger
-  _stringParameterStart: Jumps
-  _functionTriggerEnd: AnimationTrigger
-  _stringParameterEnd: Idle
-  _eventTriggered: 1
+  _text: And with that, I will leave you to your adventure. Good luck!
+  _voiceLine: {fileID: 8300000, guid: 32ee1f1798e134548ae5249449e401c2, type: 3}
+  _functionTriggerStart: 
+  _stringParameterStart: 
+  _functionTriggerEnd: StartGame
+  _stringParameterEnd: 
+  _eventTriggered: 0

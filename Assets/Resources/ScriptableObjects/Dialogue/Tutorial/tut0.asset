@@ -15,11 +15,9 @@ MonoBehaviour:
   _text: 'Greetings <color=#00FF00>Conductor</color>! It seems like one of your instruments:
     the <color=#800080>Mountain King</color>, has decided to run away and create an
     ensemble of his own. How rude!'
-  _voiceLine: {fileID: 0}
+  _voiceLine: {fileID: 8300000, guid: be348d9ad3f4ef84aa2aaa37e2a51583, type: 3}
   _functionTriggerStart: TeleportToStringPosition
   _stringParameterStart: (0, 2, -5)
   _functionTriggerEnd: 
   _stringParameterEnd: 
-  _eventTriggeredBox: 0
-  _boxStateOnEnd: 1
-  _boxStateOnStart: 1
+  _eventTriggered: 0
