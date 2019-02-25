@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3502609261645765954}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: 0, z: 0}
+  m_LocalPosition: {x: -10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6470611748944662916}
@@ -129,7 +129,7 @@ MonoBehaviour:
   _chargeValue: 10
   _targetTransform: {fileID: 0}
   _numberOfProjectiles: 5
-  _cooldownBetweenShots: 0.25
+  _cooldownBetweenShots: 0.5
   _spawnPositionA: {fileID: 82845516131483222}
   _spawnPositionB: {fileID: 6246285806141396284}
   _projectilePrefab: {fileID: 1983253231437049787, guid: 114d6214e86f6e648ae523d2205d6a55,
@@ -257,7 +257,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8287057676800993854}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: 0, z: 0}
+  m_LocalPosition: {x: 10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6470611748944662916}

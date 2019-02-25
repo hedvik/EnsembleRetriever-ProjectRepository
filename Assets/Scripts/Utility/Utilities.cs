@@ -61,7 +61,7 @@ public static class UtilitiesER
     {
         { AttackTypeInstrument.contrabass, 1 },
         { AttackTypeInstrument.oboe, 0.6f },
-        { AttackTypeInstrument.harpsichord, 1 },
+        { AttackTypeInstrument.harpsichord, 0.6f },
         { AttackTypeInstrument.glockenspiel, 1 },
         { AttackTypeInstrument.violin, 1 },
         { AttackTypeInstrument.mountainKing, 1 }
