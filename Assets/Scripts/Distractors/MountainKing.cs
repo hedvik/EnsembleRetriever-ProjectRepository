@@ -39,6 +39,7 @@ public class MountainKing : DistractorEnemy
         _animatedInterface.TeleportToPosition(_startPosition);
         _animatedInterface.LookAtPosition(_redirectionManager.headTransform.position);
         _animatedInterface.AnimationTrigger("Idle");
+        _animatedInterface.SetSweatState(false);
         _redirectionManager._gameManager.EndGame();
     }
 }

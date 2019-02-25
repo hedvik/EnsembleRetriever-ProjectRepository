@@ -44,7 +44,7 @@ public static class UtilitiesER
     {
         { AttackTypeSpeed.slow, 1 },
         { AttackTypeSpeed.medium, 1 },
-        { AttackTypeSpeed.fast, 0.5f }
+        { AttackTypeSpeed.fast, 0.3f }
     };
 
     public static readonly Dictionary<AttackTypeInstrument, string> AttackTypeInstrumentTriggers = new Dictionary<AttackTypeInstrument, string>
@@ -63,7 +63,7 @@ public static class UtilitiesER
         { AttackTypeInstrument.oboe, 0.6f },
         { AttackTypeInstrument.harpsichord, 0.6f },
         { AttackTypeInstrument.glockenspiel, 1 },
-        { AttackTypeInstrument.violin, 1 },
+        { AttackTypeInstrument.violin, 0.6f },
         { AttackTypeInstrument.mountainKing, 1 }
     };
 }

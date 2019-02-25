@@ -80,7 +80,6 @@ public class DistractorEnemy : Pausable
     protected void InitialisePhases(string path)
     {
         _phases = Resources.LoadAll<EnemyPhase>(path);
-        CheckForPhaseChange();
     }
 
     public virtual void TakeDamage(float damageValue)
@@ -218,8 +217,8 @@ public class DistractorEnemy : Pausable
                 }
             }
         }
-
-        if(!phaseChanged && _currentPhase._usesPhaseTransitionAnimation)
+        
+        if(!phaseChanged)
         {
             RestartAttacking();
         }
@@ -230,6 +229,7 @@ public class DistractorEnemy : Pausable
         yield return new WaitForSeconds(waitTime);
         _attackingPhaseActive = true;
         _animatedInterface.AnimationTrigger("Idle");
+        CheckForPhaseChange();
     }
 
     protected AudioClip FindAudioClipInArray(string animationTriggerName, AudioClip[] audioClipArray)

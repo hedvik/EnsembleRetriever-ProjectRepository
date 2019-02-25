@@ -16,8 +16,8 @@ MonoBehaviour:
     Once it starts pulsating, you are able to counterattack by using the trigger button
     on the back of your controller. Try it out!
   _voiceLine: {fileID: 0}
-  _functionTriggerStart: 
-  _stringParameterStart: 
-  _functionTriggerEnd: 
-  _stringParameterEnd: 
+  _functionTriggerStart: AnimationTrigger
+  _stringParameterStart: Jumps
+  _functionTriggerEnd: AnimationTrigger
+  _stringParameterEnd: Idle
   _eventTriggered: 1

@@ -54,6 +54,7 @@ public class Teleporter : MonoBehaviour
             _onEnterParticles.Stop();
 
             _gameManager.GetCurrentPlayerManager().GetComponentInChildren<ObjectivePointer>().Disable();
+            _gameManager.GetCurrentPlayerManager().GetComponentInChildren<AudioSource>().Stop();
 
             _quizManager.SetVisibilityState(true);
         }

@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public float _levelUpDialogueBoxOffsetFromPlayer = 5f;
     public AudioClip _battleTheme;
     public AudioClip _ambientTheme;
+    public float _battleThemeVolume = 0.1f;
+    public float _ambientThemeVolume = 0.05f;
 
     [Header("References")]
     public GameObject _startGameTextBox;
@@ -91,7 +93,9 @@ public class GameManager : MonoBehaviour
         _uiManager.ChangeTextBoxVisibility(false, _leaderboardText.transform.parent.parent.parent);
         _playerAudioSource = GetCurrentPlayerManager().GetComponent<AudioSource>();
         _playerAudioSource.loop = true;
-        _playerAudioSource.volume = 0.1f;
+        _playerAudioSource.volume = _ambientThemeVolume;
+        _playerAudioSource.clip = _ambientTheme;
+        _playerAudioSource.Play();
     }
 
     public void StartTutorial()
@@ -100,7 +104,7 @@ public class GameManager : MonoBehaviour
         {
             _tutorialInstrument.gameObject.SetActive(true);
             _uiManager.ActivateDialogue(_tutorialInstrument, typeof(AnimatedCharacterInterface).GetTypeInfo(), _tutorialInstrument.transform.Find("TextBox").gameObject, _tutorialDialogue);
-            _tutorialInstrument.GetComponent<TutorialNPC>().InitialiseDistractor(_redirectionManager);
+            _tutorialInstrument.GetComponent<TutorialNPC>().InitialiseDistractor(_redirectionManager, false);
         }
         else
         {
@@ -189,13 +193,18 @@ public class GameManager : MonoBehaviour
 
     public void PlayBattleTheme()
     {
+        _playerAudioSource.Stop();
         _playerAudioSource.clip = _battleTheme;
+        _playerAudioSource.volume = _battleThemeVolume;
         _playerAudioSource.Play();
     }
 
     public void StopBattleTheme()
     {
         _playerAudioSource.Stop();
+        _playerAudioSource.clip = _ambientTheme;
+        _playerAudioSource.volume = _ambientThemeVolume;
+        _playerAudioSource.Play();
     }
 
     public PlayerManager GetCurrentPlayerManager()
