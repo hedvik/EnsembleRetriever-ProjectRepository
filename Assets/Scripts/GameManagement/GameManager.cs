@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public Text _scoreText;
     public Text _leaderboardText;
     public AudioSource _voiceActingAudioSource;
+    public ExperimentDataManager _experimentDataManager;
 
     [Header("Scoring Parameters")]
     public int _scorePotentialDamageTaken = 1000;
@@ -231,8 +232,33 @@ public class GameManager : MonoBehaviour
                           "Score(<color=#a52a2aff>Quiz Answers</color>):\n" + _scoreQuizAnswers + "\n" +
                           "Score(<color=#ffa500ff>Total</color>):\n" + finalScore;
 
-        // TODO: Add participant ID from current experiment
-        // TODO: Write/Read scores for leaderboard
-        _leaderboardText.text = "Participant ID:\nDEBUG\nScore Placement:\n1/100";
+        _leaderboardText.text = "Participant ID:\n" + _experimentDataManager._currentParticipantId + 
+                                "\nScore Placement:\n" + FindScorePlacement(finalScore) + "/" + (_experimentDataManager._previousGameScores.Count + 1);
+
+        var newGameData = new IngameScoreData();
+        newGameData._id = _experimentDataManager._currentParticipantId;
+        newGameData._damageScore = _scoreDamageTaken;
+        newGameData._quizScore = _scoreQuizAnswers;
+        newGameData._timeScore = _scoreTime;
+        newGameData._totalScore = finalScore;
+
+        _experimentDataManager.WriteGamePerformanceToFile(newGameData);
+    }
+
+    private int FindScorePlacement(int newScore)
+    {
+        var sortedList = new List<int>(_experimentDataManager._previousGameScores);
+        sortedList.Add(newScore);
+        sortedList.Sort();
+        sortedList.Reverse();
+
+        for (int i = 0; i < sortedList.Count; i++)
+        {
+            if (sortedList[i] == newScore)
+            {
+                return i + 1;
+            }
+        }
+        return 1;
     }
 }
