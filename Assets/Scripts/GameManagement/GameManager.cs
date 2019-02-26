@@ -128,6 +128,11 @@ public class GameManager : MonoBehaviour
         {
             _tutorialInstrument.GetComponent<TutorialNPC>().FinishTutorial();
         }
+
+        if(_experimentDataManager._experimentType == ExperimentType.detection)
+        {
+            _experimentDataManager._recordingActive = true;
+        }
     }
     
     public void StartFinalBossAnimations()
@@ -167,7 +172,11 @@ public class GameManager : MonoBehaviour
         FetchScores();
         _uiManager.ChangeTextBoxVisibility(true, _scoreText.transform.parent.parent.parent);
         _uiManager.ChangeTextBoxVisibility(true, _leaderboardText.transform.parent.parent.parent);
-        // TODO: Record data
+
+        if (_experimentDataManager._experimentType == ExperimentType.detection)
+        {
+            _experimentDataManager.WriteDetectionPerformanceToFile();
+        }
     }
 
     public void ResetEventTriggerDialogue()

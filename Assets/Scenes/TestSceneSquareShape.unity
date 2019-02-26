@@ -8341,9 +8341,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _experimentType: 1
-  _gameScoreFileName: GameScoresEx1Debug.dat
+  _gameScoreFileName: GameScoresEx1Debug.csv
+  _detectionDataFileName: DetectionDataEx1Debug.csv
   _currentParticipantId: 0
   _previousGameScores: 
+  _recordingActive: 0
 --- !u!4 &981075270
 Transform:
   m_ObjectHideFlags: 0

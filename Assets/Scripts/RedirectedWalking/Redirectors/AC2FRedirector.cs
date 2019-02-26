@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Redirection;
 
-public enum RotationGainTypes {none = -1, with, against };
+public enum RotationGainTypes {none = -1, against, with };
 
 /// <summary>
 /// Align Centre To Future Redirector.
@@ -111,15 +111,15 @@ public class AC2FRedirector : Redirector
         }
         else
         {
+            // Azmandian et al.'s smoothing method 
             _smoothedRotation = (1.0f - SMOOTHING_FACTOR) * _lastRotationApplied + SMOOTHING_FACTOR * _smoothedRotation;
         }
-
-        // Azmandian et al.'s smoothing method 
-        //_smoothedRotation = (1.0f - SMOOTHING_FACTOR) * _lastRotationApplied + SMOOTHING_FACTOR * _smoothedRotation;
 
         _lastRotationApplied = _smoothedRotation;
         _previousRotationGainType = currentGainType;
         InjectRotation(_smoothedRotation);
+
+        _currentlyAppliedGainType = _isAligned ? RecordedGainTypes.none : (RecordedGainTypes)currentGainType;
     }
 
     private void CheckForGainDifference(RotationGainTypes newGain, float rotationProposed, float deltaDir)

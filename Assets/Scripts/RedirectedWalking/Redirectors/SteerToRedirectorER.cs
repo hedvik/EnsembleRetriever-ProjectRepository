@@ -69,6 +69,7 @@ public abstract class SteerToRedirectorER : Redirector
         // Compute proposed rotation gain
         _rotationFromRotationGain = 0;
 
+        var currentRotationGainType = RecordedGainTypes.none;
         // If user is rotating
         if (Mathf.Abs(deltaDir) / redirectionManager.GetDeltaTime() >= _ROTATION_THRESHOLD)  
         {
@@ -77,11 +78,13 @@ public abstract class SteerToRedirectorER : Redirector
             {
                 // Rotating against the user
                 _rotationFromRotationGain = Mathf.Min(Mathf.Abs(deltaDir * redirectionManager.MIN_ROT_GAIN), _ROTATION_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
+                currentRotationGainType = RecordedGainTypes.rotationAgainstHead;
             }
             else
             {
                 // Rotating with the user
                 _rotationFromRotationGain = Mathf.Min(Mathf.Abs(deltaDir * redirectionManager.MAX_ROT_GAIN), _ROTATION_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
+                currentRotationGainType = RecordedGainTypes.rotationWithHead;
             }
         }
 
@@ -91,7 +94,10 @@ public abstract class SteerToRedirectorER : Redirector
 
         // Prevent having gains if user is stationary. To clarify: if the user has not translated and rotated
         if (Mathf.Approximately(rotationProposed, 0))
+        {
+            _currentlyAppliedGainType = RecordedGainTypes.none;
             return;
+        }
 
         if (!_dontUseDampening)
         {
@@ -122,8 +128,14 @@ public abstract class SteerToRedirectorER : Redirector
         float finalRotation = (1.0f - _SMOOTHING_FACTOR) * _lastRotationApplied + _SMOOTHING_FACTOR * rotationProposed;
         _lastRotationApplied = finalRotation;
         if (!curvatureGainUsed)
+        {
             InjectRotation(finalRotation);
+            _currentlyAppliedGainType = currentRotationGainType;
+        }
         else
+        {
             InjectCurvature(finalRotation);
+            _currentlyAppliedGainType = RecordedGainTypes.curvature;
+        }
     }
 }

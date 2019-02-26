@@ -6,7 +6,10 @@ public abstract class Redirector : MonoBehaviour
 {
     [HideInInspector]
     public RedirectionManager redirectionManager;
-  
+
+    [HideInInspector]
+    public RecordedGainTypes _currentlyAppliedGainType;
+
     /// <summary>
     /// Applies redirection based on the algorithm.
     /// </summary>

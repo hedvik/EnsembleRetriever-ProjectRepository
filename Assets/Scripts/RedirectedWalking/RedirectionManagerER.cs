@@ -32,9 +32,14 @@ public class RedirectionManagerER : RedirectionManager
     [HideInInspector]
     public PlayerManager _playerManager;
 
+    [HideInInspector]
+    public RedirectionAlgorithms _currentActiveRedirectionAlgorithmType = RedirectionAlgorithms.S2C;
+
+    [HideInInspector]
+    public DistractorEnemy _currentActiveDistractor = null;
+
     private List<GameObject> _distractorPrefabPool = new List<GameObject>();
     private List<GameObject> _randomDistractorPoolList = new List<GameObject>();
-    private DistractorEnemy _currentActiveDistractor = null;
     private float _baseMinimumRotationGain = 0f;
     private float _baseMaximumRotationGain = 0f;
     private float _baseCurvatureRadius = 0f;
@@ -311,12 +316,14 @@ public class RedirectionManagerER : RedirectionManager
         {
             redirector = _AC2FRedirector;
             _AC2FRedirector.OnRedirectionMethodSwitch();
+            _currentActiveRedirectionAlgorithmType = RedirectionAlgorithms.AC2F;
             // Keeping this disabled has generally provided a better VR experience so far
             //_AC2FRedirector._lastRotationApplied = _S2CRedirector._lastRotationApplied;
         }
         else
         {
             redirector = _S2CRedirector;
+            _currentActiveRedirectionAlgorithmType = RedirectionAlgorithms.S2C;
             //_S2CRedirector._lastRotationApplied = _AC2FRedirector._lastRotationApplied;
         }
     }

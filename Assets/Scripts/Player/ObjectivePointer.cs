@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR;
 
 public class ObjectivePointer : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class ObjectivePointer : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.O))
+        if(Input.GetKeyDown(KeyCode.O) || (SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._batonHand)))
         {
             _active = !_active;
             _visuals.enabled = _active;
