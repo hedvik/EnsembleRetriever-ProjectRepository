@@ -80,6 +80,11 @@ public class ExperimentDataManager : MonoBehaviour
             return;
         }
 
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            CancelExperiment();
+        }
+
         var newData = new RedirectionFrameData();
         newData._id = _currentParticipantId;
         newData._gainDetected = (SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._batonHand)) ? true : false;
@@ -98,7 +103,16 @@ public class ExperimentDataManager : MonoBehaviour
 
     public void CancelExperiment()
     {
-        // TODO: Write current data to file. Ingame scores will be N/A
+        _recordingActive = false;
+        var incompleteData = new IngameScoreData();
+        incompleteData._id = _currentParticipantId;
+        incompleteData._quizScore = -1;
+        incompleteData._damageScore = -1;
+        incompleteData._timeScore = -1;
+        incompleteData._totalScore = -1;
+
+        WriteGamePerformanceToFile(incompleteData);
+        WriteDetectionPerformanceToFile();
     }
 
     public void WriteGamePerformanceToFile(IngameScoreData data)
@@ -149,7 +163,7 @@ public class ExperimentDataManager : MonoBehaviour
         if (File.Exists(Application.dataPath + "/" + _detectionDataFileName))
         {
             // Append
-            using (var appender = File.AppendText(Application.dataPath + "/" + _gameScoreFileName))
+            using (var appender = File.AppendText(Application.dataPath + "/" + _detectionDataFileName))
             {
                 string column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, line;
                 foreach (var frame in _detectionFrameData)
