@@ -86,7 +86,7 @@ public abstract class Resetter : MonoBehaviour {
         return Utilities.GetSignedAngle(redirectionManager.currDirReal, getAwayFromNearestBoundaryDirection());
     }
 
-    protected bool isUserFacingAwayFromWall()
+    public bool isUserFacingAwayFromWall()
     {
         return Mathf.Abs(getUserAngleWithNearestBoundary()) < 90;
     }

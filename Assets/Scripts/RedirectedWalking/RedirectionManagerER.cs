@@ -145,7 +145,7 @@ public class RedirectionManagerER : RedirectionManager
 
     public void OnDistractorTrigger()
     {
-        if (!_distractorsEnabled)
+        if (!_distractorsEnabled || resetter.isUserFacingAwayFromWall())
             return;
         if (_distractorIsActive || !_gameManager._gameStarted)
             return;

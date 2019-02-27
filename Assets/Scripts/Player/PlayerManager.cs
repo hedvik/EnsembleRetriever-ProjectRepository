@@ -14,6 +14,9 @@ public class PlayerManager : MonoBehaviour
     public float _takeDamageAnimationSpeed = 5f;
     public int _expNeededForLevelUp = 100;
 
+    public Material _shieldDetectionButtonMaterial;
+    public Material _batonObjectiveButtonMaterial;
+
     [Header("Audio")]
     public AudioClip _attackSound;
     public AudioClip _absorbSound;
@@ -89,6 +92,23 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         _headTransform = _gameManager._redirectionManager.GetUserHeadTransform();
+
+        StartCoroutine(InitialiseControllerButtonMaterials());
+    }
+
+    // This is a small hack to ensure that the controllers have been initialised before we edit any of their materials.
+    private IEnumerator InitialiseControllerButtonMaterials()
+    {
+        yield return new WaitForSeconds(2);
+        if (SteamVR.active && _gameManager._redirectionManager.MOVEMENT_CONTROLLER == RedirectionManager.MovementController.Tracker)
+        {
+            var controllers = GetComponentsInChildren<SteamVR_Behaviour_Pose>();
+            foreach (var controller in controllers)
+            {
+                var meshRenderer = controller.transform.Find("Model").transform.Find("button").GetComponent<MeshRenderer>();
+                meshRenderer.material = (controller.inputSource == _shieldHand) ? _shieldDetectionButtonMaterial : _batonObjectiveButtonMaterial;
+            }
+        }
     }
 
     private void Update()

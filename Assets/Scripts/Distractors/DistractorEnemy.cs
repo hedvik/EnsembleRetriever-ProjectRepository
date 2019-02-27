@@ -84,6 +84,11 @@ public class DistractorEnemy : Pausable
 
     public virtual void TakeDamage(float damageValue)
     {
+        if(!_attackingPhaseActive)
+        {
+            return;
+        }
+
         _health = Mathf.Clamp(_health - damageValue, 0, _maxHealth);
         StartCoroutine(DisplayHealth());
         _attackingPhaseActive = false;
