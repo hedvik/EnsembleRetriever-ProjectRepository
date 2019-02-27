@@ -300,7 +300,6 @@ GameObject:
   - component: {fileID: 1024918617521536742}
   - component: {fileID: 6920226019631759255}
   - component: {fileID: 8468021810380585361}
-  - component: {fileID: 1916257557}
   m_Layer: 10
   m_Name: '[CameraRig]'
   m_TagString: Untagged
@@ -417,6 +416,8 @@ MonoBehaviour:
   _shotAnimationNoise: 0.05
   _takeDamageAnimationSpeed: 5
   _expNeededForLevelUp: 100
+  _shieldDetectionButtonMaterial: {fileID: 0}
+  _batonObjectiveButtonMaterial: {fileID: 0}
   _attackSound: {fileID: 8300000, guid: 35fbad8cdde724f11ba6481f1e64af71, type: 3}
   _absorbSound: {fileID: 8300000, guid: ff5f85da24bc943d1abdc5760a22bc81, type: 3}
   _takeDamageSound: {fileID: 8300000, guid: a2452bba56a3a2e4ebccd007313644ad, type: 3}
@@ -521,33 +522,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1916257557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024918617531305124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4289ef9c0647f0b4eb35bf01fd83773c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxBatonCharge: 100
-  _batonRenderer: {fileID: 0}
-  _chargedAnimationSpeed: 5
-  _pointerLineLength: 20
-  _shotAnimationNoise: 0.05
-  _takeDamageAnimationSpeed: 5
-  _expNeededForLevelUp: 100
-  _attackSound: {fileID: 8300000, guid: 35fbad8cdde724f11ba6481f1e64af71, type: 3}
-  _absorbSound: {fileID: 8300000, guid: ff5f85da24bc943d1abdc5760a22bc81, type: 3}
-  _takeDamageSound: {fileID: 8300000, guid: a2452bba56a3a2e4ebccd007313644ad, type: 3}
-  _batonChargedSound: {fileID: 8300000, guid: 36c1da539f28f794c8e150bbbbbdda7c, type: 3}
-  _audioSource: {fileID: 0}
-  _numberOfHitsTaken: 0
-  _batonHand: 2
-  _shieldHand: 1
 --- !u!1 &1024918617531305880
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,7 +907,7 @@ PrefabInstance:
     - target: {fileID: 3331080996621523327, guid: b6c78f80153a9244cb2ad8ad5b6b9cc1,
         type: 3}
       propertyPath: m_Name
-      value: Redirected Walker (VR)
+      value: BaseEnsembleRetrieverRedirectorVR
       objectReference: {fileID: 0}
     - target: {fileID: 3331080996621523327, guid: b6c78f80153a9244cb2ad8ad5b6b9cc1,
         type: 3}
