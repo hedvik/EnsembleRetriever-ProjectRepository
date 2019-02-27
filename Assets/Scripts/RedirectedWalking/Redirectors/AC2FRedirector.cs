@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Redirection;
 
-public enum RotationGainTypes {none = -1, against, with };
+public enum RotationGainTypes { none = -1, against, with };
 
 /// <summary>
 /// Align Centre To Future Redirector.
@@ -51,7 +51,7 @@ public class AC2FRedirector : Redirector
 
     public override void ApplyRedirection()
     {
-        if(_transitioningBetweenGains && _lerpTimer >= 1f)
+        if (_transitioningBetweenGains && _lerpTimer >= 1f)
         {
             _transitioningBetweenGains = false;
             //Debug.Log("Dampening done!");
@@ -90,14 +90,21 @@ public class AC2FRedirector : Redirector
                 currentGainType = RotationGainTypes.with;
             }
         }
+        else
+        {
+            // If the head movement is below the threshold for applying gains, setting this value to 0
+            // allows the smoothing function to move back towards to natural head rotation.
+            
+            // This helps with one particular edge case:
+            // After a head movement has finished, the user's head will slightly bob in the opposite direction,
+            // This small bob is usually below the threshold for applying gains which can result in a somewhat
+            // jarring difference between just having used gains to not using them. 
+
+            // By allowing the smoothing function to smooth back to natural head rotation we avoid this issue.
+            _rotationFromRotationGain = 0;
+        }
 
         var rotationProposed = desiredSteeringDirection * _rotationFromRotationGain;
-
-        // Prevent having gains if user has not moved their head
-        if (Mathf.Approximately(rotationProposed, 0))
-        {
-            return;
-        }
 
         CheckForGainDifference(currentGainType, rotationProposed, deltaDir);
 
@@ -112,7 +119,7 @@ public class AC2FRedirector : Redirector
         else
         {
             // Azmandian et al.'s smoothing method 
-            _smoothedRotation = (1.0f - SMOOTHING_FACTOR) * _lastRotationApplied + SMOOTHING_FACTOR * _smoothedRotation;
+            _smoothedRotation = (1.0f - SMOOTHING_FACTOR) * _lastRotationApplied + SMOOTHING_FACTOR * rotationProposed;
         }
 
         _lastRotationApplied = _smoothedRotation;
@@ -125,7 +132,7 @@ public class AC2FRedirector : Redirector
     private void CheckForGainDifference(RotationGainTypes newGain, float rotationProposed, float deltaDir)
     {
         // The approximately check is used to make sure that we dont transition between gains if they have been set to 0
-        if(newGain != RotationGainTypes.none && newGain != _previousRotationGainType && !Mathf.Approximately(rotationProposed, deltaDir))
+        if (newGain != RotationGainTypes.none && newGain != _previousRotationGainType && !Mathf.Approximately(rotationProposed, deltaDir))
         {
             _transitioningBetweenGains = true;
             _lerpTimer = 0f;
