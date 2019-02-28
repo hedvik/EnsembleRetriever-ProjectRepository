@@ -14,6 +14,8 @@ public class DistractorEnemy : Pausable
     public float _forwardOffsetFromPlayer = 10f;
     public float _timeUntilStartAfterSpawn = 2f;
 
+    public DistractorType _distractorType;
+
     protected RedirectionManagerER _redirectionManager;
     protected AnimatedCharacterInterface _animatedInterface;
 

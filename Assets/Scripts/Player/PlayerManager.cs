@@ -33,6 +33,11 @@ public class PlayerManager : MonoBehaviour
     public SteamVR_Input_Sources _batonHand;
     public SteamVR_Input_Sources _shieldHand;
 
+    [HideInInspector]
+    public int _currentBatonLevel = 0;
+    [HideInInspector]
+    public int _currentShieldLevel = 0;
+
     private float _currentCharge = 0f;
 
     private float _chargedAnimationTimer = 0f;
@@ -48,8 +53,6 @@ public class PlayerManager : MonoBehaviour
     private float _currentShotDamage = 0f;
     private ShieldUpgrades _shieldUpgrades;
     private BatonUpgrades _batonUpgrades;
-    private int _currentBatonLevel = 0;
-    private int _currentShieldLevel = 0;
     private Color _currentEmissionColor;
     private PlayerShield _playerShield;
     private GameManager _gameManager;

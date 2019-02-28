@@ -137,66 +137,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4595783451275030724, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: _teleportParticles
-      value: 
-      objectReference: {fileID: 7371451249744179168}
-    - target: {fileID: 4595783451275030724, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: _sweatParticles
-      value: 
-      objectReference: {fileID: 274176991046361744}
-    - target: {fileID: 4595783451275030724, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: _eyeRenderer
-      value: 
-      objectReference: {fileID: 3666607344367466893}
-    - target: {fileID: 5646779020410976852, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.118
-      objectReference: {fileID: 0}
-    - target: {fileID: 5646779020410976852, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.878
-      objectReference: {fileID: 0}
-    - target: {fileID: 5646779020410976852, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.363
-      objectReference: {fileID: 0}
-    - target: {fileID: 2463500741871375801, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2010157102283253142, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: _distractorName
-      value: AngryHarpsichord
-      objectReference: {fileID: 0}
-    - target: {fileID: 2010157102283253142, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: _forwardOffsetFromPlayer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5646779020106635890, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.212
-      objectReference: {fileID: 0}
-    - target: {fileID: 5646779020106635890, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5646779020106635890, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.172
-      objectReference: {fileID: 0}
     - target: {fileID: 873304078772859379, guid: ddc761f30bd634341bb090f85ef8c5e0,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -231,6 +171,71 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4595783451275030724, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: _teleportParticles
+      value: 
+      objectReference: {fileID: 7371451249744179168}
+    - target: {fileID: 4595783451275030724, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: _sweatParticles
+      value: 
+      objectReference: {fileID: 274176991046361744}
+    - target: {fileID: 4595783451275030724, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: _eyeRenderer
+      value: 
+      objectReference: {fileID: 3666607344367466893}
+    - target: {fileID: 5646779020410976852, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.118
+      objectReference: {fileID: 0}
+    - target: {fileID: 5646779020410976852, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.878
+      objectReference: {fileID: 0}
+    - target: {fileID: 5646779020410976852, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.363
+      objectReference: {fileID: 0}
+    - target: {fileID: 5646779020106635890, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.212
+      objectReference: {fileID: 0}
+    - target: {fileID: 5646779020106635890, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5646779020106635890, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.172
+      objectReference: {fileID: 0}
+    - target: {fileID: 2463500741871375801, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010157102283253142, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: _distractorName
+      value: AngryHarpsichord
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010157102283253142, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: _forwardOffsetFromPlayer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010157102283253142, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: _distractorType
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddc761f30bd634341bb090f85ef8c5e0, type: 3}

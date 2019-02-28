@@ -136,6 +136,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.1360388
+      objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1.193461
+      objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.1142154
+      objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.035113573
+      objectReference: {fileID: 0}
     - target: {fileID: 4595783451275030724, guid: ddc761f30bd634341bb090f85ef8c5e0,
         type: 3}
       propertyPath: _teleportParticles
@@ -161,25 +181,10 @@ PrefabInstance:
       propertyPath: _distractorName
       value: AngryViolin
       objectReference: {fileID: 0}
-    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+    - target: {fileID: 2010157102283253142, guid: ddc761f30bd634341bb090f85ef8c5e0,
         type: 3}
-      propertyPath: m_Size.y
-      value: 2.1360388
-      objectReference: {fileID: 0}
-    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 1.193461
-      objectReference: {fileID: 0}
-    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1.1142154
-      objectReference: {fileID: 0}
-    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_Center.x
-      value: -0.035113573
+      propertyPath: _distractorType
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddc761f30bd634341bb090f85ef8c5e0, type: 3}

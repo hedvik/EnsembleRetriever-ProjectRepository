@@ -136,6 +136,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 873304078772859379, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -2.757
+      objectReference: {fileID: 0}
+    - target: {fileID: 873304078772859379, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.039
+      objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 3.892155
+      objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.02952063
+      objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.1589708
+      objectReference: {fileID: 0}
+    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1.0233366
+      objectReference: {fileID: 0}
     - target: {fileID: 4595783451275030724, guid: ddc761f30bd634341bb090f85ef8c5e0,
         type: 3}
       propertyPath: _teleportParticles
@@ -161,16 +191,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.561
       objectReference: {fileID: 0}
-    - target: {fileID: 2463500741871375801, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2010157102283253142, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: _distractorName
-      value: AngryGlockenspiel
-      objectReference: {fileID: 0}
     - target: {fileID: 5646779020106635890, guid: ddc761f30bd634341bb090f85ef8c5e0,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -181,15 +201,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 1.208
       objectReference: {fileID: 0}
-    - target: {fileID: 873304078772859379, guid: ddc761f30bd634341bb090f85ef8c5e0,
+    - target: {fileID: 2463500741871375801, guid: ddc761f30bd634341bb090f85ef8c5e0,
         type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -2.757
-      objectReference: {fileID: 0}
-    - target: {fileID: 873304078772859379, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 1.039
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5646779020106635891, guid: ddc761f30bd634341bb090f85ef8c5e0,
         type: 3}
@@ -201,25 +216,15 @@ PrefabInstance:
       propertyPath: m_Intensity
       value: 2.52
       objectReference: {fileID: 0}
-    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+    - target: {fileID: 2010157102283253142, guid: ddc761f30bd634341bb090f85ef8c5e0,
         type: 3}
-      propertyPath: m_Size.x
-      value: 3.892155
+      propertyPath: _distractorName
+      value: AngryGlockenspiel
       objectReference: {fileID: 0}
-    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
+    - target: {fileID: 2010157102283253142, guid: ddc761f30bd634341bb090f85ef8c5e0,
         type: 3}
-      propertyPath: m_Center.x
-      value: -0.02952063
-      objectReference: {fileID: 0}
-    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 2.1589708
-      objectReference: {fileID: 0}
-    - target: {fileID: 699832762466206542, guid: ddc761f30bd634341bb090f85ef8c5e0,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 1.0233366
+      propertyPath: _distractorType
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddc761f30bd634341bb090f85ef8c5e0, type: 3}
