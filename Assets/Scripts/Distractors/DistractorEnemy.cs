@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Primary distractor class for Ensemble Retriever. 
+/// Contains the base functionality for all distractor enemies. 
+/// </summary>
 public class DistractorEnemy : Pausable
 {
     public float _health = 50f;

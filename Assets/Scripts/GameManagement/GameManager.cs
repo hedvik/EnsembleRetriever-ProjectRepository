@@ -138,11 +138,11 @@ public class GameManager : MonoBehaviour
     public void StartFinalBossAnimations()
     {
         _mountainKingAudioSource.Stop();
-        _mountainKingAnimatedInterface.LookAtPosition(_redirectionManager.GetUserHeadTransform().position);
+        _mountainKingAnimatedInterface.LookAtPosition(_redirectionManager.headTransform.position);
         foreach(var instrument in _ensembleInstruments)
         {
             instrument.AnimationTrigger("Idle");
-            instrument.LookAtPosition(_redirectionManager.GetUserHeadTransform().position);
+            instrument.LookAtPosition(_redirectionManager.headTransform.position);
         }
 
         _mountainKingAnimatedInterface.AnimationTriggerWithCallback("Surprised", FinaliseFinalBossAnimations);

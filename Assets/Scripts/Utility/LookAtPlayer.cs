@@ -11,7 +11,7 @@ public class LookAtPlayer : MonoBehaviour
     void Start()
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        _target = _gameManager._redirectionManager.GetUserHeadTransform();
+        _target = _gameManager._redirectionManager.headTransform;
     }
 
     // Update is called once per frame

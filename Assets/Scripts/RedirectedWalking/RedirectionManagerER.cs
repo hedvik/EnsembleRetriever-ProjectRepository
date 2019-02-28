@@ -6,6 +6,7 @@ public delegate void OnDistractorStateChangeCallback();
 
 /// <summary>
 /// TODO: Documentation for all redirection related scripts should be in full doxygen.
+/// Extension of RedirectionManager from the Redirected Walking Toolkit that facilitates the use of distractors and other interfacing for the EnsembleRetriever game.
 /// </summary>
 public class RedirectionManagerER : RedirectionManager
 {
@@ -120,9 +121,6 @@ public class RedirectionManagerER : RedirectionManager
         RepopulateRandomDistractorList();
     }
 
-    /// <summary>
-    /// More or less the same as its parent, but with distractors taken into account
-    /// </summary>
     protected override void LateUpdate()
     {
         base.LateUpdate();
@@ -143,6 +141,10 @@ public class RedirectionManagerER : RedirectionManager
         }
     }
 
+    /// <summary>
+    /// Function that sets gains to their initial value which is defined in the inspector.
+    /// The gains are disabled at the start of the game for the sake of the tutorial, hence why this function exists. 
+    /// </summary>
     public void ActivateRotationAndCurvatureGains()
     {
         MAX_ROT_GAIN = _baseMaximumRotationGain;
@@ -150,6 +152,10 @@ public class RedirectionManagerER : RedirectionManager
         CURVATURE_RADIUS = _baseCurvatureRadius;
     }
 
+    /// <summary>
+    /// Callback that happens whenever the user has moved outside of the safe area in the physical space. 
+    /// It initialises and spawns a distractor to help reorient the user back towards the centre of the physical space. 
+    /// </summary>
     public void OnDistractorTrigger()
     {
         if (!_distractorsEnabled || _distractorCooldownTimer <= _distractorCooldownAfterDeath)
@@ -166,10 +172,10 @@ public class RedirectionManagerER : RedirectionManager
         }
         _futureVirtualWalkingDirection = (_averageFuture / _positionSamples.Size).normalized;
 
+        // TODO: This should probably be stored on alignment. 
         _baseMaximumRotationGain = MAX_ROT_GAIN;
         _baseMinimumRotationGain = MIN_ROT_GAIN;
         RequestAlgorithmSwitch(true);
-        // TODO: Request gain increase
         if (_debugDistractor != null)
         {
             _currentActiveDistractor = Instantiate(_debugDistractor).GetComponent<DistractorEnemy>();
@@ -190,12 +196,15 @@ public class RedirectionManagerER : RedirectionManager
         _currentActiveDistractor.InitialiseDistractor(this);
     }
 
+    /// <summary>
+    /// Callback that happens whenever an active distractor has finished.
+    /// This is mostly where cleanup happens. 
+    /// </summary>
     public void OnDistractorEnd()
     {
         _distractorIsActive = false;
         _distractorEndCallback?.Invoke();
         _futureVirtualWalkingDirection = Vector3.zero;
-        // TODO: Request gain decrease instead of setting them here.
         MAX_ROT_GAIN = _baseMaximumRotationGain;
         MIN_ROT_GAIN = _baseMinimumRotationGain;
         RequestAlgorithmSwitch(false);
@@ -205,6 +214,11 @@ public class RedirectionManagerER : RedirectionManager
         _distractorCooldownTimer = 0f;
     }
 
+    /// <summary>
+    /// Function for triggering a pause state callback on every relevant pausable object.
+    /// This is used by the Pause Turn Centre algorithm to pause things like projectiles, distractors, animations and so on when a reset is active. 
+    /// </summary>
+    /// <param name="isPaused">Whether to pause the virtual world or not</param>
     public void SetWorldPauseState(bool isPaused)
     {
         // NOTE: This approach might not be ideal performance wise.
@@ -217,21 +231,28 @@ public class RedirectionManagerER : RedirectionManager
         }
     }
 
-    public Transform GetUserHeadTransform()
-    {
-        return headTransform;
-    }
-
+    /// <summary>
+    /// Function for setting the state of whether distractors should be spawned or not. 
+    /// </summary>
+    /// <param name="state">Whether to spawn distractors when the user is leaving the safe area or not</param>
     public void SetDistractorUsageState(bool state)
     {
         _distractorsEnabled = state;
     }
 
+    /// <summary>
+    /// Function for subscribing to a callback that happens whenever distractors trigger.
+    /// </summary>
+    /// <param name="function">Function to be called back on distractor trigger</param>
     public void SubscribeToDistractorTriggerCallback(OnDistractorStateChangeCallback function)
     {
         _distractorTriggerCallback += function;
     }
 
+    /// <summary>
+    /// Function for subscribing to a callback that happens whenever distractors finish.
+    /// </summary>
+    /// <param name="function">Function to be called back on distractor finish</param>
     public void SubscribeToDistractorEndCallback(OnDistractorStateChangeCallback function)
     {
         _distractorEndCallback += function;
@@ -248,9 +269,9 @@ public class RedirectionManagerER : RedirectionManager
     }
 
     /// <summary>
-    /// In cases where you want to do some reorientation and check centreToHead after some changes within the same frame you can use this function
+    /// In cases where you want to do some reorientation and check centreToHead after some changes within the same frame you can use this function.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A recalculated _centreToHead</returns>
     public Vector3 GetUpdatedCentreToHead()
     {
         _centreToHead = Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position);
@@ -258,10 +279,8 @@ public class RedirectionManagerER : RedirectionManager
     }
 
     /// <summary>
-    /// Interpolates the alpha values for the physical tracking space.
+    /// Interpolates the alpha values for the physical tracking space so it can fade in or out. 
     /// </summary>
-    /// <param name="environmentAlphaTarget"></param>
-    /// <param name="floorAlphaTarget"></param>
     private IEnumerator FadeCoroutine(bool fadePhysicalSpaceIn)
     {
         var cubeColorTemp = _environmentFadeVisuals.material.color;
@@ -295,13 +314,18 @@ public class RedirectionManagerER : RedirectionManager
     /// <summary>
     /// Returns true whenever the future real walking direction is mostly aligned with the centre of the tracking space.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>True if we are within the alignment threshold. False otherwise.</returns>
     private bool FutureDirectionIsAlignedToCentre()
     {
         var dotProduct = Vector3.Dot(_centreToHead, _futureVirtualWalkingDirection);
         return dotProduct <= _alignmentThreshold;
     }
 
+    /// <summary>
+    /// Starts the coroutine for switching redirection algorithm.
+    /// The coroutine waits until the user's head is relatively stable before switching algorithms to prevent any potential jarring changes. 
+    /// </summary>
+    /// <param name="toAC2F">Whether to switch to AC2F or not(moving back to S2C)</param>
     private void RequestAlgorithmSwitch(bool toAC2F)
     {
         if (_switchToAC2FOnDistractor)
@@ -310,6 +334,10 @@ public class RedirectionManagerER : RedirectionManager
         }
     }
 
+    /// <summary>
+    /// Coroutine that waits until the user's head is relatively stable before switching redirection algorithm.
+    /// </summary>
+    /// <param name="toAC2F">Whether to switch to AC2F or not(moving back to S2C)</param>
     private IEnumerator SwapRedirectionAlgorithm(bool toAC2F)
     {
         // Wait until the head is relatively stable, then switch
@@ -336,6 +364,11 @@ public class RedirectionManagerER : RedirectionManager
         }
     }
 
+    /// <summary>
+    /// Utility function for repopulating the semi-random distractor list.
+    /// A distractor is randomly chosen from this list each time it is needed and then removed from the list.
+    /// This limits potential repeats of the same distractor.
+    /// </summary>
     private void RepopulateRandomDistractorList()
     {
         foreach(var element in _distractorPrefabPool)

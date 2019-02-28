@@ -50,6 +50,9 @@ public class RedirectionFrameData
 }
 #endregion
 
+/// <summary>
+/// Management class for data collection.
+/// </summary>
 public class ExperimentDataManager : MonoBehaviour
 {
     public ExperimentType _experimentType;
@@ -66,13 +69,17 @@ public class ExperimentDataManager : MonoBehaviour
     public List<int> _previousGameScores = new List<int>();
     [HideInInspector]
     public bool _recordingActive = false;
+    [HideInInspector]
+    public CircularBuffer.CircularBuffer<RecordedGainTypes> _appliedGainsTimeSample;
 
     private GameManager _gameManager;
     private List<RedirectionFrameData> _detectionFrameData = new List<RedirectionFrameData>();
     private PlayerManager _playerManager;
     private RedirectionManagerER _redirectionManager;
-    private CircularBuffer.CircularBuffer<RecordedGainTypes> _appliedGainsTimeSample;
+
     private float _sampleTimer = 0f;
+
+    private GainIncrementer _gainIncrementer;
 
     private void Start()
     {
@@ -82,6 +89,16 @@ public class ExperimentDataManager : MonoBehaviour
         AcquireNewID();
 
         _appliedGainsTimeSample = new CircularBuffer.CircularBuffer<RecordedGainTypes>((int)(_samplesPerSecond * _gainRatioSampleWindowInSeconds));
+
+        _gainIncrementer = GetComponent<GainIncrementer>();
+        if(_experimentType == ExperimentType.detection)
+        {
+            _gainIncrementer.enabled = true;
+        }
+        else
+        {
+            _gainIncrementer.enabled = false;
+        }
     }
 
     private void Update()

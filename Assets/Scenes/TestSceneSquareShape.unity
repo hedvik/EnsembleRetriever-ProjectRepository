@@ -6597,6 +6597,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 472722477}
     m_Modifications:
+    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
+      propertyPath: m_Name
+      value: Scoring
+      objectReference: {fileID: 0}
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -6667,10 +6671,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
-      propertyPath: m_Name
-      value: Scoring
       objectReference: {fileID: 0}
     - target: {fileID: 114266297545499080, guid: 69b95198c5dbfc340ba9274ca72a91c8,
         type: 3}
@@ -7909,6 +7909,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 472722477}
     m_Modifications:
+    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
+      propertyPath: m_Name
+      value: Leaderboard
+      objectReference: {fileID: 0}
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7979,10 +7983,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
-      propertyPath: m_Name
-      value: Leaderboard
       objectReference: {fileID: 0}
     - target: {fileID: 114266297545499080, guid: 69b95198c5dbfc340ba9274ca72a91c8,
         type: 3}
@@ -8303,6 +8303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 981075270}
   - component: {fileID: 981075269}
+  - component: {fileID: 981075271}
   m_Layer: 0
   m_Name: ExperimentManager
   m_TagString: Untagged
@@ -8325,6 +8326,8 @@ MonoBehaviour:
   _experimentType: 0
   _gameScoreFileName: GameScoresEx1Debug.csv
   _detectionDataFileName: DetectionDataEx1Debug.csv
+  _gainRatioSampleWindowInSeconds: 0.5
+  _samplesPerSecond: 90
   _currentParticipantId: 0
   _previousGameScores: 
   _recordingActive: 0
@@ -8342,6 +8345,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &981075271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981075268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82475732c140efd4ba45a28d8aa12485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1145403480
 GameObject:
   m_ObjectHideFlags: 0
@@ -22994,6 +23009,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1786776657}
     m_Modifications:
+    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
+      propertyPath: m_Name
+      value: StartTextBox
+      objectReference: {fileID: 0}
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -23041,10 +23060,6 @@ PrefabInstance:
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
-      propertyPath: m_Name
-      value: StartTextBox
       objectReference: {fileID: 0}
     - target: {fileID: 7916808826320685402, guid: 69b95198c5dbfc340ba9274ca72a91c8,
         type: 3}

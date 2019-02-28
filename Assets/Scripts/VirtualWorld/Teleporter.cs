@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script behaviour for the teleporter in EnsembleRetriever. It also makes use of some reorientation when teleporting the player. 
+/// </summary>
 public class Teleporter : MonoBehaviour
 {
     public float _timeInsideTeleporterUntilTeleport = 2f;
@@ -11,7 +14,7 @@ public class Teleporter : MonoBehaviour
     public AudioClip _onEnterAudio;
     public Transform _teleportTargetTransform;
 
-    // Used to align the physical space with where you want the player to go after teleporting
+    // Used to align the physical space with where you want the player to go after teleporting.
     public Transform _alignmentTargetOnTeleport;
 
     private GameManager _gameManager;
@@ -65,9 +68,13 @@ public class Teleporter : MonoBehaviour
         }
     }
 
-    // Whenever the player is teleported, they are reoriented so the path to the centre is aligned with the future direction they are expected to go.
-    // For this game in particular, it would be preferable to not fight the mountain king at the physical room edge
-    // so the player needs to walk a little bit inwards into the cave after the teleport to get closer to the middle.
+    /// <summary>
+    /// Reorientation function that allows to use teleporters as a "soft reset".
+    /// Whenever the player is teleported, they are reoriented so the path to the physical centre is aligned with 
+    /// the future virtual direction they are expected to go.
+    /// For this game in particular, it would be preferable to not fight the mountain king at the physical room edge
+    /// so the player needs to walk a little bit inwards into the cave after the teleport to get closer to the middle.
+    /// </summary>
     private void ReorientUser()
     {
         // Approach 1, doesn't seem to align things properly. The math is most likely off.
@@ -80,7 +87,7 @@ public class Teleporter : MonoBehaviour
         var currentDot = 0f;
         var currentAngle = 0f;
         var centreToHead = _gameManager._redirectionManager.GetUpdatedCentreToHead();
-        var headToTarget = Utilities.FlattenedDir3D(_alignmentTargetOnTeleport.position - _gameManager._redirectionManager.GetUserHeadTransform().position);
+        var headToTarget = Utilities.FlattenedDir3D(_alignmentTargetOnTeleport.position - _gameManager._redirectionManager.headTransform.position);
         // This approach brute forces its way to the correct orientation using a small increment in angle per iteration.
         // It is hardly the most optimal way, but I cannot seem to make the math work for a single iteration.
         while (currentDot >= _gameManager._redirectionManager._alignmentThreshold)
@@ -89,7 +96,7 @@ public class Teleporter : MonoBehaviour
             _gameManager._redirectionManager.transform.rotation = Quaternion.AngleAxis(currentAngle, Vector3.up);
             currentDot = Vector3.Dot(centreToHead, headToTarget);
             centreToHead = _gameManager._redirectionManager.GetUpdatedCentreToHead();
-            headToTarget = Utilities.FlattenedDir3D(_alignmentTargetOnTeleport.position - _gameManager._redirectionManager.GetUserHeadTransform().position);
+            headToTarget = Utilities.FlattenedDir3D(_alignmentTargetOnTeleport.position - _gameManager._redirectionManager.headTransform.position);
         }
     }
 

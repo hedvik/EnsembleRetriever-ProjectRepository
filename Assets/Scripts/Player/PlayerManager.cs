@@ -94,7 +94,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        _headTransform = _gameManager._redirectionManager.GetUserHeadTransform();
+        _headTransform = _gameManager._redirectionManager.headTransform;
 
         StartCoroutine(InitialiseControllerButtonMaterials());
     }
