@@ -5,7 +5,6 @@ using UnityEngine;
 public delegate void OnDistractorStateChangeCallback();
 
 /// <summary>
-/// TODO: Documentation for all redirection related scripts should be in full doxygen.
 /// Extension of RedirectionManager from the Redirected Walking Toolkit that facilitates the use of distractors and other interfacing for the EnsembleRetriever game.
 /// </summary>
 public class RedirectionManagerER : RedirectionManager
@@ -66,9 +65,11 @@ public class RedirectionManagerER : RedirectionManager
     private float _sampleTimer = 0f;
 
     private bool _distractorsEnabled = true;
+    private bool _alignmentResetComplete = false;
 
     private OnDistractorStateChangeCallback _distractorTriggerCallback;
     private OnDistractorStateChangeCallback _distractorEndCallback;
+    private OnDistractorStateChangeCallback _centreAlignedCallback;
 
     [HideInInspector]
     public Vector3 _centreToHead = Vector3.zero;
@@ -128,9 +129,13 @@ public class RedirectionManagerER : RedirectionManager
         _distractorCooldownTimer += Time.deltaTime;
         _centreToHead = Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position);
 
-        if (_distractorIsActive && FutureDirectionIsAlignedToCentre() && !inReset)
+        if (_distractorIsActive && !_alignmentResetComplete && FutureDirectionIsAlignedToCentre() && !inReset)
         {
+            _alignmentResetComplete = true;
+            _baseMaximumRotationGain = MAX_ROT_GAIN;
+            _baseMinimumRotationGain = MIN_ROT_GAIN;
             _AC2FRedirector.DisableGains();
+            _centreAlignedCallback?.Invoke();
         }
 
         _sampleTimer += Time.deltaTime;
@@ -164,6 +169,7 @@ public class RedirectionManagerER : RedirectionManager
             return;
         _distractorIsActive = true;
         _distractorTriggerCallback?.Invoke();
+        _alignmentResetComplete = false;
 
         var _averageFuture = Vector3.zero;
         for (int i = 0; i < _positionSamples.Size; i++)
@@ -172,9 +178,6 @@ public class RedirectionManagerER : RedirectionManager
         }
         _futureVirtualWalkingDirection = (_averageFuture / _positionSamples.Size).normalized;
 
-        // TODO: This should probably be stored on alignment. 
-        _baseMaximumRotationGain = MAX_ROT_GAIN;
-        _baseMinimumRotationGain = MIN_ROT_GAIN;
         RequestAlgorithmSwitch(true);
         if (_debugDistractor != null)
         {
@@ -202,11 +205,16 @@ public class RedirectionManagerER : RedirectionManager
     /// </summary>
     public void OnDistractorEnd()
     {
+        // If AC2F managed to align the user, then we have to return to the gains that were used right before alignment. 
+        if(_alignmentResetComplete)
+        {
+            MAX_ROT_GAIN = _baseMaximumRotationGain;
+            MIN_ROT_GAIN = _baseMinimumRotationGain;
+        }
+
         _distractorIsActive = false;
         _distractorEndCallback?.Invoke();
         _futureVirtualWalkingDirection = Vector3.zero;
-        MAX_ROT_GAIN = _baseMaximumRotationGain;
-        MIN_ROT_GAIN = _baseMinimumRotationGain;
         RequestAlgorithmSwitch(false);
         _currentActiveDistractor.FinaliseDistractor();
         _currentActiveDistractor = null;
@@ -256,6 +264,15 @@ public class RedirectionManagerER : RedirectionManager
     public void SubscribeToDistractorEndCallback(OnDistractorStateChangeCallback function)
     {
         _distractorEndCallback += function;
+    }
+
+    /// <summary>
+    /// Function for subscribing to a callback that happens when AC2F has finished alignment.
+    /// </summary>
+    /// <param name="function">Function to be called back when alignment is complete.</param>
+    public void SubscribeToAlignmentCallback(OnDistractorStateChangeCallback function)
+    {
+        _centreAlignedCallback += function;
     }
 
     /// <summary>

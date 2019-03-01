@@ -284,6 +284,21 @@ PrefabInstance:
       propertyPath: CURVATURE_RADIUS
       value: 7.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5163990942235738769, guid: a2145ea94da7f57408cc0bcf2ad577ac,
+        type: 3}
+      propertyPath: MAX_TRANS_GAIN
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5163990942235738769, guid: a2145ea94da7f57408cc0bcf2ad577ac,
+        type: 3}
+      propertyPath: MIN_TRANS_GAIN
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5163990942235738769, guid: a2145ea94da7f57408cc0bcf2ad577ac,
+        type: 3}
+      propertyPath: _distractorCooldownAfterDeath
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2145ea94da7f57408cc0bcf2ad577ac, type: 3}
 --- !u!1 &129192992
@@ -8330,7 +8345,6 @@ MonoBehaviour:
   _samplesPerSecond: 90
   _currentParticipantId: 0
   _previousGameScores: 
-  _recordingActive: 0
 --- !u!4 &981075270
 Transform:
   m_ObjectHideFlags: 0
@@ -18180,6 +18194,11 @@ PrefabInstance:
         type: 3}
       propertyPath: CURVATURE_RADIUS
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 2865638415964025579, guid: 63f857b9c56a22c458c2cd4940ba0de3,
+        type: 3}
+      propertyPath: _alignmentThreshold
+      value: -0.975
       objectReference: {fileID: 0}
     - target: {fileID: 8586235250854001874, guid: 63f857b9c56a22c458c2cd4940ba0de3,
         type: 3}

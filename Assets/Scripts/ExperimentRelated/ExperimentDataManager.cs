@@ -72,16 +72,19 @@ public class ExperimentDataManager : MonoBehaviour
     public List<int> _previousGameScores = new List<int>();
     [HideInInspector]
     public CircularBuffer.CircularBuffer<RecordedGainTypes> _appliedGainsTimeSample;
+    [HideInInspector]
+    public RedirectionManagerER _redirectionManager;
+    [HideInInspector]
+    public PlayerManager _playerManager;
 
     private GameManager _gameManager;
     private List<RedirectionFrameData> _detectionFrameData = new List<RedirectionFrameData>();
-    private PlayerManager _playerManager;
-    private RedirectionManagerER _redirectionManager;
     private GainIncrementer _gainIncrementer;
 
     private bool _recordingActive = false;
     private float _sampleTimer = 0f;
     private float _timeStarted = 0f;
+    private bool _gainDetected = false;
 
     private void Start()
     {
@@ -93,14 +96,6 @@ public class ExperimentDataManager : MonoBehaviour
         _appliedGainsTimeSample = new CircularBuffer.CircularBuffer<RecordedGainTypes>((int)(_samplesPerSecond * _gainRatioSampleWindowInSeconds));
 
         _gainIncrementer = GetComponent<GainIncrementer>();
-        if (_experimentType == ExperimentType.detection)
-        {
-            _gainIncrementer.enabled = true;
-        }
-        else
-        {
-            _gainIncrementer.enabled = false;
-        }
     }
 
     private void Update()
@@ -115,14 +110,21 @@ public class ExperimentDataManager : MonoBehaviour
             CancelExperiment();
         }
 
-
+        _gainDetected = false;
         var newData = new RedirectionFrameData();
         newData._id = _currentParticipantId;
 #if UNITY_EDITOR
-        newData._gainDetected = (SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._batonHand)) || Input.GetKeyDown(KeyCode.E) ? true : false;
+        if(SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._batonHand) || Input.GetKeyDown(KeyCode.E))
+        {
+            _gainDetected = true;
+        }
 #else
-        newData._gainDetected = (SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._batonHand)) ? true : false;
+        if(SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._batonHand))
+        {
+            _gainDetected = true;
+        }
 #endif
+        newData._gainDetected = _gainDetected;
         newData._deltaPos = _redirectionManager.deltaPos;
         newData._deltaDir = _redirectionManager.deltaDir;
         newData._deltaTime = Time.deltaTime;
@@ -194,17 +196,33 @@ public class ExperimentDataManager : MonoBehaviour
         }
 
         _detectionFrameData.Add(newData);
+
+        // Data collection should be finished before resetting any gains
+        if (_gainDetected)
+        {
+            _gainIncrementer.Reset();
+        }
     }
 
     public void StartRecording()
     {
         _recordingActive = true;
         _timeStarted = Time.realtimeSinceStartup;
+
+        if (_experimentType == ExperimentType.detection)
+        {
+            _gainIncrementer.InitialiseIncrementer();
+            _gainIncrementer.ActivateGainIncrements();
+        }
     }
 
     public void StopRecording()
     {
         _recordingActive = false;
+        if (_experimentType == ExperimentType.detection)
+        {
+            _gainIncrementer.DeactivateGainIncrements();
+        }
     }
 
     public void CancelExperiment()
