@@ -7,11 +7,10 @@ using MersenneTwister;
 using Valve.VR;
 
 /// <summary>
-/// Uniform distribution of random gain increases
-/// Nonindependent random time step
+/// Increments gains at a random time step with a random value given the following conditions:
 /// Gains cannot be increased or halved when:
 ///    Curvature:  AC2F is active
-///    Rotation:   future is aligned with centre
+///    Rotation:   Future is aligned with centre
 /// </summary>
 public class GainIncrementer : MonoBehaviour
 {
@@ -58,7 +57,7 @@ public class GainIncrementer : MonoBehaviour
         if(_incrementTimer >= _currentTimestep)
         {
             _incrementTimer -= _currentTimestep;
-            IncrementRotationGains();
+            IncrementGains();
             GenerateRandomTimeStep();
         }
     }
@@ -93,19 +92,29 @@ public class GainIncrementer : MonoBehaviour
         _incrementTimer = 0f;
         _experimentDataManager._redirectionManager.MAX_ROT_GAIN *= 0.5f;
         _experimentDataManager._redirectionManager.MIN_ROT_GAIN *= 0.5f;
+
+        if(_experimentDataManager._redirectionManager._currentActiveRedirectionAlgorithmType == RedirectionAlgorithms.S2C)
+        {
+            _experimentDataManager._redirectionManager.CURVATURE_RADIUS *= 1.25f;
+        }
     }
 
-    private void IncrementRotationGains()
+    private void IncrementGains()
     {
-        // The upper bound seems to be exclusive while the lower is inclusive
-        var gainChoice = Randoms.Next(0, 2);
+        // The upper bound is exclusive while the lower is inclusive.
+        // Curvature radius can not be changed as long as AC2F is active.
+        var gainChoice = Randoms.Next(0, (_experimentDataManager._redirectionManager._currentActiveRedirectionAlgorithmType == RedirectionAlgorithms.AC2F) ? 2 : 3);
         if (gainChoice == 0)
         {
             _experimentDataManager._redirectionManager.MIN_ROT_GAIN -= _rotationGainBaseIncrement + UtilitiesER.Remap(0, 1, -_rotationGainIncrementNoise, _rotationGainIncrementNoise, (float)Randoms.NextDouble());
         }
-        else
+        else if (gainChoice == 1)
         {
             _experimentDataManager._redirectionManager.MAX_ROT_GAIN += _rotationGainBaseIncrement + UtilitiesER.Remap(0, 1, -_rotationGainIncrementNoise, _rotationGainIncrementNoise, (float)Randoms.NextDouble());
+        }
+        else
+        {
+            _experimentDataManager._redirectionManager.CURVATURE_RADIUS -= _curvatureRadiusBaseIncrement + UtilitiesER.Remap(0, 1, -_curvatureRadiusIncrementNoise, _curvatureRadiusIncrementNoise, (float)Randoms.NextDouble());
         }
     }
 

@@ -8345,6 +8345,8 @@ MonoBehaviour:
   _samplesPerSecond: 90
   _currentParticipantId: 0
   _previousGameScores: 
+  _redirectionManager: {fileID: 0}
+  _playerManager: {fileID: 0}
 --- !u!4 &981075270
 Transform:
   m_ObjectHideFlags: 0
@@ -8371,6 +8373,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82475732c140efd4ba45a28d8aa12485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startRotationGain: 0
+  _startCurvatureRadius: 25
+  _maximumPositiveGain: 1
+  _maximumNegativeGain: -0.5
+  _minimumCurvatureRadius: 5
+  _timeStepBase: 5
+  _timeStepNoise: 2.5
+  _rotationGainBaseIncrement: 0.05
+  _rotationGainIncrementNoise: 0.025
+  _curvatureRadiusBaseIncrement: 1
+  _curvatureRadiusIncrementNoise: 0.5
 --- !u!1 &1145403480
 GameObject:
   m_ObjectHideFlags: 0
