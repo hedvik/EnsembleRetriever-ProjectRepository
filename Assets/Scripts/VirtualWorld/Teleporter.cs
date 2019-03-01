@@ -61,7 +61,7 @@ public class Teleporter : MonoBehaviour
 
             if (_gameManager._experimentDataManager._experimentType == ExperimentType.detection)
             {
-                _gameManager._experimentDataManager._recordingActive = false;
+                _gameManager._experimentDataManager.StopRecording();
             }
 
             _quizManager.SetVisibilityState(true);
@@ -90,6 +90,7 @@ public class Teleporter : MonoBehaviour
         var headToTarget = Utilities.FlattenedDir3D(_alignmentTargetOnTeleport.position - _gameManager._redirectionManager.headTransform.position);
         // This approach brute forces its way to the correct orientation using a small increment in angle per iteration.
         // It is hardly the most optimal way, but I cannot seem to make the math work for a single iteration.
+        // Given that this only happens once in the game, optimising it is not a priority. 
         while (currentDot >= _gameManager._redirectionManager._alignmentThreshold)
         {
             currentAngle += 0.5f;

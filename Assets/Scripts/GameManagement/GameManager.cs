@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
 
         if(_experimentDataManager._experimentType == ExperimentType.detection)
         {
-            _experimentDataManager._recordingActive = true;
+            _experimentDataManager.StartRecording();
         }
     }
     
