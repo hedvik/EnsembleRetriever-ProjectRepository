@@ -86,17 +86,24 @@ public class GainIncrementer : MonoBehaviour
         _incrementTimerActive = false;
     }
 
-    public void Reset()
+    public void Reset(RecordedGainTypes detectedGain)
     {
         // TODO: Decide whether to reset all gains or the latest
         _incrementTimer = 0f;
-        _experimentDataManager._redirectionManager.MAX_ROT_GAIN *= 0.5f;
-        _experimentDataManager._redirectionManager.MIN_ROT_GAIN *= 0.5f;
+        //_experimentDataManager._redirectionManager.MAX_ROT_GAIN *= 0.5f;
+        //_experimentDataManager._redirectionManager.MIN_ROT_GAIN *= 0.5f;
 
-        if(_experimentDataManager._redirectionManager._currentActiveRedirectionAlgorithmType == RedirectionAlgorithms.S2C)
+        //if(_experimentDataManager._redirectionManager._currentActiveRedirectionAlgorithmType == RedirectionAlgorithms.S2C)
+        //{
+        //    _experimentDataManager._redirectionManager.CURVATURE_RADIUS *= 1.25f;
+        //}
+        switch(detectedGain)
         {
-            _experimentDataManager._redirectionManager.CURVATURE_RADIUS *= 1.25f;
+            case RecordedGainTypes.rotationAgainstHead: _experimentDataManager._redirectionManager.MIN_ROT_GAIN *= 0.5f; break;
+            case RecordedGainTypes.rotationWithHead: _experimentDataManager._redirectionManager.MAX_ROT_GAIN *= 0.5f; break;
+            case RecordedGainTypes.curvature: _experimentDataManager._redirectionManager.CURVATURE_RADIUS *= 1.25f; break;
         }
+
     }
 
     private void IncrementGains()

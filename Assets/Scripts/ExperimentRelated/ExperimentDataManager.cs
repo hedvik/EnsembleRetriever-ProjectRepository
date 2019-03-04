@@ -144,6 +144,7 @@ public class ExperimentDataManager : MonoBehaviour
             _appliedGainsTimeSample.PushFront(newData._currentlyAppliedGain);
         }
 
+        var detectedGain = RecordedGainTypes.none;
         if (newData._gainDetected)
         {
             var noGainFrequency = 0;
@@ -178,14 +179,17 @@ public class ExperimentDataManager : MonoBehaviour
             if (frequencyList[0] == negativeRotationGainFrequency)
             {
                 newData._mostLikelyDetectedGain = _redirectionManager.MIN_ROT_GAIN;
+                detectedGain = RecordedGainTypes.rotationAgainstHead;
             }
             else if (frequencyList[0] == positiveRotationGainFrequency)
             {
                 newData._mostLikelyDetectedGain = _redirectionManager.MAX_ROT_GAIN;
+                detectedGain = RecordedGainTypes.rotationWithHead;
             }
             else if (frequencyList[0] == curvatureGainFrequency)
             {
                 newData._mostLikelyDetectedGain = _redirectionManager.CURVATURE_RADIUS;
+                detectedGain = RecordedGainTypes.curvature;
             }
             else
             {
@@ -200,7 +204,7 @@ public class ExperimentDataManager : MonoBehaviour
         // Data collection should be finished before resetting any gains
         if (_gainDetected)
         {
-            _gainIncrementer.Reset();
+            _gainIncrementer.Reset(detectedGain);
         }
     }
 
