@@ -49,7 +49,8 @@ public class RedirectionFrameData
     public float _curvatureGainRatioAtDetection = 0;
 
     public float _timeSinceStart = 0;
-    public float _mostLikelyDetectedGain = 0;
+    public float _mostLikelyDetectedGainValue = 0;
+    public RecordedGainTypes _mostLikelyDetectedGainType;
 }
 #endregion
 
@@ -144,7 +145,7 @@ public class ExperimentDataManager : MonoBehaviour
             _appliedGainsTimeSample.PushFront(newData._currentlyAppliedGain);
         }
 
-        var detectedGain = RecordedGainTypes.none;
+        newData._mostLikelyDetectedGainType = RecordedGainTypes.none;
         if (newData._gainDetected)
         {
             var noGainFrequency = 0;
@@ -178,22 +179,22 @@ public class ExperimentDataManager : MonoBehaviour
 
             if (frequencyList[0] == negativeRotationGainFrequency)
             {
-                newData._mostLikelyDetectedGain = _redirectionManager.MIN_ROT_GAIN;
-                detectedGain = RecordedGainTypes.rotationAgainstHead;
+                newData._mostLikelyDetectedGainValue = _redirectionManager.MIN_ROT_GAIN;
+                newData._mostLikelyDetectedGainType = RecordedGainTypes.rotationAgainstHead;
             }
             else if (frequencyList[0] == positiveRotationGainFrequency)
             {
-                newData._mostLikelyDetectedGain = _redirectionManager.MAX_ROT_GAIN;
-                detectedGain = RecordedGainTypes.rotationWithHead;
+                newData._mostLikelyDetectedGainValue = _redirectionManager.MAX_ROT_GAIN;
+                newData._mostLikelyDetectedGainType = RecordedGainTypes.rotationWithHead;
             }
             else if (frequencyList[0] == curvatureGainFrequency)
             {
-                newData._mostLikelyDetectedGain = _redirectionManager.CURVATURE_RADIUS;
-                detectedGain = RecordedGainTypes.curvature;
+                newData._mostLikelyDetectedGainValue = _redirectionManager.CURVATURE_RADIUS;
+                newData._mostLikelyDetectedGainType = RecordedGainTypes.curvature;
             }
             else
             {
-                newData._mostLikelyDetectedGain = 0;
+                newData._mostLikelyDetectedGainValue = 0;
             }
 
             frequencyList.Clear();
@@ -204,7 +205,7 @@ public class ExperimentDataManager : MonoBehaviour
         // Data collection should be finished before resetting any gains
         if (_gainDetected)
         {
-            _gainIncrementer.Reset(detectedGain);
+            _gainIncrementer.Reset(newData._mostLikelyDetectedGainType);
         }
     }
 
@@ -295,7 +296,7 @@ public class ExperimentDataManager : MonoBehaviour
             {
                 string column1, column2, column3, column4, column5, column6, column7, column8, column9, column10,
                        column11, column12, column13, column14, column15, column16, column17, column18, column19, column20,
-                       column21, column22, column23, column24, column25, column26, column27, line;
+                       column21, column22, column23, column24, column25, column26, column27, column28, column29, column30, column31, line;
                 foreach (var frame in _detectionFrameData)
                 {
                     column1 = frame._id.ToString();
@@ -329,10 +330,15 @@ public class ExperimentDataManager : MonoBehaviour
                     column24 = frame._positiveRotationGainRatioAtDetection.ToString("F3", CultureInfo.InvariantCulture);
                     column25 = frame._curvatureGainRatioAtDetection.ToString("F3", CultureInfo.InvariantCulture);
 
-                    column26 = frame._mostLikelyDetectedGain.ToString(CultureInfo.InvariantCulture);
+                    column26 = frame._mostLikelyDetectedGainValue.ToString(CultureInfo.InvariantCulture);
                     column27 = frame._timeSinceStart.ToString(CultureInfo.InvariantCulture);
 
-                    line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16, column17, column18, column19, column20, column21, column22, column23, column24, column25, column26, column27);
+                    column28 = ((int)frame._currentActiveAlgorithm).ToString();
+                    column29 = ((int)frame._currentlyAppliedGain).ToString();
+                    column30 = ((int)frame._currentActiveDistractor).ToString();
+                    column31 = ((int)frame._mostLikelyDetectedGainType).ToString();
+
+                    line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16, column17, column18, column19, column20, column21, column22, column23, column24, column25, column26, column27, column28, column29, column30, column31);
                     appender.WriteLine(line);
                     appender.Flush();
                 }
@@ -377,7 +383,12 @@ public class ExperimentDataManager : MonoBehaviour
                 var column26 = "MostLikelyDetectedGain";
                 var column27 = "TimeSinceExperimentStart";
 
-                var line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16, column17, column18, column19, column20, column21, column22, column23, column24, column25, column26, column27);
+                var column28 = "AlgorithmCategory";
+                var column29 = "AppliedGainCategory";
+                var column30 = "DistractorCategory"; 
+                var column31 = "MostLikelyDetectedGainCategory";
+
+                var line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16, column17, column18, column19, column20, column21, column22, column23, column24, column25, column26, column27, column28, column29, column30, column31);
                 writer.WriteLine(line);
                 writer.Flush();
 
@@ -414,10 +425,15 @@ public class ExperimentDataManager : MonoBehaviour
                     column24 = frame._positiveRotationGainRatioAtDetection.ToString("F3", CultureInfo.InvariantCulture);
                     column25 = frame._curvatureGainRatioAtDetection.ToString("F3", CultureInfo.InvariantCulture);
 
-                    column26 = frame._mostLikelyDetectedGain.ToString(CultureInfo.InvariantCulture);
+                    column26 = frame._mostLikelyDetectedGainValue.ToString(CultureInfo.InvariantCulture);
                     column27 = frame._timeSinceStart.ToString(CultureInfo.InvariantCulture);
 
-                    line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16, column17, column18, column19, column20, column21, column22, column23, column24, column25, column26, column27);
+                    column28 = ((int)frame._currentActiveAlgorithm).ToString();
+                    column29 = ((int)frame._currentlyAppliedGain).ToString();
+                    column30 = ((int)frame._currentActiveDistractor).ToString();
+                    column31 = ((int)frame._mostLikelyDetectedGainType).ToString(); 
+
+                    line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16, column17, column18, column19, column20, column21, column22, column23, column24, column25, column26, column27, column28, column29, column30, column31);
                     writer.WriteLine(line);
                     writer.Flush();
                 }
