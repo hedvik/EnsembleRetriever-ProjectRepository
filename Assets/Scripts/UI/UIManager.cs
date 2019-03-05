@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
     private DialogueSnippet _currentDialogueSnippet;
     private PlayerManager _playerManager;
     private AudioSource _voicePlayback;
+    private float _viveControllerTimer = 0f;
+    private const float _CONTROLLER_COOLDOWN_TIME = 0.2f;
 
     private void Start()
     {
@@ -38,10 +40,15 @@ public class UIManager : MonoBehaviour
             }
 #endif
 
-            if (SteamVR.active && SteamVR_Actions._default.Teleport.GetStateDown(_playerManager._batonHand))
+            // The whole timer cooldown is there to avoid double clicks from one click of the trackpad. 
+            // It is mostly a hack to deal with the faulty trackpads at campus. 
+            if (SteamVR.active && SteamVR_Actions._default.Teleport.GetStateDown(_playerManager._batonHand) && _viveControllerTimer >= _CONTROLLER_COOLDOWN_TIME)
             {
                 NextDialogueSnippet(false);
+                _viveControllerTimer = 0f;
             }
+
+            _viveControllerTimer += Time.deltaTime;
         }
     }
 

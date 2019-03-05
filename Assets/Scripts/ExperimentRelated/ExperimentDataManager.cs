@@ -114,7 +114,7 @@ public class ExperimentDataManager : MonoBehaviour
         var newData = new RedirectionFrameData();
         newData._id = _currentParticipantId;
 #if UNITY_EDITOR
-        if(SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._batonHand) || Input.GetKeyDown(KeyCode.E))
+        if(SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._shieldHand) || Input.GetKeyDown(KeyCode.E))
         {
             _gainDetected = true;
         }
