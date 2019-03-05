@@ -12,6 +12,8 @@ public class LevelUpBox : MonoBehaviour
     private GameManager _gameManager;
     private bool _batonUpgradeAvailable = true;
     private bool _shieldUpgradeAvailable = true;
+    private float _viveControllerTimer = 0f;
+    private const float _CONTROLLER_COOLDOWN_TIME = 0.2f;
 
     // Start is called before the first frame update
     void Start()
@@ -36,16 +38,19 @@ public class LevelUpBox : MonoBehaviour
         }
         #endif
 
-        if (SteamVR.active && _batonUpgradeAvailable && SteamVR_Actions._default.Teleport.GetStateDown(_playerManager._batonHand))
+        if (SteamVR.active && _batonUpgradeAvailable && SteamVR_Actions._default.Teleport.GetStateDown(_playerManager._batonHand) && _viveControllerTimer >= _CONTROLLER_COOLDOWN_TIME)
         {
             _playerManager.LevelUp(true);
+            _viveControllerTimer = 0f;
             Cleanup();
         }
-        else if (SteamVR.active && _shieldUpgradeAvailable && SteamVR_Actions._default.Teleport.GetStateDown(_playerManager._shieldHand))
+        else if (SteamVR.active && _shieldUpgradeAvailable && SteamVR_Actions._default.Teleport.GetStateDown(_playerManager._shieldHand) && _viveControllerTimer >= _CONTROLLER_COOLDOWN_TIME)
         {
             _playerManager.LevelUp(false);
+            _viveControllerTimer = 0f;
             Cleanup();
         }
+        _viveControllerTimer += Time.deltaTime;
     }
 
     public void UpdateAvailableUpgradeOptions(bool batonUpgradeAvailable, bool shieldUpgradeAvailable)

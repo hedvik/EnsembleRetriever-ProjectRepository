@@ -102,6 +102,8 @@ public class GameManager : MonoBehaviour
 
     public void StartTutorial()
     {
+        StartCoroutine(GetCurrentPlayerManager().InitialiseControllerButtonMaterials());
+
         if (!_skipTutorial)
         {
             _tutorialInstrument.gameObject.SetActive(true);
