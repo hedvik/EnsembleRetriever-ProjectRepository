@@ -111,17 +111,21 @@ public class GainIncrementer : MonoBehaviour
         // The upper bound is exclusive while the lower is inclusive.
         // Curvature radius can not be changed as long as AC2F is active.
         var gainChoice = Randoms.Next(0, (_experimentDataManager._redirectionManager._currentActiveRedirectionAlgorithmType == RedirectionAlgorithms.AC2F) ? 2 : 3);
+        var newGain = 0f;
         if (gainChoice == 0)
         {
-            _experimentDataManager._redirectionManager.MIN_ROT_GAIN -= _rotationGainBaseIncrement + UtilitiesER.Remap(0, 1, -_rotationGainIncrementNoise, _rotationGainIncrementNoise, (float)Randoms.NextDouble());
+            newGain = Mathf.Clamp(_experimentDataManager._redirectionManager.MIN_ROT_GAIN - _rotationGainBaseIncrement + UtilitiesER.Remap(0, 1, -_rotationGainIncrementNoise, _rotationGainIncrementNoise, (float)Randoms.NextDouble()), _maximumNegativeGain, 0);
+            _experimentDataManager._redirectionManager.MIN_ROT_GAIN = newGain;
         }
         else if (gainChoice == 1)
         {
-            _experimentDataManager._redirectionManager.MAX_ROT_GAIN += _rotationGainBaseIncrement + UtilitiesER.Remap(0, 1, -_rotationGainIncrementNoise, _rotationGainIncrementNoise, (float)Randoms.NextDouble());
+            newGain = Mathf.Clamp(_experimentDataManager._redirectionManager.MAX_ROT_GAIN + _rotationGainBaseIncrement + UtilitiesER.Remap(0, 1, -_rotationGainIncrementNoise, _rotationGainIncrementNoise, (float)Randoms.NextDouble()), 0, _maximumPositiveGain);
+            _experimentDataManager._redirectionManager.MAX_ROT_GAIN = newGain;
         }
         else
         {
-            _experimentDataManager._redirectionManager.CURVATURE_RADIUS -= _curvatureRadiusBaseIncrement + UtilitiesER.Remap(0, 1, -_curvatureRadiusIncrementNoise, _curvatureRadiusIncrementNoise, (float)Randoms.NextDouble());
+            newGain = Mathf.Clamp(_experimentDataManager._redirectionManager.CURVATURE_RADIUS - _curvatureRadiusBaseIncrement + UtilitiesER.Remap(0, 1, -_curvatureRadiusIncrementNoise, _curvatureRadiusIncrementNoise, (float)Randoms.NextDouble()), _minimumCurvatureRadius, 1000);
+            _experimentDataManager._redirectionManager.CURVATURE_RADIUS = newGain;
         }
     }
 
