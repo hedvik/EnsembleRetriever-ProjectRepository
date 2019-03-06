@@ -114,17 +114,15 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        #if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.P) || (SteamVR.active && SteamVR_Actions._default.GrabGrip.GetStateDown(_batonHand)))
+        if (_gameManager._debugMode && Input.GetKeyDown(KeyCode.P) || (SteamVR.active && SteamVR_Actions._default.GrabGrip.GetStateDown(_batonHand)))
         {
             AddCharge(100);
         }
 
-        if(Input.GetKeyDown(KeyCode.X) || (SteamVR_Actions._default.GrabGrip.GetStateDown(_shieldHand)))
+        if(_gameManager._debugMode && Input.GetKeyDown(KeyCode.X) || (SteamVR_Actions._default.GrabGrip.GetStateDown(_shieldHand)))
         {
             AddEXP(100);
         }
-        #endif
 
         if (_currentCharge >= _maxBatonCharge)
         {

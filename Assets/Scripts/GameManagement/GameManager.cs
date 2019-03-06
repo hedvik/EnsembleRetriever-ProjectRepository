@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     public float _battleThemeVolume = 0.1f;
     public float _ambientThemeVolume = 0.05f;
 
+    [Tooltip("Allows to add max charge or level up by pressing vive controller grip buttons")]
+    public bool _debugMode = false;
+
     [Header("References")]
     public GameObject _startGameTextBox;
     public AnimatedCharacterInterface _tutorialInstrument;

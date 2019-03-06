@@ -120,7 +120,7 @@ public class ExperimentDataManager : MonoBehaviour
             _gainDetected = true;
         }
 #else
-        if(SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._batonHand))
+        if(SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._shieldHand))
         {
             _gainDetected = true;
         }
