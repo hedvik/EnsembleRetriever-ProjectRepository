@@ -60,6 +60,15 @@ public class AC2FRedirector : Redirector
     /// </summary>
     public override void ApplyRedirection()
     {
+        // If the SteamVR menu is entered or tracking somehow is lost, it will break the 
+        // smoothing algorithm and turn _smoothedRotation and _lastRotationApplied into NaNs. 
+        // This has to be reset if so.
+        if(float.IsNaN(_smoothedRotation) || float.IsNaN(_lastRotationApplied))
+        {
+            _smoothedRotation = 0;
+            _lastRotationApplied = 0;
+        }
+
         if (_transitioningBetweenGains && _lerpTimer >= 1f)
         {
             _transitioningBetweenGains = false;

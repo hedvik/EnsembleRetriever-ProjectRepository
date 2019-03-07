@@ -21,7 +21,7 @@ public abstract class Redirector : MonoBehaviour
     /// <param name="rotationInDegrees"></param>
     protected void InjectRotation(float rotationInDegrees)
     {
-        if (rotationInDegrees != 0)
+        if (rotationInDegrees != 0 && !float.IsNaN(rotationInDegrees))
         {
             this.transform.RotateAround(Utilities.FlattenedPos3D(redirectionManager.headTransform.position), Vector3.up, rotationInDegrees);
             this.GetComponentInChildren<KeyboardController>().SetLastRotation(rotationInDegrees);
