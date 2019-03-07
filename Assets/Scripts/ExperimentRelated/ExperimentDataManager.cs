@@ -242,6 +242,13 @@ public class ExperimentDataManager : MonoBehaviour
 
         WriteGamePerformanceToFile(incompleteData);
         WriteDetectionPerformanceToFile();
+
+        _gainIncrementer.enabled = false;
+        _redirectionManager.MAX_ROT_GAIN = 0;
+        _redirectionManager.MIN_ROT_GAIN = 0;
+        _redirectionManager.CURVATURE_RADIUS = 1000;
+
+        Debug.Log("Experiment Cancellation is finished!");
     }
 
     public void WriteGamePerformanceToFile(IngameScoreData data)
