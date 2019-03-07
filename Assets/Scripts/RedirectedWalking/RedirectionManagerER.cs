@@ -20,6 +20,7 @@ public class RedirectionManagerER : RedirectionManager
     // A new distractor cannot trigger until the user has moved enough to hit this threshold. 
     // This is meant to deal with cases where the user is standing still at the edge of the distractor collider
     // and doing some small movements that would retrigger a new one right after the first one dies. 
+    // This value will most likely need to be tweaked depending on room size, as such it is not an ideal solution. 
     public float _distractorMagnitudeCooldownAfterDeath = 5f;
     private float _distractorCooldownMagnitudeAccumulation = 0f;
 
