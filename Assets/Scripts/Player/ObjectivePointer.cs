@@ -50,7 +50,10 @@ public class ObjectivePointer : MonoBehaviour
 
     public void RemoveObjectiveFromList(Transform objectiveToRemove)
     {
-        _objectiveList.Remove(objectiveToRemove);
+        if (_objectiveList.Contains(objectiveToRemove))
+        {
+            _objectiveList.Remove(objectiveToRemove);
+        }
     }
 
     public void Disable()
