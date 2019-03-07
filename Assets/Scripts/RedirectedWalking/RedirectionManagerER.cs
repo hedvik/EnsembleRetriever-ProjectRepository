@@ -17,11 +17,11 @@ public class RedirectionManagerER : RedirectionManager
     [Range(-1, 0)]
     public float _alignmentThreshold = -0.9f;
 
-    // A new distractor cannot trigger in this time period after finishing. 
+    // A new distractor cannot trigger until the user has moved enough to hit this threshold. 
     // This is meant to deal with cases where the user is standing still at the edge of the distractor collider
     // and doing some small movements that would retrigger a new one right after the first one dies. 
-    public float _distractorCooldownAfterDeath = 3f;
-    private float _distractorCooldownTimer = 0f;
+    public float _distractorMagnitudeCooldownAfterDeath = 5f;
+    private float _distractorCooldownMagnitudeAccumulation = 0f;
 
     [Tooltip("Should be null for normal behaviour or a specific distractor if you wish to always spawn that one")]
     public GameObject _debugDistractor;
@@ -118,6 +118,7 @@ public class RedirectionManagerER : RedirectionManager
         _trackingSpaceFloorVisuals.material.color = floorColour;
 
         _playerManager = GetComponentInChildren<PlayerManager>();
+        _distractorCooldownMagnitudeAccumulation = _distractorMagnitudeCooldownAfterDeath;
 
         RepopulateRandomDistractorList();
     }
@@ -126,7 +127,7 @@ public class RedirectionManagerER : RedirectionManager
     {
         base.LateUpdate();
 
-        _distractorCooldownTimer += Time.deltaTime;
+        _distractorCooldownMagnitudeAccumulation += deltaPos.magnitude * Time.deltaTime;
         _centreToHead = Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position);
 
         if (_distractorIsActive && !_alignmentResetComplete && FutureDirectionIsAlignedToCentre() && !inReset)
@@ -163,7 +164,7 @@ public class RedirectionManagerER : RedirectionManager
     /// </summary>
     public void OnDistractorTrigger()
     {
-        if (!_distractorsEnabled || _distractorCooldownTimer <= _distractorCooldownAfterDeath)
+        if (!_distractorsEnabled || _distractorCooldownMagnitudeAccumulation <= _distractorMagnitudeCooldownAfterDeath)
             return;
         if (_distractorIsActive || !_gameManager._gameStarted)
             return;
@@ -219,7 +220,7 @@ public class RedirectionManagerER : RedirectionManager
         _currentActiveDistractor.FinaliseDistractor();
         _currentActiveDistractor = null;
         _gameManager.StopBattleTheme();
-        _distractorCooldownTimer = 0f;
+        _distractorCooldownMagnitudeAccumulation = 0f;
     }
 
     /// <summary>
