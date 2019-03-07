@@ -88,7 +88,6 @@ public class GainIncrementer : MonoBehaviour
 
     public void Reset(RecordedGainTypes detectedGain)
     {
-        // TODO: Decide whether to reset all gains or the latest
         _incrementTimer = 0f;
         //_experimentDataManager._redirectionManager.MAX_ROT_GAIN *= 0.5f;
         //_experimentDataManager._redirectionManager.MIN_ROT_GAIN *= 0.5f;
