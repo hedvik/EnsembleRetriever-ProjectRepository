@@ -162,7 +162,7 @@ PrefabInstance:
     - target: {fileID: 1066146600335650518, guid: a2145ea94da7f57408cc0bcf2ad577ac,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1066146600335369076, guid: a2145ea94da7f57408cc0bcf2ad577ac,
         type: 3}
@@ -298,6 +298,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _distractorCooldownAfterDeath
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677181749393788072, guid: a2145ea94da7f57408cc0bcf2ad577ac,
+        type: 3}
+      propertyPath: _superSmoothSpeed
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2145ea94da7f57408cc0bcf2ad577ac, type: 3}
@@ -6606,10 +6611,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 472722477}
     m_Modifications:
-    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
-      propertyPath: m_Name
-      value: Scoring
-      objectReference: {fileID: 0}
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -6666,6 +6667,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
+      propertyPath: m_Name
+      value: Scoring
+      objectReference: {fileID: 0}
+    - target: {fileID: 114266297545499080, guid: 69b95198c5dbfc340ba9274ca72a91c8,
+        type: 3}
+      propertyPath: m_Text
+      value: "Score(Time Taken): \n1000\n\nScore(Damage Taken): \n1000\n\nScore(Quiz
+        Answers):\n1000\n\nTotal Score:\n3000"
+      objectReference: {fileID: 0}
     - target: {fileID: 224635311989753030, guid: 69b95198c5dbfc340ba9274ca72a91c8,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -6680,12 +6691,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114266297545499080, guid: 69b95198c5dbfc340ba9274ca72a91c8,
-        type: 3}
-      propertyPath: m_Text
-      value: "Score(Time Taken): \n1000\n\nScore(Damage Taken): \n1000\n\nScore(Quiz
-        Answers):\n1000\n\nTotal Score:\n3000"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
@@ -6817,7 +6822,41 @@ Transform:
   m_Father: {fileID: 1751117343}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &827502103
+--- !u!21 &809795742
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!43 &840399122
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8078,10 +8117,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 472722477}
     m_Modifications:
-    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
-      propertyPath: m_Name
-      value: Leaderboard
-      objectReference: {fileID: 0}
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -8138,20 +8173,9 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 224635311989753030, guid: 69b95198c5dbfc340ba9274ca72a91c8,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 224635311989753030, guid: 69b95198c5dbfc340ba9274ca72a91c8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 224635311989753030, guid: 69b95198c5dbfc340ba9274ca72a91c8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.2
+    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
+      propertyPath: m_Name
+      value: Leaderboard
       objectReference: {fileID: 0}
     - target: {fileID: 114266297545499080, guid: 69b95198c5dbfc340ba9274ca72a91c8,
         type: 3}
@@ -8167,6 +8191,21 @@ PrefabInstance:
 
 
 '
+      objectReference: {fileID: 0}
+    - target: {fileID: 224635311989753030, guid: 69b95198c5dbfc340ba9274ca72a91c8,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224635311989753030, guid: 69b95198c5dbfc340ba9274ca72a91c8,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224635311989753030, guid: 69b95198c5dbfc340ba9274ca72a91c8,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
@@ -17021,40 +17060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 197110facfcb7ec478cf45dea5eeb394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &1732227233
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &1738334345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18022,7 +18027,7 @@ PrefabInstance:
     - target: {fileID: 7972869137645657772, guid: 63f857b9c56a22c458c2cd4940ba0de3,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7972869137645867790, guid: 63f857b9c56a22c458c2cd4940ba0de3,
         type: 3}
@@ -18083,12 +18088,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1732227233}
+      objectReference: {fileID: 809795742}
     - target: {fileID: 1024918617530230662, guid: 63f857b9c56a22c458c2cd4940ba0de3,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 827502103}
+      objectReference: {fileID: 840399122}
     - target: {fileID: 2865638415964025579, guid: 63f857b9c56a22c458c2cd4940ba0de3,
         type: 3}
       propertyPath: _alwaysDisplayTrackingFloor
@@ -22947,10 +22952,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1786776657}
     m_Modifications:
-    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
-      propertyPath: m_Name
-      value: StartTextBox
-      objectReference: {fileID: 0}
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -22998,6 +22999,10 @@ PrefabInstance:
     - target: {fileID: 4575638806629468, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002766374331608, guid: 69b95198c5dbfc340ba9274ca72a91c8, type: 3}
+      propertyPath: m_Name
+      value: StartTextBox
       objectReference: {fileID: 0}
     - target: {fileID: 7916808826320685402, guid: 69b95198c5dbfc340ba9274ca72a91c8,
         type: 3}
