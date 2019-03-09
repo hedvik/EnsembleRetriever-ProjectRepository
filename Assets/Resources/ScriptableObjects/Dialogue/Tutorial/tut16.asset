@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: tut16
   m_EditorClassIdentifier: 
   _text: If you ever feel like the way you move or look around in this world feels
-    unnatural, please press the <color=#ff0000ff>red</color> button on your shield
-    controller. This will reset any redirection gains that are applied!
-  _voiceLine: {fileID: 8300000, guid: b95440e83b955864b83097207489b9a4, type: 3}
+    unnatural, please press once on the <color=#ff0000ff>red</color> button on your
+    shield controller. This will reset any redirection gains that are applied!
+  _voiceLine: {fileID: 8300000, guid: 732b5c253bc182c46a4c5fead2892426, type: 3}
   _functionTriggerStart: 
   _stringParameterStart: 
   _functionTriggerEnd: 

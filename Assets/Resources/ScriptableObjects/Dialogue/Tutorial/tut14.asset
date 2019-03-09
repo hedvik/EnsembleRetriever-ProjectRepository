@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882bf00422c32e541977e7f3e048f879, type: 3}
   m_Name: tut14
   m_EditorClassIdentifier: 
-  _text: I would recommend that you gather <color=#00FF00>3 shiny clues</color> before
-    entering though. Otherwise you might not be able to answer the <color=#a52a2aff>quiz</color>
+  _text: I would recommend that you ask <color=#00FF00>3 shiny fireflies</color> for
+    clues first though. Otherwise you might not be able to answer the <color=#a52a2aff>quiz</color>
     to enter his lair!
-  _voiceLine: {fileID: 8300000, guid: 8f35669674449b94a89d3e7c0da08b95, type: 3}
+  _voiceLine: {fileID: 8300000, guid: 12c973f36d071054e968be0021bf2be7, type: 3}
   _functionTriggerStart: AnimationTrigger
   _stringParameterStart: Jumps
   _functionTriggerEnd: AnimationTrigger
