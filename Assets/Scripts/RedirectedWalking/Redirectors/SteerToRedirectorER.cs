@@ -3,7 +3,7 @@ using System.Collections;
 using Redirection;
 
 /// <summary>
-/// Extended version of SteerToRedirector.cs which originates from Azmandian et al.
+/// SteerToRedirector.cs which originates from Azmandian et al. but with some minor changes to facilitate data collection.
 /// </summary>
 public abstract class SteerToRedirectorER : Redirector
 {
