@@ -166,7 +166,7 @@ public class AnimatedCharacterInterface : Pausable
 
     public void PlayPhaseTransitionSound()
     {
-        _audioSource.PlayOneShot(_phaseTransitionSound);
+        _audioSource.PlayOneShot(_phaseTransitionSound, 0.5f);
     }
 
     public void PlaySurprisedSound()

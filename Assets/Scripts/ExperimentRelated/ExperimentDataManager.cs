@@ -218,6 +218,7 @@ public class ExperimentDataManager : MonoBehaviour
         {
             _gainIncrementer.InitialiseIncrementer();
             _gainIncrementer.ActivateGainIncrements();
+            _redirectionManager._S2CRedirector.DisableDampening();
         }
     }
 

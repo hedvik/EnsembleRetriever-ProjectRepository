@@ -27,6 +27,13 @@ public class RedirectionManagerER : RedirectionManager
     [Tooltip("Should be null for normal behaviour or a specific distractor if you wish to always spawn that one")]
     public GameObject _debugDistractor;
 
+    [Tooltip("Toggling this allows you to debug what type of gain is being applied visually by changing the colour of the objective pointer")]
+    public bool _debugGainApplicationType = false;
+    public Material _curvatureMaterial;
+    public Material _rotationMaterial;
+    private Material _baseObjectivePointerMaterial;
+    private MeshRenderer _objectivePointerRenderer;
+
     [HideInInspector]
     public bool _distractorIsActive = false;
 
@@ -45,13 +52,15 @@ public class RedirectionManagerER : RedirectionManager
     [HideInInspector]
     public DistractorEnemy _currentActiveDistractor = null;
 
+    [HideInInspector]
+    public S2CRedirectorER _S2CRedirector;
+
     private List<GameObject> _distractorPrefabPool = new List<GameObject>();
     private List<GameObject> _randomDistractorPoolList = new List<GameObject>();
     private float _baseMinimumRotationGain = 0f;
     private float _baseMaximumRotationGain = 0f;
     private float _baseCurvatureRadius = 0f;
     private AC2FRedirector _AC2FRedirector;
-    private S2CRedirectorER _S2CRedirector;
 
     private DistractorTrigger _distractorTrigger;
     private List<Pausable> _pausables = new List<Pausable>();
@@ -122,6 +131,12 @@ public class RedirectionManagerER : RedirectionManager
         _distractorCooldownMagnitudeAccumulation = _distractorMagnitudeCooldownAfterDeath;
 
         RepopulateRandomDistractorList();
+
+        if(_debugGainApplicationType)
+        {
+            _objectivePointerRenderer = GetComponentInChildren<ObjectivePointer>().GetComponentInChildren<MeshRenderer>();
+            _baseObjectivePointerMaterial = _objectivePointerRenderer.material;
+        }
     }
 
     protected override void LateUpdate()
@@ -145,6 +160,17 @@ public class RedirectionManagerER : RedirectionManager
         {
             _sampleTimer -= 1 / _positionSamplesPerSecond;
             _positionSamples.PushBack(deltaPos);
+        }
+
+        if(_debugGainApplicationType)
+        {
+            switch(redirector._currentlyAppliedGainType)
+            {
+                case RecordedGainTypes.none: _objectivePointerRenderer.material = _baseObjectivePointerMaterial; break;
+                case RecordedGainTypes.rotationAgainstHead: _objectivePointerRenderer.material = _rotationMaterial; break;
+                case RecordedGainTypes.rotationWithHead: _objectivePointerRenderer.material = _rotationMaterial; break;
+                case RecordedGainTypes.curvature: _objectivePointerRenderer.material = _curvatureMaterial; break;
+            }
         }
     }
 

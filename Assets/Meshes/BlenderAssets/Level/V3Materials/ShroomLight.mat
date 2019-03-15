@@ -5,7 +5,8 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: ShroomLight
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _EMISSION
@@ -74,4 +75,4 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 0.624, g: 0.79129994, b: 0.42869994, a: 1}
-    - _EmissionColor: {r: 3.4352942, g: 3.937255, b: 4, a: 0}
+    - _EmissionColor: {r: 2.5882354, g: 2.964706, b: 2.9960785, a: 0}

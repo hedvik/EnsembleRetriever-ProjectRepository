@@ -214,7 +214,7 @@
                      "output" : "/actions/default/in/menubutton"
                   }
                },
-               "mode" : "toggle_button",
+               "mode" : "button",
                "path" : "/user/hand/left/input/application_menu"
             },
             {
@@ -223,7 +223,7 @@
                      "output" : "/actions/default/in/menubutton"
                   }
                },
-               "mode" : "toggle_button",
+               "mode" : "button",
                "path" : "/user/hand/right/input/application_menu"
             }
          ]
