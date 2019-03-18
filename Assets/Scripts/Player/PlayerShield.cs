@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerShield : MonoBehaviour
 {
+    public float _absorbptionSoundScale = 1.25f;
+
     private GameManager _gameManager;
     private PlayerManager _playerManager;
     private ParticleSystem _particleSystem;
@@ -25,7 +27,7 @@ public class PlayerShield : MonoBehaviour
 
             _particleSystem.transform.position = other.transform.position;
             _particleSystem.Play();
-            _playerManager._audioSource.PlayOneShot(_playerManager._absorbSound);
+            _playerManager._audioSource.PlayOneShot(_playerManager._absorbSound, _absorbptionSoundScale);
 
             if(!_gameManager._gameStarted)
             {
