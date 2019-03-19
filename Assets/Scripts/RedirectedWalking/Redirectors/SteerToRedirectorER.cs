@@ -56,7 +56,6 @@ public abstract class SteerToRedirectorER : Redirector
         // User is moving
         if (deltaPos.magnitude / redirectionManager.GetDeltaTime() > _MOVEMENT_THRESHOLD) 
         {
-            // Scaling curvature gain by walking speed
             _rotationFromCurvatureGain = Mathf.Rad2Deg * (deltaPos.magnitude / redirectionManager.CURVATURE_RADIUS);
             _rotationFromCurvatureGain = Mathf.Min(_rotationFromCurvatureGain, _CURVATURE_GAIN_CAP_DEGREES_PER_SECOND * redirectionManager.GetDeltaTime());
         }
