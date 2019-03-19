@@ -118,6 +118,7 @@ public class ExperimentDataManager : MonoBehaviour
         if(SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._shieldHand) || Input.GetKeyDown(KeyCode.E))
         {
             _gainDetected = true;
+            Debug.Log("Detection!");
         }
 #else
         if(SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._shieldHand))
