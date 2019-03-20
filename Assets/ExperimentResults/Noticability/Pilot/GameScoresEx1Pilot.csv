@@ -1,5 +1,3 @@
-ParticipantID,TimeScore,DamageScore,QuizScore,TotalScore
-0,538,900,450,1888
-1,533,400,150,1083
-2,-1,-1,-1,-1
-3,562,950,450,1962
+version https://git-lfs.github.com/spec/v1
+oid sha256:5a398a1fa01777977edcee664c430cfca8cc13a558ad80618294d9886ad58abe
+size 133
