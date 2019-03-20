@@ -164,10 +164,10 @@ public class ExperimentDataManager : MonoBehaviour
                 }
             }
 
-            newData._noGainRatioAtDetection = noGainFrequency / _appliedGainsTimeSample.Size;
-            newData._negativeRotationGainRatioAtDetection = negativeRotationGainFrequency / _appliedGainsTimeSample.Size;
-            newData._positiveRotationGainRatioAtDetection = positiveRotationGainFrequency / _appliedGainsTimeSample.Size;
-            newData._curvatureGainRatioAtDetection = curvatureGainFrequency / _appliedGainsTimeSample.Size;
+            newData._noGainRatioAtDetection = (float)noGainFrequency / _appliedGainsTimeSample.Size;
+            newData._negativeRotationGainRatioAtDetection = (float)negativeRotationGainFrequency / _appliedGainsTimeSample.Size;
+            newData._positiveRotationGainRatioAtDetection = (float)positiveRotationGainFrequency / _appliedGainsTimeSample.Size;
+            newData._curvatureGainRatioAtDetection = (float)curvatureGainFrequency / _appliedGainsTimeSample.Size;
 
             // The gain that has the highest ratio/percentage within the short time sample is considered as the one that was detected. 
             var frequencyList = new List<int>();
