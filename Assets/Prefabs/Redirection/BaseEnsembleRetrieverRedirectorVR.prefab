@@ -1121,11 +1121,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7447819419618309432, guid: b6c78f80153a9244cb2ad8ad5b6b9cc1,
         type: 3}
-      propertyPath: CURVATURE_RADIUS
-      value: 23
-      objectReference: {fileID: 0}
-    - target: {fileID: 7447819419618309432, guid: b6c78f80153a9244cb2ad8ad5b6b9cc1,
-        type: 3}
       propertyPath: headTransform
       value: 
       objectReference: {fileID: 1024300568478085446}
@@ -1139,6 +1134,16 @@ PrefabInstance:
       propertyPath: _distractorMagnitudeCooldownAfterDeath
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: 7447819419618309432, guid: b6c78f80153a9244cb2ad8ad5b6b9cc1,
+        type: 3}
+      propertyPath: _curvatureMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: b129d6c4a549d4b45b005f576e681545, type: 2}
+    - target: {fileID: 7447819419618309432, guid: b6c78f80153a9244cb2ad8ad5b6b9cc1,
+        type: 3}
+      propertyPath: _rotationMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 69303d8be9e7ac344930abf84d404242, type: 2}
     - target: {fileID: 3331080996621382299, guid: b6c78f80153a9244cb2ad8ad5b6b9cc1,
         type: 3}
       propertyPath: m_LocalPosition.x

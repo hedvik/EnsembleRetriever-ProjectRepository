@@ -220,6 +220,7 @@ public class ExperimentDataManager : MonoBehaviour
             _gainIncrementer.InitialiseIncrementer();
             _gainIncrementer.ActivateGainIncrements();
             _redirectionManager._S2CRedirector.DisableDampening();
+            _redirectionManager._S2CRedirector._rotationThreshold = _redirectionManager._AC2FRedirector._rotationThreshold;
         }
     }
 
