@@ -1159,11 +1159,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 5.75
       objectReference: {fileID: 0}
-    - target: {fileID: 2935103834575700784, guid: b6c78f80153a9244cb2ad8ad5b6b9cc1,
-        type: 3}
-      propertyPath: _DISTRACTOR_TRIGGER_BUFFER
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2151489920991454920, guid: b6c78f80153a9244cb2ad8ad5b6b9cc1,
         type: 3}
       propertyPath: volumeTrigger
