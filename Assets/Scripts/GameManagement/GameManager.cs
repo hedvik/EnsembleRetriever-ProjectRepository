@@ -177,11 +177,6 @@ public class GameManager : MonoBehaviour
         FetchScores();
         _uiManager.ChangeTextBoxVisibility(true, _scoreText.transform.parent.parent.parent);
         _uiManager.ChangeTextBoxVisibility(true, _leaderboardText.transform.parent.parent.parent);
-
-        if (_experimentDataManager._experimentType == ExperimentType.detection)
-        {
-            _experimentDataManager.WriteDetectionPerformanceToFile();
-        }
     }
 
     public void ResetEventTriggerDialogue()
@@ -256,7 +251,7 @@ public class GameManager : MonoBehaviour
         newGameData._timeScore = _scoreTime;
         newGameData._totalScore = finalScore;
 
-        _experimentDataManager.WriteGamePerformanceToFile(newGameData);
+        _experimentDataManager.FinishDataRecording(newGameData);
     }
 
     private int FindScorePlacement(int newScore)

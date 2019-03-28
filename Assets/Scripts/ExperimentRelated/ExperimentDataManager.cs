@@ -24,7 +24,7 @@ public class IngameScoreData
 
 // Recorded per frame
 [System.Serializable]
-public class RedirectionFrameData
+public class DetectionFrameData
 {
     public int _id;
     public bool _gainDetected;
@@ -51,6 +51,34 @@ public class RedirectionFrameData
     public float _timeSinceStart = 0;
     public float _mostLikelyDetectedGainValue = 0;
     public RecordedGainTypes _mostLikelyDetectedGainType;
+}
+
+[System.Serializable]
+public class EffectivenessFrameData
+{
+    public int _id = 0;
+    // Either 0 for control or 1 for experiment group
+    public int _experimentGroup = 0;
+
+    public float _timeSinceStart = 0f;
+    public float _timeSpentWalking = 0f;
+    public int _numberOfResets = 0;
+    public int _numberOfDistractors = 0;
+
+    public bool _resetActive = false;
+    public bool _distractorActive = false;
+    public DistractorType _currentActiveDistractor = DistractorType.none;
+
+    public bool _alignmentComplete = false;
+ 
+    // The booleans are used to find events where we can stop counting time at
+    public bool _alignedThisFrame = false;
+    public float _timeTakenUntilAlignment = 0f;
+    public bool _defeatedDistractorThisFrame = false;
+    public float _timeTakenUntilDistractorDefeat = 0f;
+
+    public int _currentPlayerShieldLevel = 0;
+    public int _currentPlayerBatonLevel = 0;
 }
 #endregion
 
@@ -79,7 +107,7 @@ public class ExperimentDataManager : MonoBehaviour
     public PlayerManager _playerManager;
 
     private GameManager _gameManager;
-    private List<RedirectionFrameData> _detectionFrameData = new List<RedirectionFrameData>();
+    private List<DetectionFrameData> _detectionFrameData = new List<DetectionFrameData>();
     private GainIncrementer _gainIncrementer;
 
     private bool _recordingActive = false;
@@ -111,102 +139,13 @@ public class ExperimentDataManager : MonoBehaviour
             CancelExperiment();
         }
 
-        _gainDetected = false;
-        var newData = new RedirectionFrameData();
-        newData._id = _currentParticipantId;
-#if UNITY_EDITOR
-        if(SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._shieldHand) || Input.GetKeyDown(KeyCode.E))
+        if(_experimentType == ExperimentType.detection)
         {
-            _gainDetected = true;
-            Debug.Log("Detection!");
+            RecordDetectionData();
         }
-#else
-        if(SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._shieldHand))
+        else if(_experimentType == ExperimentType.effectiveness)
         {
-            _gainDetected = true;
-        }
-#endif
-        newData._gainDetected = _gainDetected;
-        newData._deltaPos = _redirectionManager.deltaPos;
-        newData._deltaDir = _redirectionManager.deltaDir;
-        newData._deltaTime = Time.deltaTime;
-        newData._inReset = _redirectionManager.inReset;
-        newData._currentActiveAlgorithm = _redirectionManager._currentActiveRedirectionAlgorithmType;
-        newData._currentActiveDistractor = _redirectionManager._currentActiveDistractor != null ? _redirectionManager._currentActiveDistractor._distractorType : DistractorType.none;
-        newData._currentlyAppliedGain = _redirectionManager.redirector._currentlyAppliedGainType;
-        newData._currentRotationGainAgainst = _redirectionManager.MIN_ROT_GAIN;
-        newData._currentRotationGainWith = _redirectionManager.MAX_ROT_GAIN;
-        newData._currentCurvatureGain = _redirectionManager.CURVATURE_RADIUS;
-        newData._timeSinceStart = Time.realtimeSinceStartup - _timeStarted;
-
-        _sampleTimer += Time.deltaTime;
-        if (_sampleTimer >= _gainRatioSampleWindowInSeconds / _samplesPerSecond)
-        {
-            _sampleTimer -= _gainRatioSampleWindowInSeconds / _samplesPerSecond;
-            _appliedGainsTimeSample.PushFront(newData._currentlyAppliedGain);
-        }
-
-        newData._mostLikelyDetectedGainType = RecordedGainTypes.none;
-        if (newData._gainDetected)
-        {
-            var noGainFrequency = 0;
-            var negativeRotationGainFrequency = 0;
-            var positiveRotationGainFrequency = 0;
-            var curvatureGainFrequency = 0;
-            foreach (var sampledGain in _appliedGainsTimeSample)
-            {
-                switch (sampledGain)
-                {
-                    case RecordedGainTypes.none: noGainFrequency++; break;
-                    case RecordedGainTypes.rotationAgainstHead: negativeRotationGainFrequency++; break;
-                    case RecordedGainTypes.rotationWithHead: positiveRotationGainFrequency++; break;
-                    case RecordedGainTypes.curvature: curvatureGainFrequency++; break;
-                }
-            }
-
-            newData._noGainRatioAtDetection = (float)noGainFrequency / _appliedGainsTimeSample.Size;
-            newData._negativeRotationGainRatioAtDetection = (float)negativeRotationGainFrequency / _appliedGainsTimeSample.Size;
-            newData._positiveRotationGainRatioAtDetection = (float)positiveRotationGainFrequency / _appliedGainsTimeSample.Size;
-            newData._curvatureGainRatioAtDetection = (float)curvatureGainFrequency / _appliedGainsTimeSample.Size;
-
-            // The gain that has the highest ratio/percentage within the short time sample is considered as the one that was detected. 
-            var frequencyList = new List<int>();
-            frequencyList.Add(negativeRotationGainFrequency);
-            frequencyList.Add(positiveRotationGainFrequency);
-            frequencyList.Add(curvatureGainFrequency);
-            frequencyList.Add(noGainFrequency);
-            frequencyList.Sort();
-            frequencyList.Reverse();
-
-            if (frequencyList[0] == negativeRotationGainFrequency)
-            {
-                newData._mostLikelyDetectedGainValue = _redirectionManager.MIN_ROT_GAIN;
-                newData._mostLikelyDetectedGainType = RecordedGainTypes.rotationAgainstHead;
-            }
-            else if (frequencyList[0] == positiveRotationGainFrequency)
-            {
-                newData._mostLikelyDetectedGainValue = _redirectionManager.MAX_ROT_GAIN;
-                newData._mostLikelyDetectedGainType = RecordedGainTypes.rotationWithHead;
-            }
-            else if (frequencyList[0] == curvatureGainFrequency)
-            {
-                newData._mostLikelyDetectedGainValue = _redirectionManager.CURVATURE_RADIUS;
-                newData._mostLikelyDetectedGainType = RecordedGainTypes.curvature;
-            }
-            else
-            {
-                newData._mostLikelyDetectedGainValue = 0;
-            }
-
-            frequencyList.Clear();
-        }
-
-        _detectionFrameData.Add(newData);
-
-        // Data collection should be finished before resetting any gains
-        if (_gainDetected)
-        {
-            _gainIncrementer.Reset(newData._mostLikelyDetectedGainType);
+            RecordEffectivenessData();
         }
     }
 
@@ -254,7 +193,17 @@ public class ExperimentDataManager : MonoBehaviour
         Debug.Log("Experiment Cancellation is finished!");
     }
 
-    public void WriteGamePerformanceToFile(IngameScoreData data)
+    public void FinishDataRecording(IngameScoreData data)
+    {
+        WriteGamePerformanceToFile(data);
+
+        if (_experimentType == ExperimentType.detection)
+        {
+            WriteDetectionPerformanceToFile();
+        }
+    }
+
+    private void WriteGamePerformanceToFile(IngameScoreData data)
     {
         if (File.Exists(Application.dataPath + "/" + _gameScoreFileName))
         {
@@ -297,7 +246,7 @@ public class ExperimentDataManager : MonoBehaviour
         }
     }
 
-    public void WriteDetectionPerformanceToFile()
+    private void WriteDetectionPerformanceToFile()
     {
         if (File.Exists(Application.dataPath + "/" + _detectionDataFileName))
         {
@@ -483,5 +432,111 @@ public class ExperimentDataManager : MonoBehaviour
             _currentParticipantId = int.Parse(list1[list1.Count - 1]) + 1;
             _previousGameScores = list5.Select(int.Parse).ToList();
         }
+    }
+
+    private void RecordDetectionData()
+    {
+        _gainDetected = false;
+        var newData = new DetectionFrameData();
+        newData._id = _currentParticipantId;
+#if UNITY_EDITOR
+        if (SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._shieldHand) || Input.GetKeyDown(KeyCode.E))
+        {
+            _gainDetected = true;
+            Debug.Log("Detection!");
+        }
+#else
+        if(SteamVR.active && SteamVR_Actions._default.MenuButton.GetStateDown(_playerManager._shieldHand))
+        {
+            _gainDetected = true;
+        }
+#endif
+        newData._gainDetected = _gainDetected;
+        newData._deltaPos = _redirectionManager.deltaPos;
+        newData._deltaDir = _redirectionManager.deltaDir;
+        newData._deltaTime = Time.deltaTime;
+        newData._inReset = _redirectionManager.inReset;
+        newData._currentActiveAlgorithm = _redirectionManager._currentActiveRedirectionAlgorithmType;
+        newData._currentActiveDistractor = _redirectionManager._currentActiveDistractor != null ? _redirectionManager._currentActiveDistractor._distractorType : DistractorType.none;
+        newData._currentlyAppliedGain = _redirectionManager.redirector._currentlyAppliedGainType;
+        newData._currentRotationGainAgainst = _redirectionManager.MIN_ROT_GAIN;
+        newData._currentRotationGainWith = _redirectionManager.MAX_ROT_GAIN;
+        newData._currentCurvatureGain = _redirectionManager.CURVATURE_RADIUS;
+        newData._timeSinceStart = Time.realtimeSinceStartup - _timeStarted;
+
+        _sampleTimer += Time.deltaTime;
+        if (_sampleTimer >= _gainRatioSampleWindowInSeconds / _samplesPerSecond)
+        {
+            _sampleTimer -= _gainRatioSampleWindowInSeconds / _samplesPerSecond;
+            _appliedGainsTimeSample.PushFront(newData._currentlyAppliedGain);
+        }
+
+        newData._mostLikelyDetectedGainType = RecordedGainTypes.none;
+        if (newData._gainDetected)
+        {
+            var noGainFrequency = 0;
+            var negativeRotationGainFrequency = 0;
+            var positiveRotationGainFrequency = 0;
+            var curvatureGainFrequency = 0;
+            foreach (var sampledGain in _appliedGainsTimeSample)
+            {
+                switch (sampledGain)
+                {
+                    case RecordedGainTypes.none: noGainFrequency++; break;
+                    case RecordedGainTypes.rotationAgainstHead: negativeRotationGainFrequency++; break;
+                    case RecordedGainTypes.rotationWithHead: positiveRotationGainFrequency++; break;
+                    case RecordedGainTypes.curvature: curvatureGainFrequency++; break;
+                }
+            }
+
+            newData._noGainRatioAtDetection = (float)noGainFrequency / _appliedGainsTimeSample.Size;
+            newData._negativeRotationGainRatioAtDetection = (float)negativeRotationGainFrequency / _appliedGainsTimeSample.Size;
+            newData._positiveRotationGainRatioAtDetection = (float)positiveRotationGainFrequency / _appliedGainsTimeSample.Size;
+            newData._curvatureGainRatioAtDetection = (float)curvatureGainFrequency / _appliedGainsTimeSample.Size;
+
+            // The gain that has the highest ratio/percentage within the short time sample is considered as the one that was detected. 
+            var frequencyList = new List<int>();
+            frequencyList.Add(negativeRotationGainFrequency);
+            frequencyList.Add(positiveRotationGainFrequency);
+            frequencyList.Add(curvatureGainFrequency);
+            frequencyList.Add(noGainFrequency);
+            frequencyList.Sort();
+            frequencyList.Reverse();
+
+            if (frequencyList[0] == negativeRotationGainFrequency)
+            {
+                newData._mostLikelyDetectedGainValue = _redirectionManager.MIN_ROT_GAIN;
+                newData._mostLikelyDetectedGainType = RecordedGainTypes.rotationAgainstHead;
+            }
+            else if (frequencyList[0] == positiveRotationGainFrequency)
+            {
+                newData._mostLikelyDetectedGainValue = _redirectionManager.MAX_ROT_GAIN;
+                newData._mostLikelyDetectedGainType = RecordedGainTypes.rotationWithHead;
+            }
+            else if (frequencyList[0] == curvatureGainFrequency)
+            {
+                newData._mostLikelyDetectedGainValue = _redirectionManager.CURVATURE_RADIUS;
+                newData._mostLikelyDetectedGainType = RecordedGainTypes.curvature;
+            }
+            else
+            {
+                newData._mostLikelyDetectedGainValue = 0;
+            }
+
+            frequencyList.Clear();
+        }
+
+        _detectionFrameData.Add(newData);
+
+        // Data collection should be finished before resetting any gains
+        if (_gainDetected)
+        {
+            _gainIncrementer.Reset(newData._mostLikelyDetectedGainType);
+        }
+    }
+
+    private void RecordEffectivenessData()
+    {
+        // TODO: Implement Me!
     }
 }
