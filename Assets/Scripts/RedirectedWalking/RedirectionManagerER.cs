@@ -55,12 +55,14 @@ public class RedirectionManagerER : RedirectionManager
     [HideInInspector]
     public S2CRedirectorER _S2CRedirector;
 
+    [HideInInspector]
+    public AC2FRedirector _AC2FRedirector;
+
     private List<GameObject> _distractorPrefabPool = new List<GameObject>();
     private List<GameObject> _randomDistractorPoolList = new List<GameObject>();
     private float _baseMinimumRotationGain = 0f;
     private float _baseMaximumRotationGain = 0f;
     private float _baseCurvatureRadius = 0f;
-    private AC2FRedirector _AC2FRedirector;
 
     private DistractorTrigger _distractorTrigger;
     private List<Pausable> _pausables = new List<Pausable>();
@@ -388,7 +390,7 @@ public class RedirectionManagerER : RedirectionManager
     private IEnumerator SwapRedirectionAlgorithm(bool toAC2F)
     {
         // Wait until the head is relatively stable, then switch
-        while (Mathf.Abs(deltaDir) / Time.deltaTime >= AC2FRedirector._ROTATION_THRESHOLD)
+        while (Mathf.Abs(deltaDir) / Time.deltaTime >= AC2FRedirector._rotationThreshold)
         {
             yield return null;
         }

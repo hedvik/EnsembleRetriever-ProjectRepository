@@ -23,7 +23,8 @@ public class AC2FRedirector : Redirector
     protected RedirectionManagerER _redirectionManagerER;
 
     // A rotation has to exceed this threshold in degrees per second for gains to be applied
-    public const float _ROTATION_THRESHOLD = 12.5f;
+    [HideInInspector]
+    public float _rotationThreshold = 12.5f;
     
     // Capping value for large head movements. Used in the same way as Azmandian et al.'s S2C implementation.
     // TODO: This might need to be higher for experiment 1.
@@ -85,7 +86,7 @@ public class AC2FRedirector : Redirector
 
         var currentGainType = RotationGainTypes.none;
         // If user is rotating above the threshold
-        if (Mathf.Abs(deltaDir) / Time.deltaTime >= _ROTATION_THRESHOLD)
+        if (Mathf.Abs(deltaDir) / Time.deltaTime >= _rotationThreshold)
         {
             // Calculate gains
             var againstGain = deltaDir * redirectionManager.MIN_ROT_GAIN;
