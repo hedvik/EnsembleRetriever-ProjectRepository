@@ -388,7 +388,7 @@ public class RedirectionManagerER : RedirectionManager
     private IEnumerator SwapRedirectionAlgorithm(bool toAC2F)
     {
         // Wait until the head is relatively stable, then switch
-        while (Mathf.Abs(deltaDir) / Time.deltaTime >= AC2FRedirector._rotationThreshold)
+        while (Mathf.Abs(deltaDir) / Time.deltaTime >= _AC2FRedirector._rotationThreshold)
         {
             yield return null;
         }

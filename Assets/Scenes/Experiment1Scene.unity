@@ -1274,18 +1274,6 @@ PrefabInstance:
       propertyPath: _alignmentTargetOnTeleport
       value: 
       objectReference: {fileID: 1225670023}
-    - target: {fileID: 738812170, guid: a90cd5f540df4f947b3ef9569fa966d2, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 738812170, guid: a90cd5f540df4f947b3ef9569fa966d2, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 738812170, guid: a90cd5f540df4f947b3ef9569fa966d2, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a90cd5f540df4f947b3ef9569fa966d2, type: 3}
 --- !u!1 &2669953455369552204 stripped
