@@ -89,8 +89,9 @@ public class EffectivenessFrameData
 public class ExperimentDataManager : MonoBehaviour
 {
     public ExperimentType _experimentType;
-    public string _gameScoreFileName = "GameScoresEx1.dat";
-    public string _detectionDataFileName = "DetectionDataEx1.dat";
+    public string _gameScoreFileName = "GameScoresEx1.csv";
+    public string _detectionDataFileName = "DetectionDataEx1.csv";
+    public string _effectivenessDataFileName = "EffectivenessDataEx2.csv";
 
     [Header("Experiment 1 Specific")]
     public float _gainRatioSampleWindowInSeconds = 0.5f;
@@ -244,6 +245,7 @@ public class ExperimentDataManager : MonoBehaviour
         }
     }
 
+    #region File Read/Write
     private void WriteGamePerformanceToFile(IngameScoreData data)
     {
         if (File.Exists(Application.dataPath + "/" + _gameScoreFileName))
@@ -443,7 +445,90 @@ public class ExperimentDataManager : MonoBehaviour
 
     private void WriteEffectivenessDataToFile()
     {
+        if (File.Exists(Application.dataPath + "/" + _effectivenessDataFileName))
+        {
+            // Append
+            using (var appender = File.AppendText(Application.dataPath + "/" + _effectivenessDataFileName))
+            {
+                string column1, column2, column3, column4, column5, column6, column7, column8, column9, 
+                    column10, column11, column12, column13, column14, column15, column16;
 
+                foreach (var frame in _effectivenessFrameData)
+                {
+                    column1 = frame._id.ToString();
+                    column2 = frame._experimentGroup.ToString();
+                    column3 = frame._timeSinceStart.ToString("F3", CultureInfo.InvariantCulture);
+                    column4 = frame._timeSpentWalking.ToString("F3", CultureInfo.InvariantCulture);
+                    column5 = frame._numberOfResets.ToString();
+                    column6 = frame._numberOfDistractors.ToString();
+                    column7 = (frame._resetActive ? 1 : 0).ToString();
+                    column8 = (frame._distractorActive ? 1 : 0).ToString();
+                    column9 = ((int)frame._currentActiveDistractor).ToString();
+                    column10 = (frame._alignmentComplete ? 1 : 0).ToString();
+                    column11 = (frame._alignedThisFrame ? 1 : 0).ToString();
+                    column12 = frame._timeTakenUntilAlignment.ToString("F3", CultureInfo.InvariantCulture);
+                    column13 = (frame._defeatedDistractorThisFrame ? 1 : 0).ToString();
+                    column14 = frame._timeTakenUntilDistractorDefeat.ToString("F3", CultureInfo.InvariantCulture);
+                    column15 = frame._currentPlayerShieldLevel.ToString();
+                    column16 = frame._currentPlayerBatonLevel.ToString();
+
+                    var line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16);
+                    appender.WriteLine(line);
+                    appender.Flush();
+                }
+            }
+        }
+        else
+        {
+            // Write
+            using (var writer = new StreamWriter(Application.dataPath + "/" + _detectionDataFileName))
+            {
+                var column1 = "ParticipantID";
+                var column2 = "GroupID";
+                var column3 = "TimeSinceExperimentStart";
+                var column4 = "TimeSpentWalking";
+                var column5 = "NumberOfResets";
+                var column6 = "NumberOfDistractors";
+                var column7 = "IsResetActive";
+                var column8 = "IsDistractorActive";
+                var column9 = "CurrentlyActiveDistractorType";
+                var column10 = "AlignmentComplete";
+                var column11 = "AlignedThisFrame";
+                var column12 = "TimeTakenUntilAlignment";
+                var column13 = "DistractorDefeatedThisFrame";
+                var column14 = "TimeTakenToDefeatDistractor";
+                var column15 = "CurrentPlayerShieldLevel";
+                var column16 = "CurrentPlayerBatonLevel";
+
+                var line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16);
+                writer.WriteLine(line);
+                writer.Flush();
+
+                foreach (var frame in _effectivenessFrameData)
+                {
+                    column1 = frame._id.ToString();
+                    column2 = frame._experimentGroup.ToString();
+                    column3 = frame._timeSinceStart.ToString("F3", CultureInfo.InvariantCulture);
+                    column4 = frame._timeSpentWalking.ToString("F3", CultureInfo.InvariantCulture);
+                    column5 = frame._numberOfResets.ToString();
+                    column6 = frame._numberOfDistractors.ToString();
+                    column7 = (frame._resetActive ? 1 : 0).ToString();
+                    column8 = (frame._distractorActive ? 1 : 0).ToString();
+                    column9 = ((int)frame._currentActiveDistractor).ToString();
+                    column10 = (frame._alignmentComplete ? 1 : 0).ToString();
+                    column11 = (frame._alignedThisFrame ? 1 : 0).ToString();
+                    column12 = frame._timeTakenUntilAlignment.ToString("F3", CultureInfo.InvariantCulture);
+                    column13 = (frame._defeatedDistractorThisFrame ? 1 : 0).ToString();
+                    column14 = frame._timeTakenUntilDistractorDefeat.ToString("F3", CultureInfo.InvariantCulture);
+                    column15 = frame._currentPlayerShieldLevel.ToString();
+                    column16 = frame._currentPlayerBatonLevel.ToString();
+
+                    line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16);
+                    writer.WriteLine(line);
+                    writer.Flush();
+                }
+            }
+        }
     }
 
     private void AcquireNewID()
@@ -479,7 +564,9 @@ public class ExperimentDataManager : MonoBehaviour
             _previousGameScores = list5.Select(int.Parse).ToList();
         }
     }
+    #endregion
 
+    #region Data Recording
     private void RecordDetectionData()
     {
         _gainDetected = false;
@@ -620,7 +707,9 @@ public class ExperimentDataManager : MonoBehaviour
 
         _effectivenessFrameData.Add(newData);
     }
+    #endregion
 
+    #region Callbacks
     public void OnResetTrigger()
     {
         _numberOfResets++;
@@ -641,4 +730,5 @@ public class ExperimentDataManager : MonoBehaviour
     {
         _timeTakenForAlignment = Time.realtimeSinceStartup - _distractorTriggerTime;
     }
+    #endregion
 }

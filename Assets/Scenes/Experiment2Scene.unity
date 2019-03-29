@@ -712,7 +712,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _experimentType: 1
   _gameScoreFileName: GameScoresEx2Debug.csv
-  _detectionDataFileName: EffectivenessDataEx2Debug.csv
+  _detectionDataFileName: DetectionDataEx1Debug.csv
+  _effectivenessDataFileName: EffectivenessDataEx2Debug.csv
   _gainRatioSampleWindowInSeconds: 0.5
   _samplesPerSecond: 90
   _mountainKing: {fileID: 1225670024}
