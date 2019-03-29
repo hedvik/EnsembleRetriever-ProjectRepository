@@ -211,6 +211,11 @@ PrefabInstance:
       propertyPath: _objectiveList.Array.data[3]
       value: 
       objectReference: {fileID: 129192993}
+    - target: {fileID: 5163990942235738769, guid: a2145ea94da7f57408cc0bcf2ad577ac,
+        type: 3}
+      propertyPath: _distractorMagnitudeCooldownAfterDeath
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2145ea94da7f57408cc0bcf2ad577ac, type: 3}
 --- !u!4 &129192993 stripped
@@ -877,7 +882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dfd8c70120b1a5439e41668f28813dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skipTutorial: 0
+  _skipTutorial: 1
   _levelUpDialogueBoxOffsetFromPlayer: 5
   _battleTheme: {fileID: 8300000, guid: 60543dbc06e5e464993f7e35015a7d3d, type: 3}
   _ambientTheme: {fileID: 8300000, guid: 949a7208d52c04d4cb612cf235276cf0, type: 3}
@@ -936,11 +941,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Redirected Walker (VR)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7972869137645657772, guid: 63f857b9c56a22c458c2cd4940ba0de3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7972869137645867790, guid: 63f857b9c56a22c458c2cd4940ba0de3,
         type: 3}

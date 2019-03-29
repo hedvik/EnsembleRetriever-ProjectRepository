@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
             _tutorialInstrument.GetComponent<TutorialNPC>().FinishTutorial();
         }
 
-        if(_experimentDataManager._experimentType == ExperimentType.detection)
+        if(_experimentDataManager._experimentType != ExperimentType.none)
         {
             _experimentDataManager.StartRecording();
         }

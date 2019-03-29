@@ -148,8 +148,7 @@ public class RedirectionManagerER : RedirectionManager
         base.LateUpdate();
 
         // Given that deltaPos already is a difference in frames, I do not think that multiplying with deltaTime should be necessary.
-        // TODO: Remove deltaTime and test. That would make it easier to work with this as a parameter as it would be directly mapped to metres.
-        _distractorCooldownMagnitudeAccumulation += deltaPos.magnitude * Time.deltaTime;
+        _distractorCooldownMagnitudeAccumulation += deltaPos.magnitude;
         _centreToHead = Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position);
 
         if (_distractorIsActive && !_alignmentComplete && FutureDirectionIsAlignedToCentre() && !inReset)

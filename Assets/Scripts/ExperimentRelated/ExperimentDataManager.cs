@@ -221,7 +221,15 @@ public class ExperimentDataManager : MonoBehaviour
         incompleteData._totalScore = -1;
 
         WriteGamePerformanceToFile(incompleteData);
-        WriteDetectionPerformanceToFile();
+
+        if (_experimentType == ExperimentType.detection)
+        {
+            WriteDetectionPerformanceToFile();
+        }
+        else if (_experimentType == ExperimentType.effectiveness)
+        {
+            WriteEffectivenessDataToFile();
+        }
 
         _gainIncrementer.enabled = false;
         _redirectionManager.MAX_ROT_GAIN = 0;
@@ -481,7 +489,7 @@ public class ExperimentDataManager : MonoBehaviour
         else
         {
             // Write
-            using (var writer = new StreamWriter(Application.dataPath + "/" + _detectionDataFileName))
+            using (var writer = new StreamWriter(Application.dataPath + "/" + _effectivenessDataFileName))
             {
                 var column1 = "ParticipantID";
                 var column2 = "GroupID";
@@ -673,7 +681,7 @@ public class ExperimentDataManager : MonoBehaviour
         var newData = new EffectivenessFrameData();
         newData._id = _currentParticipantId;
         newData._experimentGroup = _experiment2Group;
-        newData._timeSinceStart = _timeStarted;
+        newData._timeSinceStart = Time.realtimeSinceStartup - _timeStarted;
 
         if(!_redirectionManager._distractorIsActive)
         {
