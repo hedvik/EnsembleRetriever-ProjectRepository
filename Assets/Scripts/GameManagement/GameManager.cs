@@ -88,9 +88,6 @@ public class GameManager : MonoBehaviour
         _levelUpDialogueBox = Instantiate(_levelUpDialoguePrefab).GetComponent<LevelUpBox>();
         _levelUpDialogueBox.gameObject.SetActive(false);
         _levelUpDialogueBox.transform.localScale = Vector3.zero;
-        _mountainKing.InitialiseDistractor(_redirectionManager);
-        _mountainKingAnimatedInterface = _mountainKing.GetComponent<AnimatedCharacterInterface>();
-        _ensembleInstruments = _mountainKingEnsembleContainer.GetComponentsInChildren<AnimatedCharacterInterface>();
 
         _quizManager = GameObject.Find("CaveQuizManager").GetComponent<CaveQuizManager>();
 
@@ -101,6 +98,13 @@ public class GameManager : MonoBehaviour
         _playerAudioSource.volume = _ambientThemeVolume;
         _playerAudioSource.clip = _ambientTheme;
         _playerAudioSource.Play();
+    }
+
+    public void Start()
+    {
+        _mountainKing.InitialiseDistractor(_redirectionManager);
+        _mountainKingAnimatedInterface = _mountainKing.GetComponent<AnimatedCharacterInterface>();
+        _ensembleInstruments = _mountainKingEnsembleContainer.GetComponentsInChildren<AnimatedCharacterInterface>();
     }
 
     public void StartTutorial()

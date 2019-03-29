@@ -77,7 +77,9 @@ public class RedirectionManagerER : RedirectionManager
     private float _sampleTimer = 0f;
 
     private bool _distractorsEnabled = true;
-    private bool _alignmentResetComplete = false;
+
+    [HideInInspector]
+    public bool _alignmentComplete = false;
 
     private OnDistractorStateChangeCallback _distractorTriggerCallback;
     private OnDistractorStateChangeCallback _distractorEndCallback;
@@ -150,9 +152,9 @@ public class RedirectionManagerER : RedirectionManager
         _distractorCooldownMagnitudeAccumulation += deltaPos.magnitude * Time.deltaTime;
         _centreToHead = Redirection.Utilities.FlattenedDir3D(headTransform.position - trackedSpace.position);
 
-        if (_distractorIsActive && !_alignmentResetComplete && FutureDirectionIsAlignedToCentre() && !inReset)
+        if (_distractorIsActive && !_alignmentComplete && FutureDirectionIsAlignedToCentre() && !inReset)
         {
-            _alignmentResetComplete = true;
+            _alignmentComplete = true;
             _baseMaximumRotationGain = MAX_ROT_GAIN;
             _baseMinimumRotationGain = MIN_ROT_GAIN;
             _AC2FRedirector.DisableGains();
@@ -201,7 +203,7 @@ public class RedirectionManagerER : RedirectionManager
             return;
         _distractorIsActive = true;
         _distractorTriggerCallback?.Invoke();
-        _alignmentResetComplete = false;
+        _alignmentComplete = false;
 
         var _averageFuture = Vector3.zero;
         for (int i = 0; i < _positionSamples.Size; i++)
@@ -238,7 +240,7 @@ public class RedirectionManagerER : RedirectionManager
     public void OnDistractorEnd()
     {
         // If AC2F managed to align the user, then we have to return to the gains that were used right before alignment. 
-        if(_alignmentResetComplete)
+        if(_alignmentComplete)
         {
             MAX_ROT_GAIN = _baseMaximumRotationGain;
             MIN_ROT_GAIN = _baseMinimumRotationGain;
@@ -305,6 +307,15 @@ public class RedirectionManagerER : RedirectionManager
     public void SubscribeToAlignmentCallback(OnDistractorStateChangeCallback function)
     {
         _centreAlignedCallback += function;
+    }
+
+    /// <summary>
+    /// Function for subscribing to a callback that happens when a reset has been triggered.
+    /// </summary>
+    /// <param name="function"></param>
+    public void SubscribeToResetTriggerCallback(OnResetTriggerCallback function)
+    {
+        _resetTriggerCallback += function;
     }
 
     /// <summary>

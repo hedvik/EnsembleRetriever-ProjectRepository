@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MersenneTwister;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -70,7 +71,7 @@ public class EffectivenessFrameData
     public DistractorType _currentActiveDistractor = DistractorType.none;
 
     public bool _alignmentComplete = false;
- 
+
     // The booleans are used to find events where we can stop counting time at
     public bool _alignedThisFrame = false;
     public float _timeTakenUntilAlignment = 0f;
@@ -95,6 +96,9 @@ public class ExperimentDataManager : MonoBehaviour
     public float _gainRatioSampleWindowInSeconds = 0.5f;
     public int _samplesPerSecond = 90;
 
+    [Header("Experiment 2 Specific")]
+    public MountainKing _mountainKing;
+
     [HideInInspector]
     public int _currentParticipantId = 0;
     [HideInInspector]
@@ -108,12 +112,29 @@ public class ExperimentDataManager : MonoBehaviour
 
     private GameManager _gameManager;
     private List<DetectionFrameData> _detectionFrameData = new List<DetectionFrameData>();
+    private List<EffectivenessFrameData> _effectivenessFrameData = new List<EffectivenessFrameData>();
     private GainIncrementer _gainIncrementer;
 
     private bool _recordingActive = false;
     private float _sampleTimer = 0f;
     private float _timeStarted = 0f;
     private bool _gainDetected = false;
+
+    private int _experiment2Group = -1;
+    private float _timeSpentWalking = 0f;
+    private int _numberOfResets = 0;
+    private int _numberOfDistractors = 0;
+    private float _distractorTriggerTime = -1f;
+    private float _timeTakenForAlignment = -1f;
+    private float _timeTakenToDefeatDistractor = -1f;
+
+    private void Awake()
+    {
+        if(_experimentType == ExperimentType.effectiveness)
+        {
+            _mountainKing._health *= 0.5f;
+        }
+    }
 
     private void Start()
     {
@@ -125,6 +146,17 @@ public class ExperimentDataManager : MonoBehaviour
         _appliedGainsTimeSample = new CircularBuffer.CircularBuffer<RecordedGainTypes>((int)(_samplesPerSecond * _gainRatioSampleWindowInSeconds));
 
         _gainIncrementer = GetComponent<GainIncrementer>();
+
+        if(_experimentType == ExperimentType.effectiveness)
+        {
+            _experiment2Group = Randoms.Next(0, 2);
+            Debug.Log("Experiment Group: " + (_experiment2Group == 0 ? "Control" : "Experimental"));
+            _redirectionManager._switchToAC2FOnDistractor = _experiment2Group == 0 ? false : true;
+            _redirectionManager.SubscribeToDistractorTriggerCallback(OnDistractorTrigger);
+            _redirectionManager.SubscribeToResetTriggerCallback(OnResetTrigger);
+            _redirectionManager.SubscribeToAlignmentCallback(OnAlignmentCallback);
+            _redirectionManager.SubscribeToDistractorEndCallback(OnDistractorEnd);
+        }
     }
 
     private void Update()
@@ -139,11 +171,12 @@ public class ExperimentDataManager : MonoBehaviour
             CancelExperiment();
         }
 
-        if(_experimentType == ExperimentType.detection)
+        if (_experimentType == ExperimentType.detection)
         {
             RecordDetectionData();
         }
-        else if(_experimentType == ExperimentType.effectiveness)
+
+        if (_experimentType == ExperimentType.effectiveness)
         {
             RecordEffectivenessData();
         }
@@ -160,6 +193,10 @@ public class ExperimentDataManager : MonoBehaviour
             _gainIncrementer.ActivateGainIncrements();
             _redirectionManager._S2CRedirector.DisableDampening();
             _redirectionManager._S2CRedirector._rotationThreshold = _redirectionManager._AC2FRedirector._rotationThreshold;
+        }
+        else
+        {
+            _gainIncrementer.enabled = false;
         }
     }
 
@@ -200,6 +237,10 @@ public class ExperimentDataManager : MonoBehaviour
         if (_experimentType == ExperimentType.detection)
         {
             WriteDetectionPerformanceToFile();
+        }
+        else if (_experimentType == ExperimentType.effectiveness)
+        {
+            WriteEffectivenessDataToFile();
         }
     }
 
@@ -344,7 +385,7 @@ public class ExperimentDataManager : MonoBehaviour
 
                 var column28 = "AlgorithmCategory";
                 var column29 = "AppliedGainCategory";
-                var column30 = "DistractorCategory"; 
+                var column30 = "DistractorCategory";
                 var column31 = "MostLikelyDetectedGainCategory";
 
                 var line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16, column17, column18, column19, column20, column21, column22, column23, column24, column25, column26, column27, column28, column29, column30, column31);
@@ -390,7 +431,7 @@ public class ExperimentDataManager : MonoBehaviour
                     column28 = ((int)frame._currentActiveAlgorithm).ToString();
                     column29 = ((int)frame._currentlyAppliedGain).ToString();
                     column30 = ((int)frame._currentActiveDistractor).ToString();
-                    column31 = ((int)frame._mostLikelyDetectedGainType).ToString(); 
+                    column31 = ((int)frame._mostLikelyDetectedGainType).ToString();
 
                     line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16, column17, column18, column19, column20, column21, column22, column23, column24, column25, column26, column27, column28, column29, column30, column31);
                     writer.WriteLine(line);
@@ -398,6 +439,11 @@ public class ExperimentDataManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void WriteEffectivenessDataToFile()
+    {
+
     }
 
     private void AcquireNewID()
@@ -537,6 +583,62 @@ public class ExperimentDataManager : MonoBehaviour
 
     private void RecordEffectivenessData()
     {
-        // TODO: Implement Me!
+        var newData = new EffectivenessFrameData();
+        newData._id = _currentParticipantId;
+        newData._experimentGroup = _experiment2Group;
+        newData._timeSinceStart = _timeStarted;
+
+        if(!_redirectionManager._distractorIsActive)
+        {
+            _timeSpentWalking += Time.deltaTime;
+        }
+
+        newData._timeSpentWalking = _timeSpentWalking;
+        newData._numberOfResets = _numberOfResets;
+        newData._numberOfDistractors = _numberOfDistractors;
+        newData._resetActive = _redirectionManager.inReset;
+        newData._distractorActive = _redirectionManager._distractorIsActive;
+        newData._currentActiveDistractor = _redirectionManager._currentActiveDistractor != null ? _redirectionManager._currentActiveDistractor._distractorType : DistractorType.none;
+        newData._alignmentComplete = (_redirectionManager._currentActiveDistractor != null && _redirectionManager._alignmentComplete) ? true : false;
+
+        newData._currentPlayerShieldLevel = _playerManager._currentShieldLevel;
+        newData._currentPlayerBatonLevel = _playerManager._currentBatonLevel;
+
+        if(_timeTakenForAlignment > 0)
+        {
+            newData._alignedThisFrame = true;
+            newData._timeTakenUntilAlignment = _timeTakenForAlignment;
+            _timeTakenForAlignment = -1f;
+        }
+
+        if(_timeTakenToDefeatDistractor > 0)
+        {
+            newData._defeatedDistractorThisFrame = true;
+            newData._timeTakenUntilDistractorDefeat = _timeTakenToDefeatDistractor;
+            _timeTakenToDefeatDistractor = -1f;
+        }
+
+        _effectivenessFrameData.Add(newData);
+    }
+
+    public void OnResetTrigger()
+    {
+        _numberOfResets++;
+    }
+
+    public void OnDistractorTrigger()
+    {
+        _numberOfDistractors++;
+        _distractorTriggerTime = Time.realtimeSinceStartup;
+    }
+
+    public void OnDistractorEnd()
+    {
+        _timeTakenToDefeatDistractor = Time.realtimeSinceStartup - _distractorTriggerTime;
+    }
+
+    public void OnAlignmentCallback()
+    {
+        _timeTakenForAlignment = Time.realtimeSinceStartup - _distractorTriggerTime;
     }
 }

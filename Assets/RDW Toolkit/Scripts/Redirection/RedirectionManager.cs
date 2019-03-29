@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Redirection;
+
+public delegate void OnResetTriggerCallback();
+
 public class RedirectionManager : MonoBehaviour {
 
     public enum MovementController { Keyboard, AutoPilot, Tracker };
@@ -85,6 +88,8 @@ public class RedirectionManager : MonoBehaviour {
     [HideInInspector]
     public string startTimeOfProgram;
 
+    protected OnResetTriggerCallback _resetTriggerCallback;
+
     protected float simulatedTime = 0;
 
     protected virtual void Awake()
@@ -148,11 +153,6 @@ public class RedirectionManager : MonoBehaviour {
 	void Start () {
         simulatedTime = 0;
         UpdatePreviousUserState();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
 	}
 
     protected virtual void LateUpdate()
@@ -410,6 +410,7 @@ public class RedirectionManager : MonoBehaviour {
             //print("RESET WAS REQUIRED");
             resetter.InitializeReset();
             inReset = true;
+            _resetTriggerCallback?.Invoke();
         }
     }
 
