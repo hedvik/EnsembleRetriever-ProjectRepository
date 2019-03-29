@@ -877,7 +877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dfd8c70120b1a5439e41668f28813dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skipTutorial: 1
+  _skipTutorial: 0
   _levelUpDialogueBoxOffsetFromPlayer: 5
   _battleTheme: {fileID: 8300000, guid: 60543dbc06e5e464993f7e35015a7d3d, type: 3}
   _ambientTheme: {fileID: 8300000, guid: 949a7208d52c04d4cb612cf235276cf0, type: 3}
@@ -898,6 +898,7 @@ MonoBehaviour:
   _scorePotentialQuizAnswers: 450
   _scorePotentialTime: 1000
   _maximumTimeInMinutes: 45
+  _experimentExtraDialogueIndex: 16
   _levelUpDialoguePrefab: {fileID: 3532050167178501051, guid: 6cf30edf6f49bad45a1f36223d6ad72e,
     type: 3}
   _gameStarted: 0

@@ -36,6 +36,9 @@ public class GameManager : MonoBehaviour
     public int _scorePotentialTime = 1000;
     public int _maximumTimeInMinutes = 30;
 
+    [Header("Experiment Related")]
+    public int _experimentExtraDialogueIndex = 16;
+
     [SerializeField]
     private GameObject _levelUpDialoguePrefab = null;
 
@@ -72,8 +75,15 @@ public class GameManager : MonoBehaviour
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         _startGameDialogue = new Queue<DialogueSnippet>(Resources.LoadAll<DialogueSnippet>("ScriptableObjects/Dialogue/StartGame"));
 
-        var tutorialDialogue = Resources.LoadAll<DialogueSnippet>("ScriptableObjects/Dialogue/Tutorial");
-        _tutorialDialogue = new Queue<DialogueSnippet>(tutorialDialogue.OrderBy(c => c.name.Length).ThenBy(c => c.name));
+        var tutorialDialogueArray = Resources.LoadAll<DialogueSnippet>("ScriptableObjects/Dialogue/Tutorial");
+        var tutorialDialogueList = new List<DialogueSnippet>(tutorialDialogueArray.OrderBy(c => c.name.Length).ThenBy(c => c.name));
+        if(_experimentDataManager._experimentType != ExperimentType.detection)
+        {
+            // Text related to what button to press for detecting redirection is not needed for experiment 2 or when simply playing normally
+            tutorialDialogueList.RemoveAt(_experimentExtraDialogueIndex-1);
+        }
+
+        _tutorialDialogue = new Queue<DialogueSnippet>(tutorialDialogueList);
 
         _uiManager.ActivateDialogue(this, typeof(GameManager).GetTypeInfo(), _startGameTextBox, _startGameDialogue);
 
