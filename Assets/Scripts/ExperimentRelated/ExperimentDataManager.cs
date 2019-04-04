@@ -80,6 +80,10 @@ public class EffectivenessFrameData
 
     public int _currentPlayerShieldLevel = 0;
     public int _currentPlayerBatonLevel = 0;
+
+    public Vector3 _deltaPos;
+    public float _deltaDir = 0f;
+    public float _deltaTime = 0f;
 }
 #endregion
 
@@ -459,7 +463,7 @@ public class ExperimentDataManager : MonoBehaviour
             using (var appender = File.AppendText(Application.dataPath + "/" + _effectivenessDataFileName))
             {
                 string column1, column2, column3, column4, column5, column6, column7, column8, column9, 
-                    column10, column11, column12, column13, column14, column15, column16;
+                       column10, column11, column12, column13, column14, column15, column16, column17, column18, column19;
 
                 foreach (var frame in _effectivenessFrameData)
                 {
@@ -480,7 +484,11 @@ public class ExperimentDataManager : MonoBehaviour
                     column15 = frame._currentPlayerShieldLevel.ToString();
                     column16 = frame._currentPlayerBatonLevel.ToString();
 
-                    var line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16);
+                    column17 = frame._deltaPos.magnitude.ToString(CultureInfo.InvariantCulture);
+                    column18 = frame._deltaDir.ToString(CultureInfo.InvariantCulture);
+                    column19 = frame._deltaTime.ToString(CultureInfo.InvariantCulture);
+
+                    var line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16, column17, column18, column19);
                     appender.WriteLine(line);
                     appender.Flush();
                 }
@@ -507,8 +515,11 @@ public class ExperimentDataManager : MonoBehaviour
                 var column14 = "TimeTakenToDefeatDistractor";
                 var column15 = "CurrentPlayerShieldLevel";
                 var column16 = "CurrentPlayerBatonLevel";
+                var column17 = "DeltaPos";
+                var column18 = "DeltaDir";
+                var column19 = "DeltaTime";
 
-                var line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16);
+                var line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16, column17, column18, column19);
                 writer.WriteLine(line);
                 writer.Flush();
 
@@ -531,7 +542,11 @@ public class ExperimentDataManager : MonoBehaviour
                     column15 = frame._currentPlayerShieldLevel.ToString();
                     column16 = frame._currentPlayerBatonLevel.ToString();
 
-                    line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16);
+                    column17 = frame._deltaPos.magnitude.ToString(CultureInfo.InvariantCulture);
+                    column18 = frame._deltaDir.ToString(CultureInfo.InvariantCulture);
+                    column19 = frame._deltaTime.ToString(CultureInfo.InvariantCulture);
+
+                    line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18}", column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15, column16, column17, column18, column19);
                     writer.WriteLine(line);
                     writer.Flush();
                 }
@@ -683,7 +698,11 @@ public class ExperimentDataManager : MonoBehaviour
         newData._experimentGroup = _experiment2Group;
         newData._timeSinceStart = Time.realtimeSinceStartup - _timeStarted;
 
-        if(!_redirectionManager._distractorIsActive)
+        newData._deltaPos = _redirectionManager.deltaPos;
+        newData._deltaDir = _redirectionManager.deltaDir;
+        newData._deltaTime = Time.deltaTime;
+
+        if (!_redirectionManager._distractorIsActive)
         {
             _timeSpentWalking += Time.deltaTime;
         }
