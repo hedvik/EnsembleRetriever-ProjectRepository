@@ -134,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 1066146600335650518, guid: a2145ea94da7f57408cc0bcf2ad577ac,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1066146600335369076, guid: a2145ea94da7f57408cc0bcf2ad577ac,
         type: 3}
@@ -882,13 +882,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dfd8c70120b1a5439e41668f28813dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skipTutorial: 0
+  _skipTutorial: 1
   _levelUpDialogueBoxOffsetFromPlayer: 5
   _battleTheme: {fileID: 8300000, guid: 60543dbc06e5e464993f7e35015a7d3d, type: 3}
   _ambientTheme: {fileID: 8300000, guid: 949a7208d52c04d4cb612cf235276cf0, type: 3}
   _battleThemeVolume: 0.1
   _ambientThemeVolume: 0.05
-  _debugMode: 0
+  _debugMode: 1
   _startGameTextBox: {fileID: 1995807369}
   _tutorialInstrument: {fileID: 1637816236}
   _mountainKing: {fileID: 1225670024}
@@ -941,6 +941,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Redirected Walker (VR)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7972869137645657772, guid: 63f857b9c56a22c458c2cd4940ba0de3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7972869137645867790, guid: 63f857b9c56a22c458c2cd4940ba0de3,
         type: 3}
@@ -1156,24 +1161,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &1994318368 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4034630465237490654, guid: a90cd5f540df4f947b3ef9569fa966d2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1953773592385643904}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1994318369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1994318368}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66e0d0c31ff86ff44b117edefb6382ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1995807369 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1954178207441116717, guid: a90cd5f540df4f947b3ef9569fa966d2,
@@ -1300,8 +1287,32 @@ PrefabInstance:
       propertyPath: _alignmentTargetOnTeleport
       value: 
       objectReference: {fileID: 1225670023}
-    m_RemovedComponents:
-    - {fileID: 220892216, guid: a90cd5f540df4f947b3ef9569fa966d2, type: 3}
+    - target: {fileID: 1953773592266872676, guid: a90cd5f540df4f947b3ef9569fa966d2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00037005288
+      objectReference: {fileID: 0}
+    - target: {fileID: 1953773592266872676, guid: a90cd5f540df4f947b3ef9569fa966d2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.014131764
+      objectReference: {fileID: 0}
+    - target: {fileID: 1953773592266872676, guid: a90cd5f540df4f947b3ef9569fa966d2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.026174307
+      objectReference: {fileID: 0}
+    - target: {fileID: 1953773592266872676, guid: a90cd5f540df4f947b3ef9569fa966d2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9995575
+      objectReference: {fileID: 0}
+    - target: {fileID: 1953773592266872676, guid: a90cd5f540df4f947b3ef9569fa966d2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a90cd5f540df4f947b3ef9569fa966d2, type: 3}
 --- !u!1 &2669953455369552204 stripped
 GameObject:
