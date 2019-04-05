@@ -157,7 +157,12 @@ public class GameManager : MonoBehaviour
     
     public void StartFinalBossAnimations()
     {
-        _mountainKingAudioSource.Stop();
+        // Since the mountain king has less health during experiment 2, it is harder to get 
+        // to the more hectic parts of the song if it is restarted. 
+        if (_experimentDataManager._experimentType != ExperimentType.effectiveness)
+        {
+            _mountainKingAudioSource.Stop();
+        }
         _mountainKingAnimatedInterface.LookAtPosition(_redirectionManager.headTransform.position);
         foreach(var instrument in _ensembleInstruments)
         {
@@ -179,7 +184,10 @@ public class GameManager : MonoBehaviour
 
     public void StartFinalBoss()
     {
-        _mountainKingAudioSource.Play();
+        if (_experimentDataManager._experimentType != ExperimentType.effectiveness)
+        {
+            _mountainKingAudioSource.Play();
+        }
         _mountainKing.StartMountainKing();
     }
 
