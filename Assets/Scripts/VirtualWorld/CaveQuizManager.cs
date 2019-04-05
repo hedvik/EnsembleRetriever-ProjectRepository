@@ -39,7 +39,7 @@ public class CaveQuizManager : MonoBehaviour
     {
         _quizData = Resources.Load<MultipleChoiceQuiz>("ScriptableObjects/Dialogue/Quiz/Quiz");
         _stageMovementParticles.SetActive(false);
-        _quizContainer = _quizTextBox.transform.parent.parent.parent.gameObject;
+        _quizContainer = _quizTextBox.transform.parent.parent.parent.parent.gameObject;
         _quizContainer.SetActive(false);
 
         _quizTextBox.text = _quizData._startQuizText;
