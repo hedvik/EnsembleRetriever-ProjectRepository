@@ -7,6 +7,8 @@ public class HintGiver : Pausable
     public float _randomAnimationTriggerCooldown = 4f;
     public float _randomAnimationTriggerNoise = 2f;
     public bool _hideWhenDistractorActivates = true;
+    public Material _materialOnTrigger;
+    public float _colourChangeSpeed = 5f;
 
     private GameManager _gameManager;
     private GameObject _textBoxObject;
@@ -14,6 +16,7 @@ public class HintGiver : Pausable
     private float _triggerTimer = 0f;
     private float _randomTimeTarget;
     private SphereCollider _collider;
+    private MeshRenderer _meshRenderer;
 
     private void Start()
     {
@@ -31,6 +34,8 @@ public class HintGiver : Pausable
         _randomTimeTarget = Random.Range(_randomAnimationTriggerCooldown - _randomAnimationTriggerNoise, _randomAnimationTriggerCooldown + _randomAnimationTriggerNoise);
         _gameManager._redirectionManager.SubscribeToDistractorTriggerCallback(OnDistractorStart);
         _gameManager._redirectionManager.SubscribeToDistractorEndCallback(OnDistractorEnd);
+
+        _meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
 
     private void Update()
@@ -68,6 +73,7 @@ public class HintGiver : Pausable
         {
             _gameManager._uiManager.ChangeTextBoxVisibility(true, _textBoxObject.transform);
             other.GetComponentInChildren<ObjectivePointer>(true).RemoveObjectiveFromList(transform);
+            StartCoroutine(ChangeColour());
         }
     }
 
@@ -82,5 +88,18 @@ public class HintGiver : Pausable
     protected override void PauseStateChange()
     {
         _animator.enabled = !_isPaused;
+    }
+
+    private IEnumerator ChangeColour()
+    {
+        var lerpTimer = 0f;
+        var material1 = _meshRenderer.material;
+
+        while(lerpTimer <= 1)
+        {
+            lerpTimer += Time.deltaTime * _colourChangeSpeed;
+            _meshRenderer.material.Lerp(material1, _materialOnTrigger, lerpTimer);
+            yield return null;
+        }
     }
 }
