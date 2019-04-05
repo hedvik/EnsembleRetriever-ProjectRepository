@@ -124,6 +124,7 @@ public class GameManager : MonoBehaviour
         if (!_skipTutorial)
         {
             _tutorialInstrument.gameObject.SetActive(true);
+            _tutorialInstrument.TeleportToPosition(_tutorialInstrument.transform.position);
             _uiManager.ActivateDialogue(_tutorialInstrument, 
                                         typeof(AnimatedCharacterInterface).GetTypeInfo(), 
                                         _tutorialInstrument.transform.Find("TextBox").gameObject, 
