@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc236ad86ba6c24e909e3b18befea47, type: 3}
   m_Name: Tutorial
   m_EditorClassIdentifier: 
-  _attackCooldown: 7
+  _attackCooldown: 5
+  _speedMultiplier: 1.5
   _containsMovement: 0
+  _sweatState: 0
   _activeInHealthPercentage: {x: 81, y: 100}
   _usesPhaseTransitionAnimation: 0
   _enemyAttacks:

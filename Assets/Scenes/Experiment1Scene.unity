@@ -553,8 +553,10 @@ MonoBehaviour:
   _experimentType: 0
   _gameScoreFileName: GameScoresEx1Final.csv
   _detectionDataFileName: DetectionDataEx1Final.csv
+  _effectivenessDataFileName: EffectivenessDataEx2.csv
   _gainRatioSampleWindowInSeconds: 0.5
   _samplesPerSecond: 90
+  _mountainKing: {fileID: 0}
   _currentParticipantId: 0
   _previousGameScores: 
   _redirectionManager: {fileID: 0}
@@ -896,6 +898,7 @@ MonoBehaviour:
   _scorePotentialQuizAnswers: 450
   _scorePotentialTime: 1000
   _maximumTimeInMinutes: 45
+  _experimentExtraDialogueIndex: 16
   _levelUpDialoguePrefab: {fileID: 3532050167178501051, guid: 6cf30edf6f49bad45a1f36223d6ad72e,
     type: 3}
   _gameStarted: 0
@@ -1019,6 +1022,11 @@ PrefabInstance:
       propertyPath: _objectiveList.Array.data[3]
       value: 
       objectReference: {fileID: 129192993}
+    - target: {fileID: 8586235250854001874, guid: 63f857b9c56a22c458c2cd4940ba0de3,
+        type: 3}
+      propertyPath: _superSmoothSpeed
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63f857b9c56a22c458c2cd4940ba0de3, type: 3}
 --- !u!1 &1943240901
