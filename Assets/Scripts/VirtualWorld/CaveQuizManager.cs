@@ -71,6 +71,7 @@ public class CaveQuizManager : MonoBehaviour
     {
         UpdateQuizText(0);
         _gameManager._uiManager.ChangeTextBoxVisibility(true, _answerBoxes[0].transform.parent.parent);
+        _quizContainer.GetComponent<LookAtPlayer>().enabled = true;
         _quizActive = true;
     }
 
@@ -78,6 +79,7 @@ public class CaveQuizManager : MonoBehaviour
     {
         _quizActive = false;
         _gameManager._uiManager.ChangeTextBoxVisibility(false, _answerBoxes[0].transform.parent.parent);
+        _quizContainer.GetComponent<LookAtPlayer>().enabled = false;
         if (_numberOfCorrectAnswers == _quizData._questions.Count)
         {
             _quizTextBox.text = _quizData._endQuizAllCorrectText;

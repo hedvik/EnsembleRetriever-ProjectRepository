@@ -59,7 +59,7 @@ public class Teleporter : MonoBehaviour
             _gameManager.GetCurrentPlayerManager().GetComponentInChildren<ObjectivePointer>().Disable();
             _gameManager.GetCurrentPlayerManager().GetComponentInChildren<AudioSource>().Stop();
 
-            if (_gameManager._experimentDataManager._experimentType == ExperimentType.detection)
+            if (_gameManager._experimentDataManager._experimentType != ExperimentType.none)
             {
                 _gameManager._experimentDataManager.StopRecording();
             }

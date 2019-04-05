@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Phase4
   m_EditorClassIdentifier: 
   _attackCooldown: 7
-  _speedMultiplier: 0.5
+  _speedMultiplier: 1
   _containsMovement: 1
   _sweatState: 1
   _activeInHealthPercentage: {x: 21, y: 40}
