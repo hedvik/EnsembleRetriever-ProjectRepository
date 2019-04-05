@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc236ad86ba6c24e909e3b18befea47, type: 3}
   m_Name: Tutorial
   m_EditorClassIdentifier: 
-  _attackCooldown: 2.5
+  _attackCooldown: 3
   _speedMultiplier: 2
   _containsMovement: 0
   _sweatState: 0

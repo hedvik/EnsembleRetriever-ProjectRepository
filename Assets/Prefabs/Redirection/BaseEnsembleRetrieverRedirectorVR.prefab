@@ -1137,7 +1137,7 @@ PrefabInstance:
     - target: {fileID: 7447819419618309432, guid: b6c78f80153a9244cb2ad8ad5b6b9cc1,
         type: 3}
       propertyPath: _distractorMagnitudeCooldownAfterDeath
-      value: 2
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 7447819419618309432, guid: b6c78f80153a9244cb2ad8ad5b6b9cc1,
         type: 3}
