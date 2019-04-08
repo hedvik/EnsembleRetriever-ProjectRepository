@@ -437,40 +437,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &705514427
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &711801495 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1953773593091530519, guid: a90cd5f540df4f947b3ef9569fa966d2,
@@ -603,6 +569,40 @@ MonoBehaviour:
   _rotationGainIncrementNoise: 0.025
   _curvatureRadiusBaseIncrement: 5
   _curvatureRadiusIncrementNoise: 2.5
+--- !u!21 &1169845214
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &1225670023 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6691887822956551449, guid: cfc75cc283296f74097a1cd7b96ee18b,
@@ -657,7 +657,19 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!43 &1511180845
+--- !u!114 &1637816236 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4595783451275030724, guid: c076f8404bc10104da476bb9c1d45fc7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5646779020113226202}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b6de0b659624b4abaf3edd41533c04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!43 &1675091695
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -817,18 +829,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &1637816236 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4595783451275030724, guid: c076f8404bc10104da476bb9c1d45fc7,
-    type: 3}
-  m_PrefabInstance: {fileID: 5646779020113226202}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9b6de0b659624b4abaf3edd41533c04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!169 &1711438103 stripped
 AudioLowPassFilter:
   m_CorrespondingSourceObject: {fileID: 1953773594096770199, guid: a90cd5f540df4f947b3ef9569fa966d2,
@@ -902,7 +902,7 @@ MonoBehaviour:
   _scoreLossPerDamageTaken: 50
   _scorePotentialQuizAnswers: 450
   _scorePotentialTime: 1000
-  _maximumTimeInMinutes: 45
+  _maximumTimeInMinutes: 30
   _experimentExtraDialogueIndex: 16
   _levelUpDialoguePrefab: {fileID: 3532050167178501051, guid: 6cf30edf6f49bad45a1f36223d6ad72e,
     type: 3}
@@ -1001,12 +1001,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 705514427}
+      objectReference: {fileID: 1169845214}
     - target: {fileID: 1024918617530230662, guid: 63f857b9c56a22c458c2cd4940ba0de3,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1511180845}
+      objectReference: {fileID: 1675091695}
     - target: {fileID: 8792690643556012797, guid: 63f857b9c56a22c458c2cd4940ba0de3,
         type: 3}
       propertyPath: _objectiveList.Array.data[0]
