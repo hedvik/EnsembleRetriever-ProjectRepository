@@ -28,7 +28,10 @@ public class PauseTurnCentre : Resetter
     {
         if (_safetyMode)
         {
-            return IsUserOutOfBounds();
+            //return IsUserOutOfBounds();
+            // HACK: For whatever reason IsUserOutOfBounds() seems to be bugged during certain 
+            // room calibrations so this will just have to return true.
+            return true;
         }
         else
         {
