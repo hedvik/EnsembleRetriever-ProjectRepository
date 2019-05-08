@@ -65,6 +65,7 @@ public class DistractorEnemy : Pausable
         }
     }
 
+    // This callback will be called towards the end of RedirectionManager.OnDistractorEnd() and is aimed to be used for cleanup.
     public virtual void FinaliseDistractor()
     {
         Destroy(gameObject);
