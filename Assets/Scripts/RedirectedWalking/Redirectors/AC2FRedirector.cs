@@ -27,7 +27,8 @@ public class AC2FRedirector : Redirector
     public float _rotationThreshold = 12.5f;
     
     // Capping value for large head movements. Used in the same way as Azmandian et al.'s S2C implementation.
-    // TODO: This might need to be higher for experiment 1.
+    // Used as a safety measure for really rapid rotation. I am not entirely sure if their description of this being degrees per second is correct though
+    // as it does not end up being used in normal situations.
     private const float _ROTATION_GAIN_CAP_DEGREES_PER_SECOND = 30;
    
     // Smoothing factor for Azmandian et al.'s smoothing method
@@ -73,7 +74,6 @@ public class AC2FRedirector : Redirector
         if (_transitioningBetweenGains && _lerpTimer >= 1f)
         {
             _transitioningBetweenGains = false;
-            //Debug.Log("Dampening done!");
         }
 
         var deltaDir = redirectionManager.deltaDir;
@@ -111,7 +111,7 @@ public class AC2FRedirector : Redirector
         }
         // If the head movement is below the threshold for applying gains, the smoothing function will move back towards natural head rotation.
         // This helps with one particular edge case:
-        // After a head movement has finished, the user's head will slightly bob in the opposite direction,
+        // After a body rotation is finished, the user's head will slightly bob in the opposite direction,
         // This small bob is usually below the threshold for applying gains which can result in a somewhat
         // jarring difference between just having used gains to not using them. 
         // By allowing the smoothing function to smooth back to natural head rotation we avoid this issue.
@@ -123,7 +123,8 @@ public class AC2FRedirector : Redirector
         {
             _lerpTimer += Time.deltaTime;
 
-            // Whenever the gain type changes, we smoothly interpolate from the injected rotation at the time of changing towards the current one
+            // Whenever the gain type changes, we smoothly interpolate from the injected rotation at the time of changing towards the current one.
+            // As such, we are essentially interpolating from a positive to negative rotation gain or vice versa.
             _smoothedRotation = SuperSmoothLerp(_smoothedRotation, _lastRotationApplied, rotationProposed, _lerpTimer, _superSmoothSpeed);
             //Debug.Log(_smoothedRotation);
         }
